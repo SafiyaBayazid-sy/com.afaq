@@ -16,6 +16,8 @@ class CustomerSeeder extends Seeder
                 'source' => 'facebook',
                 'preferred_property_type' => 'villa',
                 'notes' => 'يبحث عن فيلا مستقلة في شمال الرياض',
+                'phone' => '966500000001'
+
             ],
             [
                 'user_id' => 4, // عبدالله الحربي
@@ -23,6 +25,7 @@ class CustomerSeeder extends Seeder
                 'source' => 'google_ad',
                 'preferred_property_type' => 'apartment',
                 'notes' => 'مهتم بشقق فاخرة في جدة',
+                'phone' => '966500000002'
             ],
             [
                 'user_id' => 5, // فهد الدوسري
@@ -30,6 +33,7 @@ class CustomerSeeder extends Seeder
                 'source' => 'friend',
                 'preferred_property_type' => 'building',
                 'notes' => 'يبحث عن عمارة استثمارية في الدمام',
+                'phone' => '966500000003'
             ],
             [
                 'user_id' => 6, // نورة القحطاني
@@ -37,6 +41,7 @@ class CustomerSeeder extends Seeder
                 'source' => 'snapchat',
                 'preferred_property_type' => 'land',
                 'notes' => 'أرض للاستثمار في ضواحي الرياض',
+                'phone' => '966500000004'
             ],
             [
                 'user_id' => 7, // سعد الشمري (حساب غير نشط)
@@ -44,6 +49,7 @@ class CustomerSeeder extends Seeder
                 'source' => 'tiktok',
                 'preferred_property_type' => 'floor',
                 'notes' => 'يبحث عن دور كامل في الخبر',
+                'phone' => '966500000005'
             ],
         ];
 

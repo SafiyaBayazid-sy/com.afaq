@@ -14,6 +14,7 @@ class Customer extends Model
         'user_id',
         'budget',
         'source',
+        'phone',
         'preferred_property_type',
         'notes',
     ];
@@ -65,7 +66,7 @@ class Customer extends Model
             'google_search' => 'بحث جوجل',
             'other' => 'أخرى',
         ];
-        
+
         return $sources[$this->source] ?? $this->source;
     }
 

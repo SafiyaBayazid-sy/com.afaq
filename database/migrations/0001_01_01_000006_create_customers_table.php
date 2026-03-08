@@ -15,14 +15,19 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('budget', 15, 2)->nullable();
+            $table->string('phone')->unique();
             $table->enum('source', [
-                'facebook', 'google_ad', 'snapchat', 'tiktok', 
-                'friend', 'google_search', 'other'
+                'facebook',
+                'google_ad',
+                'snapchat',
+                'tiktok',
+                'friend',
+                'google_search',
+                'other'
             ])->nullable();
             $table->string('preferred_property_type', 50)->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
-
         });
     }
 

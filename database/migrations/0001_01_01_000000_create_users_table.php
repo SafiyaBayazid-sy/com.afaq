@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone')->unique();
             $table->string('password');
             $table->enum('user_type', ['admin', 'customer'])->default('customer');
             $table->boolean('is_active')->default(true);
@@ -28,9 +27,9 @@ return new class extends Migration
             $table->index('is_active');
         });
 
-      
 
-       
+
+
     }
 
     /**
