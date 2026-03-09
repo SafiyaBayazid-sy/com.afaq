@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Interfaces\RepositoryInterface;
+use App\Repositories\Api\CustomerRepository;
+use App\Repositories\BaseRepository;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+          $this->app->bind(RepositoryInterface::class, BaseRepository::class);
+        $this->app->singleton(CustomerRepository::class, function ($app) {
+            return new CustomerRepository(new \App\Models\Customer());
+        });
     }
 
     /**
