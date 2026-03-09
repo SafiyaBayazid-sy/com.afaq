@@ -33,6 +33,9 @@ export default function Navbar() {
                     <Link href="/projects" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition-colors text-sm font-medium">
                         مشاريعنا
                     </Link>
+                    <Link href="/studies" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition-colors text-sm font-medium">
+                        الدراسات والبحوث
+                    </Link>
                     <Link href="/contact" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition-colors text-sm font-medium">
                         اتصل بنا
                     </Link>

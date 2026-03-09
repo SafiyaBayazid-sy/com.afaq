@@ -20,12 +20,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 });
 
-Route::get('/home', function () {
-    return Inertia::render('main_pages/Pages/Home/Index');
-})->name('home-page');
 
-Route::get('/about', function () {
-    return Inertia::render('main_pages/Pages/About/Index');
-})->name('about');
+Route::inertia('/about', 'main_pages/Pages/About/Index')->name('about');
+Route::inertia('/studies', 'main_pages/Pages/Studies/Index')->name('studies');
 
 require __DIR__.'/settings.php';
