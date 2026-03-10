@@ -13,6 +13,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 Route::inertia('/', 'main_pages/Pages/Home/Index')->name('home');
 
+// Studies & Research page
+Route::inertia('studies', 'main_pages/Pages/StudiesResearch/Index')->name('studies');
+
+// Building Strengthening / Structural services page
+Route::inertia('building-strengthening', 'main_pages/Pages/BuildingStrengthening/Index')->name('building.strengthening');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 });
