@@ -1,75 +1,43 @@
 import { Link } from '@inertiajs/react';
-import { useState } from 'react';
-
 
 export default function Navbar() {
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 lg:px-40 py-4">
-          
-            <div className="max-w-[1200px] mx-auto flex items-center justify-between">
+        <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+            <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+                
                 {/* Logo */}
                 <div className="flex items-center gap-3">
-                    <div className="bg-primary p-2 rounded-lg">
-                        <svg className="size-6 text-white" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor" />
+                    <div className="text-primary dark:text-slate-100">
+                        <svg className="size-8" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" />
                         </svg>
                     </div>
-                    <h2 className="text-primary dark:text-white text-xl font-bold tracking-tight">آفاق العمران</h2>
+                    <h2 className="text-xl font-bold tracking-tight text-primary dark:text-white">آفاق العمران</h2>
                 </div>
 
                 {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center gap-10">
-                    <Link href="/" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition-colors text-sm font-medium">
-                        الرئيسية
-                    </Link>
-                    <Link href="/about" className="text-primary dark:text-white border-b-2 border-primary font-bold text-sm">
-                        من نحن
-                    </Link>
-                    <Link href="/services" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition-colors text-sm font-medium">
-                        خدماتنا
-                    </Link>
-                    <Link href="/projects" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition-colors text-sm font-medium">
-                        مشاريعنا
-                    </Link>
-                    <Link href="/contact" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition-colors text-sm font-medium">
-                        اتصل بنا
-                    </Link>
+                <nav className="hidden md:flex items-center gap-8">
+                    <Link href="/" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الرئيسية</Link>
+                    <Link href="/#projects" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">مشاريعنا</Link>
+                    <Link href="/about" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">عن الشركة</Link>
+                    <Link href="/#contact" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">اتصل بنا</Link>
                 </nav>
 
-                {/* CTA Button */}
-                <button className="bg-primary text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-opacity-90 transition-all">
-                    اطلب استشارة
-                </button>
-
-                {/* Mobile Menu Button */}
-                <button
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="md:hidden p-2 text-primary"
-                >
-                    {isMenuOpen ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    )}
-                </button>
+                {/* Actions (Language & Profile) */}
+                <div className="flex items-center gap-4">
+                    <button className="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-opacity-90 transition-all">
+                        <span>English</span>
+                    </button>
+                    <div className="hidden sm:block size-10 rounded-full border border-primary/20 overflow-hidden">
+                        <img
+                            className="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC93w3iUBmnpjlY9XbF3FyrERffuyGUlVEf7C8YuA2gA8CDJ0MQqoVlyOKLYOJS9YDYxC_kus6inLQgcSPT8GTA6n1WA9QIK5VMZedyBqrFuccZ6cCyXJYH92JKmGx2OTcKVMBLgH1alzZB5coidtvxl2C-4yzw7v4xb095f_rqaXtd1mpFq6gAdrZ6xnPS0ApdwUrkPC7eoinWxR1jVTb54b-goSKaNRf2LRvt7tYvgNtRYfTudtQRzr0XolDu5S8Cj-oUQ2J0bohq"
+                            alt="Profile picture"
+                        />
+                    </div>
+                </div>
+                
             </div>
-
-            {/* Mobile Navigation */}
-            {isMenuOpen && (
-                <nav className="md:hidden mt-4 pb-4 flex flex-col gap-4">
-                    <Link href="/" className="text-slate-600 dark:text-slate-300 py-2">الرئيسية</Link>
-                    <Link href="/about" className="text-primary font-bold py-2">من نحن</Link>
-                    <Link href="/services" className="text-slate-600 dark:text-slate-300 py-2">خدماتنا</Link>
-                    <Link href="/projects" className="text-slate-600 dark:text-slate-300 py-2">مشاريعنا</Link>
-                    <Link href="/contact" className="text-slate-600 dark:text-slate-300 py-2">اتصل بنا</Link>
-                </nav>
-            )}
         </header>
     );
 }

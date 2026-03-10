@@ -11,7 +11,8 @@ export default function Hero() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-l from-background-dark/80 via-background-dark/40 to-transparent" />
             </div>
-            <div className="container mx-auto px-6 h-full flex flex-col justify-center items-end relative z-10">
+            {/* Fixed flex alignment here: items-start instead of items-end */}
+            <div className="container mx-auto px-6 h-full flex flex-col justify-center items-start relative z-10">
                 <div className="max-w-2xl space-y-6 text-right">
                     <h1 className="text-5xl md:text-7xl font-black leading-tight text-white drop-shadow-lg">
                         نصنع مستقبلاً <span className="text-primary dark:text-white underline decoration-primary">عمرانياً</span> متميزاً
@@ -19,19 +20,14 @@ export default function Hero() {
                     <p className="text-lg md:text-xl text-slate-100 max-w-xl leading-relaxed">
                         شركة آفاق العمران للتطوير العقاري: جودة في التنفيذ وابتكار في التصميم لتلبية تطلعاتكم السكنية والتجارية في المملكة.
                     </p>
-                    <div className="flex flex-wrap gap-4 pt-4 justify-end">
+                    {/* Fixed flex wrap alignment here */}
+                    <div className="flex flex-wrap gap-4 pt-4">
                         <button className="min-w-[180px] cursor-pointer rounded-lg h-14 px-8 bg-primary text-white text-lg font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2">
-                            <span className="text">اكتشف مشاريعنا</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 7l-5 5 5 5" />
-                            </svg>
+                            <span>اكتشف مشاريعنا</span>
+                            <span className="material-symbols-outlined">arrow_back</span>
                         </button>
                         <button className="min-w-[180px] cursor-pointer rounded-lg h-14 px-8 bg-white/10 backdrop-blur-md border border-white/20 text-white text-lg font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-2">
                             <span>تواصل معنا</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5 5 5-5" />
-                            </svg>
                         </button>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ export default function AboutSummary() {
                             />
                         </div>
                     </div>
-                    <div className="lg:w-1/2 space-y-8 text-right">
+                    <div className="lg:w-1/2 space-y-8">
                         <div className="space-y-4">
                             <h3 className="text-primary font-bold tracking-widest uppercase text-sm">عن آفاق العمران</h3>
                             <h2 className="text-4xl md:text-5xl font-black leading-tight text-slate-900 dark:text-white">
@@ -40,27 +40,18 @@ export default function AboutSummary() {
                             </p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="space-y-2 text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto w-10 h-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v2" />
-                                </svg>
+                            <div className="space-y-2">
+                                <span className="material-symbols-outlined text-primary text-4xl">verified</span>
                                 <h4 className="font-bold text-lg">الجودة</h4>
                                 <p className="text-sm text-slate-500">معايير عالمية في البناء والتشطيب</p>
                             </div>
-                            <div className="space-y-2 text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto w-10 h-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 2v6" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 12h16" />
-                                </svg>
+                            <div className="space-y-2">
+                                <span className="material-symbols-outlined text-primary text-4xl">lightbulb</span>
                                 <h4 className="font-bold text-lg">الابتكار</h4>
                                 <p className="text-sm text-slate-500">تصاميم معمارية فريدة وذكية</p>
                             </div>
-                            <div className="space-y-2 text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto w-10 h-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 12v.01" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11c1.333 0 2-1.333 2-2.667C18 6.333 15.333 4 12 4S6 6.333 6 8.333C6 9.667 6.667 11 8 11" />
-                                </svg>
+                            <div className="space-y-2">
+                                <span className="material-symbols-outlined text-primary text-4xl">handshake</span>
                                 <h4 className="font-bold text-lg">الموثوقية</h4>
                                 <p className="text-sm text-slate-500">التزام تام بالمواعيد والشفافية</p>
                             </div>
