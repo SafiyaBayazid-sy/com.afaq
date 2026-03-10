@@ -19,6 +19,7 @@ export default function Navbar() {
                 <nav className="hidden md:flex items-center gap-8">
                     <Link href="/" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الرئيسية</Link>
                     <Link href="/building-strengthening" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">خدمات الهندسة الإنشائية</Link>
+                    <Link href="/legal-consultations" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الاستشارات القانونية</Link>
                     <Link href="/#projects" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">مشاريعنا</Link>
                     <Link href="/studies" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الدراسات والبحوث</Link>
                     <Link href="/about" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">عن الشركة</Link>

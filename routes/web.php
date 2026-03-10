@@ -19,6 +19,9 @@ Route::inertia('studies', 'main_pages/Pages/StudiesResearch/Index')->name('studi
 // Building Strengthening / Structural services page
 Route::inertia('building-strengthening', 'main_pages/Pages/BuildingStrengthening/Index')->name('building.strengthening');
 
+// Legal Consultations page
+Route::inertia('legal-consultations', 'main_pages/Pages/LegalConsultations/Index')->name('legal.consultations');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 });
