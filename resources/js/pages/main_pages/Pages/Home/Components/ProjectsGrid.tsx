@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import React from 'react';
 
 export default function ProjectsGrid() {
@@ -11,10 +12,10 @@ export default function ProjectsGrid() {
                             نستعرض لكم نخبة من مشاريعنا التي تجسد رؤيتنا في التطوير العمراني الحديث.
                         </p>
                     </div>
-                    <a className="text-primary font-bold flex items-center gap-2 hover:underline transition-all" href="#">
+                    <Link className="text-primary font-bold flex items-center gap-2 hover:underline transition-all" href="/projects">
                         عرض جميع المشاريع
                         <span className="material-symbols-outlined">west</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {/* Project 1 */}
@@ -31,12 +32,12 @@ export default function ProjectsGrid() {
                                     <span className="material-symbols-outlined text-sm">location_on</span>
                                     <span>الرياض</span>
                                 </div>
-                                <button className="text-primary font-bold text-sm">التفاصيل</button>
+                                <Link href="/projects/dhahiat-al-nakheel" className="text-primary font-bold text-sm">التفاصيل</Link>
                             </div>
                         </div>
                     </div>
                     {/* Project 2 */}
-                    <div className="group relative overflow-hidden rounded-2xl bg-white dark:bg-background-dark shadow-lg hover:shadow-2xl transition-all border border-slate-100 dark:border-primary/20 flex flex-col text-right">
+                        <div className="group relative overflow-hidden rounded-2xl bg-white dark:bg-background-dark shadow-lg hover:shadow-2xl transition-all border border-slate-100 dark:border-primary/20 flex flex-col text-right">
                         <div className="aspect-[16/10] overflow-hidden">
                             <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC79yWwCyln0Dvuti9-0V_wmxOEBgCcdy7sf9s02pUwMbhH0br3viIOTGqcZbBhxZfquyZVepqZJ7R1GbN9uD6g_cWGjNqw47DqDZhajz-Ap0MItMhO0tReqhOZdpEzvb6AAlbfzN_TktSz6rqUWBrFk5xk123Of8g4ZL88Qwv8P8pmBpTPkKbzgtxm9oE83hnxWc79mHcj2hVoBudVeQobWv9w_GjrWKI88TGK5KYHSOLFQl0Qkt3sHSQMUe87VdyzvnSGDhA0NU6H" alt="Office building" />
                         </div>
@@ -49,7 +50,7 @@ export default function ProjectsGrid() {
                                     <span className="material-symbols-outlined text-sm">location_on</span>
                                     <span>جدة</span>
                                 </div>
-                                <button className="text-primary font-bold text-sm">التفاصيل</button>
+                                <Link href="/projects/afaq-commercial-center" className="text-primary font-bold text-sm">التفاصيل</Link>
                             </div>
                         </div>
                     </div>
@@ -67,7 +68,7 @@ export default function ProjectsGrid() {
                                     <span className="material-symbols-outlined text-sm">location_on</span>
                                     <span>الدمام</span>
                                 </div>
-                                <button className="text-primary font-bold text-sm">التفاصيل</button>
+                                <Link href="/projects/oasis-residential-complex" className="text-primary font-bold text-sm">التفاصيل</Link>
                             </div>
                         </div>
                     </div>

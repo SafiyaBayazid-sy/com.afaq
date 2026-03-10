@@ -34,9 +34,9 @@ export default function Footer() {
                         <h4 className="text-white font-bold">روابط سريعة</h4>
                         <ul className="space-y-4 text-slate-400 text-sm">
                             <li><Link className="hover:text-white transition-colors" href="/">الرئيسية</Link></li>
-                            <li><Link className="hover:text-white transition-colors" href="/#about">عن آفاق العمران</Link></li>
-                            <li><Link className="hover:text-white transition-colors" href="/#projects">مشاريعنا الجارية</Link></li>
-                            <li><Link className="hover:text-white transition-colors" href="/partners">شركاء النجاح</Link></li>
+                            <li><Link className="hover:text-white transition-colors" href="/about">عن آفاق العمران</Link></li>
+                            <li><Link className="hover:text-white transition-colors" href="/projects">مشاريعنا</Link></li>
+                            <li><Link className="hover:text-white transition-colors" href="/studies">الدراسات والبحوث</Link></li>
                         </ul>
                     </div>
 
@@ -44,10 +44,10 @@ export default function Footer() {
                     <div className="space-y-6">
                         <h4 className="text-white font-bold">خدماتنا</h4>
                         <ul className="space-y-4 text-slate-400 text-sm">
-                            <li><Link className="hover:text-white transition-colors" href="/services">التطوير العقاري</Link></li>
-                            <li><Link className="hover:text-white transition-colors" href="/services">إدارة المشاريع</Link></li>
-                            <li><Link className="hover:text-white transition-colors" href="/services">الاستشارات الهندسية</Link></li>
-                            <li><Link className="hover:text-white transition-colors" href="/services">التسويق العقاري</Link></li>
+                            <li><Link className="hover:text-white transition-colors" href="/building-strengthening">الهندسة الإنشائية</Link></li>
+                            <li><Link className="hover:text-white transition-colors" href="/legal-consultations">الاستشارات القانونية</Link></li>
+                            <li><Link className="hover:text-white transition-colors" href="/studies">الدراسات والبحوث</Link></li>
+                            <li><Link className="hover:text-white transition-colors" href="/projects">مشاريعنا</Link></li>
                         </ul>
                     </div>
 

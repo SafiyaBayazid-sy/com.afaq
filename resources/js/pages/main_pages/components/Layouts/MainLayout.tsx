@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import Footer from '../navigation/Footer'; 
 import Navbar from '../navigation/Navbar';
 import TailwindConfig from '../TailwindConfig';

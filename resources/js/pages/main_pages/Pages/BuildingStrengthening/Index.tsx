@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
-import MainLayout from '../../components/Layouts/MainLayout';
 import React from 'react';
+import MainLayout from '../../components/Layouts/MainLayout';
 
 export default function BuildingStrengthening() {
     return (

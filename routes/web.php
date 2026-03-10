@@ -22,6 +22,12 @@ Route::inertia('building-strengthening', 'main_pages/Pages/BuildingStrengthening
 // Legal Consultations page
 Route::inertia('legal-consultations', 'main_pages/Pages/LegalConsultations/Index')->name('legal.consultations');
 
+// Projects listing
+Route::inertia('projects', 'main_pages/Pages/Projects/Index')->name('projects.index');
+
+// Project details (dynamic)
+Route::inertia('projects/{slug}', 'main_pages/Pages/Project/Index')->name('project.show');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 });
