@@ -3,7 +3,6 @@
 use App\Http\Controllers\Web\PageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
 
 // Require authentication for admin panel
@@ -12,17 +11,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 });
 
 
-Route::inertia('/', 'welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+Route::inertia('/', 'main_pages/Pages/Home/Index')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 });
 
-Route::get('/home', function () {
-    return Inertia::render('main_pages/Pages/Home/Index');
-})->name('home-page');
+// The landing page is served at the root; no separate /home route is required.
 
 Route::get('/about', function () {
     return Inertia::render('main_pages/Pages/About/Index');
