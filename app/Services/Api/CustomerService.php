@@ -3,10 +3,13 @@
 namespace App\Services\Api;
 
 use App\Models\Customer;
+use App\Models\User;
 use App\Repositories\Api\CustomerRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
 
 class CustomerService
@@ -32,11 +35,11 @@ class CustomerService
     public function getCustomerById(int $id): ?Customer
     {
         $customer = $this->customerRepository->findWithUser($id);
-        
+
         if (!$customer) {
             throw new InvalidArgumentException("Customer not found with ID: {$id}");
         }
-        
+
         return $customer;
     }
 
@@ -57,17 +60,23 @@ class CustomerService
                 'is_active' => $data['is_active'] ?? true,
             ];
 
-            $user = \App\Models\User::create($userData);
+            $user = User::create($userData);
+
+             // Assign customer role
+             $user->assignRole('customer');
 
             // Create customer record
             $customerData = [
                 'user_id' => $user->id,
-                'budget' => $data['budget'] ?? null,
+                // 'budget' => $data['budget'] ?? null,
                 'phone' => $data['phone'],
                 'source' => $data['source'] ?? null,
-                'preferred_property_type' => $data['preferred_property_type'] ?? null,
-                'notes' => $data['notes'] ?? null,
+                // 'preferred_property_type' => $data['preferred_property_type'] ?? null,
+                // 'notes' => $data['notes'] ?? null,
             ];
+
+               // Create token for mobile app
+        $token = $user->createToken('mobile-auth-token', ['*'])->plainTextToken;
 
             $customer = $this->customerRepository->create($customerData);
 
@@ -83,6 +92,48 @@ class CustomerService
         }
     }
 
+     public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)
+            ->where('user_type', 'customer')
+            ->where('is_active', true)
+            ->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        // Revoke old tokens
+        $user->tokens()->delete();
+
+        // Create new token with abilities based on permissions
+        $abilities = $user->getPermissionNames()->toArray();
+        $token = $user->createToken('mobile-auth-token', $abilities)->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login successful',
+            'user' => $user->load('customerProfile'),
+            'token' => $token,
+            'permissions' => $abilities,
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Logged out successfully'
+        ]);
+    }
+
     /**
      * Update existing customer
      */
@@ -92,26 +143,26 @@ class CustomerService
             DB::beginTransaction();
 
             $customer = $this->customerRepository->findWithUser($id);
-            
+
             if (!$customer) {
                 throw new InvalidArgumentException("Customer not found with ID: {$id}");
             }
 
             // Update user data
             $userData = [];
-            
+
             if (isset($data['name'])) {
                 $userData['name'] = $data['name'];
             }
-            
+
             if (isset($data['email'])) {
                 $userData['email'] = $data['email'];
             }
-            
+
             if (isset($data['password']) && !empty($data['password'])) {
                 $userData['password'] = Hash::make($data['password']);
             }
-            
+
             if (isset($data['is_active'])) {
                 $userData['is_active'] = $data['is_active'];
             }
@@ -122,26 +173,20 @@ class CustomerService
 
             // Update customer data
             $customerData = [];
-            
-            if (isset($data['budget'])) {
-                $customerData['budget'] = $data['budget'];
-            }
-            
+
+
+
             if (isset($data['phone'])) {
                 $customerData['phone'] = $data['phone'];
             }
-            
+
             if (isset($data['source'])) {
                 $customerData['source'] = $data['source'];
             }
-            
-            if (isset($data['preferred_property_type'])) {
-                $customerData['preferred_property_type'] = $data['preferred_property_type'];
-            }
-            
-            if (isset($data['notes'])) {
-                $customerData['notes'] = $data['notes'];
-            }
+
+
+
+
 
             if (!empty($customerData)) {
                 $this->customerRepository->update($id, $customerData);
@@ -168,7 +213,7 @@ class CustomerService
             DB::beginTransaction();
 
             $customer = $this->customerRepository->find($id);
-            
+
             if (!$customer) {
                 throw new InvalidArgumentException("Customer not found with ID: {$id}");
             }

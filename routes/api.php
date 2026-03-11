@@ -11,5 +11,12 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('customers', CustomerController::class);
+// Route::apiResource('customers', CustomerController::class);
+
+Route::prefix('v1')->group(function () {
+
+    Route::post('/register', [CustomerController::class, 'register']);
+    Route::post('/login', [CustomerController::class, 'login']);
+});
+
 

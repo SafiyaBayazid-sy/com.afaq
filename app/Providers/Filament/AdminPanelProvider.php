@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#0a332e',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
@@ -38,8 +38,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                // AccountWidget::class,
+                // FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -54,6 +54,16 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+                 'role:admin', // Only users with admin role can access Filament
+            ])
+
+             ->brandName('آفاق الرقمية') // Your company name
+             ->favicon(asset('images/favicon.ico'))
+             ->darkMode(false) // Disable dark mode if not needed
+
+            ->authGuard('web');
+            // ->databaseNotifications() // For ADMIN-08 (instant notifications)
+            // ->databaseNotificationsPolling('30s');
+
     }
 }

@@ -36,7 +36,6 @@ class CustomerRequest extends FormRequest
             'is_active' => ['sometimes', 'boolean'],
 
             // Customer fields
-            'budget' => ['nullable', 'numeric', 'min:0', 'max:999999999999.99'],
             'phone' => [
                 'required',
                 'string',
@@ -47,8 +46,7 @@ class CustomerRequest extends FormRequest
                 'facebook', 'google_ad', 'snapchat',
                 'tiktok', 'friend', 'google_search', 'other'
             ])],
-            'preferred_property_type' => ['nullable', 'string', 'max:50'],
-            'notes' => ['nullable', 'string'],
+
         ];
     }
 
@@ -62,33 +60,28 @@ class CustomerRequest extends FormRequest
             'name.required' => 'حقل الاسم مطلوب.',
             'name.string' => 'الاسم يجب أن يكون نصاً.',
             'name.max' => 'الاسم لا يجب أن يتجاوز 255 حرفاً.',
-            
+
             'email.required' => 'حقل البريد الإلكتروني مطلوب.',
             'email.email' => 'يجب إدخال بريد إلكتروني صالح.',
             'email.unique' => 'البريد الإلكتروني مسجل مسبقاً.',
             'email.max' => 'البريد الإلكتروني لا يجب أن يتجاوز 255 حرفاً.',
-            
+
             'password.required' => 'كلمة المرور مطلوبة للعملاء الجدد.',
             'password.min' => 'كلمة المرور يجب أن تكون على الأقل 8 أحرف.',
             'password.string' => 'كلمة المرور يجب أن تكون نصاً.',
-            
+
             'is_active.boolean' => 'حقل التفعيل يجب أن يكون صحيحاً أو خطأ.',
 
             // Customer fields in Arabic
-            'budget.numeric' => 'الميزانية يجب أن تكون رقماً صحيحاً.',
-            'budget.min' => 'الميزانية يجب أن تكون 0 على الأقل.',
-            'budget.max' => 'الميزانية كبيرة جداً.',
-            
+
+
             'phone.required' => 'رقم الهاتف مطلوب.',
             'phone.unique' => 'رقم الهاتف مسجل مسبقاً.',
             'phone.max' => 'رقم الهاتف لا يجب أن يتجاوز 20 رقماً.',
-            
+
             'source.in' => 'الرجاء اختيار مصدر صحيح. المصادر المسموحة: فيسبوك، إعلان جوجل، سناب شات، تيك توك، صديق، بحث جوجل، آخر',
-            
-            'preferred_property_type.string' => 'نوع العقار المفضل يجب أن يكون نصاً.',
-            'preferred_property_type.max' => 'نوع العقار المفضل لا يجب أن يتجاوز 50 حرفاً.',
-            
-            'notes.string' => 'الملاحظات يجب أن تكون نصاً.',
+
+
         ];
     }
 
@@ -102,11 +95,9 @@ class CustomerRequest extends FormRequest
             'email' => 'البريد الإلكتروني',
             'password' => 'كلمة المرور',
             'is_active' => 'حالة التفعيل',
-            'budget' => 'الميزانية',
             'phone' => 'رقم الهاتف',
             'source' => 'المصدر',
-            'preferred_property_type' => 'نوع العقار المفضل',
-            'notes' => 'الملاحظات',
+          
         ];
     }
 
@@ -120,7 +111,7 @@ class CustomerRequest extends FormRequest
                 'is_active' => $this->is_active === 'true' || $this->is_active === '1',
             ]);
         }
-        
+
         // تنظيف رقم الهاتف إذا لزم الأمر (إزالة المسافات)
         if ($this->has('phone')) {
             $this->merge([

@@ -51,9 +51,11 @@ class CustomerRepository extends BaseRepository
     /**
      * Find customer by phone
      */
-    public function findByPhone(string $phone): ?Customer
+     public function findByPhone(string $phone): ?Customer
     {
-        return $this->model->where('phone', $phone)->first();
+        return $this->model->with('user') // Added with('user') to load the relationship
+            ->where('phone', $phone)
+            ->first();
     }
 
     /**
@@ -71,11 +73,14 @@ class CustomerRepository extends BaseRepository
      */
     public function search(string $keyword, int $perPage = 10): LengthAwarePaginator
     {
-        return $this->model->whereHas('user', function ($query) use ($keyword) {
-            $query->where('name', 'LIKE', "%{$keyword}%")
+        return $this->model->where(function ($query) use ($keyword) {
+            $query->whereHas('user', function ($q) use ($keyword) {
+                $q->where('name', 'LIKE', "%{$keyword}%")
                   ->orWhere('email', 'LIKE', "%{$keyword}%");
-        })->orWhere('phone', 'LIKE', "%{$keyword}%")
-          ->with('user')
-          ->paginate($perPage);
+            })
+            ->orWhere('phone', 'LIKE', "%{$keyword}%");
+        })
+        ->with('user')
+        ->paginate($perPage);
     }
 }

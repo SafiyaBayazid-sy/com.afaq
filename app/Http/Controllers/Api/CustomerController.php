@@ -38,7 +38,7 @@ class CustomerController extends Controller
     /**
      * Store a newly created customer.
      */
-    public function store(CustomerRequest $request): JsonResponse
+    public function register(CustomerRequest $request): JsonResponse
     {
         try {
             $customer = $this->customerService->createCustomer($request->validated());

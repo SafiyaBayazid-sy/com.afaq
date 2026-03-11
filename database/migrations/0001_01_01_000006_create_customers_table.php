@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('budget', 15, 2)->nullable();
             $table->string('phone')->unique();
             $table->enum('source', [
                 'facebook',
@@ -25,8 +24,7 @@ return new class extends Migration
                 'google_search',
                 'other'
             ])->nullable();
-            $table->string('preferred_property_type', 50)->nullable();
-            $table->text('notes')->nullable();
+           
             $table->timestamps();
         });
     }
