@@ -25,15 +25,15 @@ export default function VisionMission() {
 
     return (
         <section className="bg-primary/5 dark:bg-primary/10 py-20">
-            <div className="max-w-[1200px] mx-auto px-6 lg:px-40">
+            <div className="container mx-auto px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">هويتنا ومبادئنا</h2>
                     <div className="w-20 h-1 bg-primary mx-auto"></div>
                 </div>
                 <div className="grid md:grid-cols-3 gap-8">
                     {items.map((item, index) => (
-                        <div key={index} className="bg-white dark:bg-background-dark p-8 rounded-xl border border-primary/10 shadow-sm hover:shadow-md transition-shadow">
-                            <div className="bg-primary/10 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+                        <div key={index} className="p-4 text-center md:text-right">
+                            <div className="bg-primary/10 w-16 h-16 rounded-lg flex items-center justify-center mb-6 mx-auto md:mx-0">
                                 <span className="material-symbols-outlined text-primary text-3xl">{item.icon}</span>
                             </div>
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{item.title}</h3>

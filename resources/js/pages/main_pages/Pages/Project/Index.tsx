@@ -10,7 +10,7 @@ export default function ProjectDetail() {
     return (
         <MainLayout>
             <Head title={title} />
-            <main className="flex-grow" dir="rtl">
+            <div className="flex-grow" dir="rtl">
                 {/* Hero */}
                 <section className="relative h-[60vh] lg:h-[75vh] w-full overflow-hidden">
                     <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD5jDuiJBlskbivgC-WcwwfZBNtsiNNUBkcUdouUabP9QkcfQJSNhDdO2Ub86iGZ0qW_VYeVqLToWAygzDdcX8tR3Z6jkIxesZ-kssKpZJl5P_mV3tZ__u8it4bXPLW-Knvwciy2LTMIDgKTjcIRSs6wTLphbJfgdF6KbzvkxJnmno3aaTfywyPxi-bxTtF2SaGiVXhP1MONcG972bxFu5iglBixPNWk4TcJYTcybX23JKDFMysb6fOAfIwXy-_LkO8dRykqUfFL4LN')"}}>
@@ -86,6 +86,20 @@ export default function ProjectDetail() {
                             </div>
                         </div>
 
+                        <div>
+                            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                                <span className="w-8 h-1 bg-primary rounded-full"></span>
+                                المرافق والخدمات
+                            </h3>
+                            <div className="flex flex-wrap gap-3">
+                                {['مسبح خاص', 'نظام ذكي للمنزل', 'حديقة خلفية واسعة', 'تكييف مركزي', 'غرفة خادمة', 'مراقبة أمنية 24/7', 'نادي صحي'].map((item) => (
+                                    <span key={item} className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium dark:bg-primary/20">
+                                        {item}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
                         {/* Map */}
                         <div>
                             <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
@@ -98,7 +112,7 @@ export default function ProjectDetail() {
                                     data-alt="Satellite map view of the city area"
                                     style={{
                                         backgroundImage:
-                                            "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLv7d24J0rj1ZIcUB53scKSTWft3lU2wlYCjZF04HQHbfHy2L5Roq64R6rwqSNcdn3madzkGckGqDt6m1un88HdT_ynkyBU4xEpvhpyMY-0NFC_rET_G0TEzVJq1KswNkvG0shjfZk4HUxkpOXQiGyiCOYvxqcirpwAuf22tS-l5rFOHCKeJkpAxmZrMIMDrfPOPPpOnL-HnmUJLd2MpIUdRtf9VheqjSKAw4Z7YNBGRHnP4LKvmCV6q2mFi16jATm02MAyw63tVQ3');",
+                                            "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLv7d24J0rj1ZIcUB53scKSTWft3lU2wlYCjZF04HQHbfHy2L5Roq64R6rwqSNcdn3madzkGckGqDt6m1un88HdT_ynkyBU4xEpvhpyMY-0NFC_rET_G0TEzVJq1KswNkvG0shjfZk4HUxkpOXQiGyiCOYvxqcirpwAuf22tS-l5rFOHCKeJkpAxmZrMIMDrfPOPPpOnL-HnmUJLd2MpIUdRtf9VheqjSKAw4Z7YNBGRHnP4LKvmCV6q2mFi16jATm02MAyw63tVQ3')",
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                     }}
@@ -137,12 +151,42 @@ export default function ProjectDetail() {
                                         <span className="material-symbols-outlined">chat_bubble</span>
                                         استفسر الآن
                                     </button>
+                                    <button className="w-full border-2 border-primary bg-transparent py-4 rounded-xl font-bold text-lg text-primary transition-all hover:bg-primary hover:text-white flex items-center justify-center gap-2" type="button">
+                                        <span className="material-symbols-outlined">calendar_month</span>
+                                        حجز موعد زيارة
+                                    </button>
                                 </form>
+                                <hr className="my-6 border-slate-200 dark:border-primary/20" />
+                                <div className="flex items-center gap-4">
+                                    <img className="size-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhiay5_IVUMdTMBsTNm65Sr0C3DoZcH6TS5ed3MdoBzSwIEfua4Kp2iUumPB12fxaa7XoVMJlBk1yb9ZmBfzM-G4idGePIvHuKvaAif7Yq9fdl0l0cdiXmTeDL6whq0F90QXmTNOlwBOJPXEGxtaqAHPQN9qds95yged8mlChlXH6nOBVI0i-EIg7EFpfEMRc8b99bYENuaI5zKU6JTVX_2W6_q8cCJ_2wQxiWN6-A3K9LR9S1oUrhvtkqRjLAs_eWcdKE_itgPqtK" alt="consultant" />
+                                    <div>
+                                        <p className="text-sm font-bold">أحمد المنصور</p>
+                                        <p className="text-xs text-slate-500">مستشار عقاري معتمد</p>
+                                    </div>
+                                    <div className="mr-auto flex gap-2">
+                                        <div className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-green-500/10 text-green-500">
+                                            <span className="material-symbols-outlined text-lg">call</span>
+                                        </div>
+                                        <div className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-blue-500/10 text-blue-500">
+                                            <span className="material-symbols-outlined text-lg">mail</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="rounded-2xl border border-primary/10 bg-primary/5 p-6">
+                                <h4 className="mb-3 flex items-center gap-2 font-bold">
+                                    <span className="material-symbols-outlined text-primary">info</span>
+                                    ملاحظة هامة
+                                </h4>
+                                <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                                    الأسعار المذكورة هي أسعار استرشادية وقد تتغير بناءً على توفر الوحدات والمواصفات الإضافية المطلوبة. يرجى التواصل مع فريق المبيعات للحصول على عرض سعر دقيق.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </section>
-            </main>
+            </div>
         </MainLayout>
     );
 }

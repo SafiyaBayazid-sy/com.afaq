@@ -2,7 +2,8 @@ import { Link } from '@inertiajs/react';
 
 export default function CTA() {
     return (
-        <section className="max-w-[1200px] mx-auto px-6 lg:px-40 pb-20">
+        <section className="pb-20">
+            <div className="container mx-auto px-6">
             <div className="bg-primary rounded-3xl p-12 text-center text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
                 <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full -ml-16 -mb-16"></div>
@@ -18,6 +19,7 @@ export default function CTA() {
                         تصفح مشاريعنا
                     </Link>
                 </div>
+            </div>
             </div>
         </section>
     );

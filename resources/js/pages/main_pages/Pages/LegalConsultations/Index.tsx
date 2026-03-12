@@ -7,7 +7,7 @@ export default function LegalConsultations() {
         <MainLayout>
             <Head title="الاستشارات القانونية" />
 
-            <main className="flex-grow">
+            <div className="flex-grow">
                 <section className="relative w-full px-4 py-8 lg:px-20" dir="rtl">
                     <div className="relative overflow-hidden rounded-xl bg-slate-800">
                         <div className="absolute inset-0 z-0">
@@ -35,36 +35,36 @@ export default function LegalConsultations() {
                         <div className="h-1 w-20 bg-primary rounded-full"></div>
                     </div>
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        <div className="group flex flex-col gap-4 rounded-xl border border-border-muted bg-accent p-8 transition-all hover:border-primary/50 hover:bg-primary/5">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
+                        <div className="group flex cursor-pointer flex-col gap-4 rounded-xl border border-slate-200 bg-white/95 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl dark:border-primary/20 dark:bg-primary/10">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/20 text-primary transition-transform duration-300 group-hover:scale-110">
                                 <span className="material-symbols-outlined text-3xl">description</span>
                             </div>
-                            <h3 className="text-xl font-bold text-white">مراجعة العقود</h3>
-                            <p className="text-slate-400 leading-relaxed">تدقيق شامل لكافة الاتفاقيات التعاقدية لضمان حقوقكم وتقليل المخاطر القانونية في المعاملات العقارية.</p>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">مراجعة العقود</h3>
+                            <p className="text-slate-600 leading-relaxed dark:text-slate-400">تدقيق شامل لكافة الاتفاقيات التعاقدية لضمان حقوقكم وتقليل المخاطر القانونية في المعاملات العقارية.</p>
                             <a className="mt-auto flex items-center gap-2 text-sm font-bold text-primary hover:underline" href="#">
                                 اقرأ المزيد
                                 <span className="material-symbols-outlined text-sm">arrow_back</span>
                             </a>
                         </div>
 
-                        <div className="group flex flex-col gap-4 rounded-xl border border-border-muted bg-accent p-8 transition-all hover:border-primary/50 hover:bg-primary/5">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
+                        <div className="group flex cursor-pointer flex-col gap-4 rounded-xl border border-slate-200 bg-white/95 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl dark:border-primary/20 dark:bg-primary/10">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/20 text-primary transition-transform duration-300 group-hover:scale-110">
                                 <span className="material-symbols-outlined text-3xl">gavel</span>
                             </div>
-                            <h3 className="text-xl font-bold text-white">فض النزاعات</h3>
-                            <p className="text-slate-400 leading-relaxed">تمثيل قانوني احترافي لحل الخلافات العقارية والقانونية عبر الوساطة أو التحكيم أو التقاضي.</p>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">فض النزاعات</h3>
+                            <p className="text-slate-600 leading-relaxed dark:text-slate-400">تمثيل قانوني احترافي لحل الخلافات العقارية والقانونية عبر الوساطة أو التحكيم أو التقاضي.</p>
                             <a className="mt-auto flex items-center gap-2 text-sm font-bold text-primary hover:underline" href="#">
                                 اقرأ المزيد
                                 <span className="material-symbols-outlined text-sm">arrow_back</span>
                             </a>
                         </div>
 
-                        <div className="group flex flex-col gap-4 rounded-xl border border-border-muted bg-accent p-8 transition-all hover:border-primary/50 hover:bg-primary/5">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
+                        <div className="group flex cursor-pointer flex-col gap-4 rounded-xl border border-slate-200 bg-white/95 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl dark:border-primary/20 dark:bg-primary/10">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/20 text-primary transition-transform duration-300 group-hover:scale-110">
                                 <span className="material-symbols-outlined text-3xl">verified_user</span>
                             </div>
-                            <h3 className="text-xl font-bold text-white">الامتثال التنظيمي</h3>
-                            <p className="text-slate-400 leading-relaxed">التأكد من مطابقة كافة المشاريع للقوانين والأنظمة السائدة واللوائح العقارية المحدثة.</p>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">الامتثال التنظيمي</h3>
+                            <p className="text-slate-600 leading-relaxed dark:text-slate-400">التأكد من مطابقة كافة المشاريع للقوانين والأنظمة السائدة واللوائح العقارية المحدثة.</p>
                             <a className="mt-auto flex items-center gap-2 text-sm font-bold text-primary hover:underline" href="#">
                                 اقرأ المزيد
                                 <span className="material-symbols-outlined text-sm">arrow_back</span>
@@ -74,30 +74,30 @@ export default function LegalConsultations() {
                 </section>
 
                 <section className="container mx-auto px-6 py-16 lg:px-20">
-                    <div className="overflow-hidden rounded-2xl bg-accent border border-border-muted shadow-2xl">
+                    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-2xl dark:border-primary/20 dark:bg-primary/10">
                         <div className="grid grid-cols-1 lg:grid-cols-2">
                             <div className="p-8 lg:p-16">
-                                <h2 className="text-3xl font-bold text-white mb-6">تواصل مع مستشارينا القانونيين</h2>
-                                <p className="text-slate-400 mb-8 leading-relaxed">نحن هنا للإجابة على جميع استفساراتكم القانونية. يرجى ملء النموذج أدناه وسيقوم أحد خبرائنا بالتواصل معكم في أقرب وقت.</p>
+                                <h2 className="mb-6 text-3xl font-bold text-slate-900 dark:text-white">تواصل مع مستشارينا القانونيين</h2>
+                                <p className="mb-8 leading-relaxed text-slate-600 dark:text-slate-400">نحن هنا للإجابة على جميع استفساراتكم القانونية. يرجى ملء النموذج أدناه وسيقوم أحد خبرائنا بالتواصل معكم في أقرب وقت.</p>
                                 <form className="space-y-4">
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                         <div className="flex flex-col gap-1.5">
-                                            <label className="text-sm font-medium text-slate-300">الاسم الكامل</label>
-                                            <input className="w-full rounded-lg border-border-muted bg-background-dark/50 p-3 text-white focus:border-primary focus:ring-primary" placeholder="أدخل اسمك" type="text" />
+                                            <label className="text-sm font-medium text-slate-600 dark:text-slate-300">الاسم الكامل</label>
+                                            <input className="w-full rounded-lg border border-slate-200 bg-white p-3 text-slate-900 focus:border-primary focus:ring-primary dark:border-primary/30 dark:bg-background-dark/60 dark:text-white" placeholder="أدخل اسمك" type="text" />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
-                                            <label className="text-sm font-medium text-slate-300">البريد الإلكتروني</label>
-                                            <input className="w-full rounded-lg border-border-muted bg-background-dark/50 p-3 text-white focus:border-primary focus:ring-primary" placeholder="example@mail.com" type="email" />
+                                            <label className="text-sm font-medium text-slate-600 dark:text-slate-300">البريد الإلكتروني</label>
+                                            <input className="w-full rounded-lg border border-slate-200 bg-white p-3 text-slate-900 focus:border-primary focus:ring-primary dark:border-primary/30 dark:bg-background-dark/60 dark:text-white" placeholder="example@mail.com" type="email" />
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                         <div className="flex flex-col gap-1.5">
-                                            <label className="text-sm font-medium text-slate-300">رقم الهاتف</label>
-                                            <input className="w-full rounded-lg border-border-muted bg-background-dark/50 p-3 text-white focus:border-primary focus:ring-primary" placeholder="+966 50 000 0000" type="tel" />
+                                            <label className="text-sm font-medium text-slate-600 dark:text-slate-300">رقم الهاتف</label>
+                                            <input className="w-full rounded-lg border border-slate-200 bg-white p-3 text-slate-900 focus:border-primary focus:ring-primary dark:border-primary/30 dark:bg-background-dark/60 dark:text-white" placeholder="+966 50 000 0000" type="tel" />
                                         </div>
                                         <div className="flex flex-col gap-1.5">
-                                            <label className="text-sm font-medium text-slate-300">نوع الاستشارة</label>
-                                            <select className="w-full rounded-lg border-border-muted bg-background-dark/50 p-3 text-white focus:border-primary focus:ring-primary">
+                                            <label className="text-sm font-medium text-slate-600 dark:text-slate-300">نوع الاستشارة</label>
+                                            <select className="w-full rounded-lg border border-slate-200 bg-white p-3 text-slate-900 focus:border-primary focus:ring-primary dark:border-primary/30 dark:bg-background-dark/60 dark:text-white">
                                                 <option>مراجعة عقود</option>
                                                 <option>فض نزاعات</option>
                                                 <option>امتثال تنظيمي</option>
@@ -106,8 +106,8 @@ export default function LegalConsultations() {
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-1.5">
-                                        <label className="text-sm font-medium text-slate-300">تفاصيل الاستفسار</label>
-                                        <textarea className="w-full rounded-lg border-border-muted bg-background-dark/50 p-3 text-white focus:border-primary focus:ring-primary" placeholder="اكتب استفسارك هنا..." rows={4} />
+                                        <label className="text-sm font-medium text-slate-600 dark:text-slate-300">تفاصيل الاستفسار</label>
+                                        <textarea className="w-full rounded-lg border border-slate-200 bg-white p-3 text-slate-900 focus:border-primary focus:ring-primary dark:border-primary/30 dark:bg-background-dark/60 dark:text-white" placeholder="اكتب استفسارك هنا..." rows={4} />
                                     </div>
                                     <button className="w-full rounded-lg bg-primary py-4 font-bold text-white transition-all hover:bg-opacity-90" type="submit">إرسال الطلب</button>
                                 </form>
@@ -143,7 +143,7 @@ export default function LegalConsultations() {
                         </div>
                     </div>
                 </section>
-            </main>
+            </div>
         </MainLayout>
     );
 }

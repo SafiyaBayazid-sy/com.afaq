@@ -3,202 +3,139 @@ import React from 'react';
 import MainLayout from '../../components/Layouts/MainLayout';
 
 export default function StudiesResearch() {
+    const reports = [
+        {
+            title: 'تحليل سوق العقارات 2024',
+            summary: 'دراسة تحليلية شاملة لمتغيرات السوق العقاري المحلي، تتناول العرض والطلب وتوقعات النمو للسنوات الخمس القادمة.',
+            date: '15 يناير 2024',
+            tag: 'تقرير 2024',
+            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAfhToUxjgGFBewSi1lLHeVMuzEEsdZwDg4paEGOOp_ri_6Ah5cdcCYssCrI8pgB0BcMln11wrfa2lELtW5YdTHKNWkzqDWg5J9rt4kiPEnAKoEdti2ZYzZO6du1BcG4IObgK_w8Koww0deL3OeGbGyOwLtLjrrai4O4WnfvUgmyDDJtlz7TikyAJYBTtqhdR2twEJ-FexNa2lc5eoxvEimyRxctaA6C7BsOF4YRcDTAVF4LqPM6EiEw_T4lNvnJUu8KRdwON0dbj-I',
+        },
+        {
+            title: 'جدوى المشاريع المستدامة',
+            summary: 'تقييم الأثر الاقتصادي والبيئي للمباني الخضراء، وكيف تساهم التقنيات الحديثة في خفض التكاليف التشغيلية.',
+            date: '02 فبراير 2024',
+            tag: 'استدامة',
+            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBwRFsw8ROTKO7h-XpIQmZLf2lwi8NYBwm56xiuaY01TUWYLl2G9VoST8CYpNgXm4ZuIpnimf5jIKYMGRUiWr_VsChR0KcQwPZwBRJPAt8og_V8ojLiTqL1xrNYo8cEu7iz3EN-gOX3GDIbqLlWUjKpkiKAM6_a4gG3hQuc22thYhcEe45jSltv_lQ1bD9dU-xaCa9VtZZDDRAg4qWS7avFDZ_gAQM2eDu_3LFUJOWpNVm6UklRaTZwicBYarUi-YJVRXObKfNt_im_',
+        },
+        {
+            title: 'توجيهات الأسعار الحالية',
+            summary: 'تقرير مفصل عن تقلبات تكاليف المواد والعمالة وتأثير التضخم العالمي على تكلفة إنشاء المشاريع السكنية والتجارية.',
+            date: '28 فبراير 2024',
+            tag: 'اقتصاد',
+            image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDCHXa2jBbtfq0F_6XI-1dGENuIkRjypfjrAdHUMXpcY5gILcVOblq0j-Xk9KZB7qWWYw0lvzeY3yxeOrF9-mGc1aqgx4ZGSXTo1fclFnsdYJBqmQJPDmdTD5VAvt5L55WtfIuQf5ow3KYocjc9FP4Stx3v5hy1as5o4eIN15-SWH2KLZdLd9-zz1Yi6gNIjgYsHPhybv2ZaeKXcr_lXnUIPzm0xZQBWU5joVyhV2-wbitqA0riSfG1JK6piBb2Rr9n2VlxHUC7yLlH',
+        },
+    ];
+
+    const downloadablePapers = [
+        { title: 'تقرير الابتكار والتكنولوجيا 2024', meta: 'PDF • 4.2 MB • نُشر في مارس 2024' },
+        { title: 'معايير التصميم الحضري المعاصر', meta: 'PDF • 8.7 MB • نُشر في فبراير 2024' },
+        { title: 'دليل كفاءة الطاقة في المباني', meta: 'PDF • 5.1 MB • نُشر في يناير 2024' },
+        { title: 'مستقبل التطوير العقاري الذكي', meta: 'PDF • 12.4 MB • نُشر في ديسمبر 2023' },
+    ];
+
     return (
         <MainLayout>
             <Head title="الدراسات والبحوث" />
 
-            <main className="flex-grow">
-                <section className="relative w-full px-4 py-14 lg:px-20" dir="rtl">
-                    <div className="absolute inset-0 bg-primary/90 z-10" />
+            <div className="flex-grow">
+                <section className="relative flex h-[450px] w-full items-center justify-center overflow-hidden" dir="rtl">
+                    <div className="absolute inset-0 z-10 bg-gradient-to-b from-primary/80 to-background-dark/95" />
                     <div
-                        className="absolute inset-0 bg-cover bg-center z-0 opacity-30"
+                        className="absolute inset-0 z-0 bg-cover bg-center"
                         style={{
                             backgroundImage:
-                                "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTyHOZGX0YcV0XSgGDLqV1vXHjAVt-e3jG6Fi8FTzgaLbK4stFM5dU3VTb2L6fExlcSxwEI6M1x0jLqp3N1YJ6lGLP0MSPiKqC9cWsfA_2F6g2f9plwykMKcC9g4qYdzF4I4wboXbMgdM0LpSngoO2SBoE7TFUWCbRLOMdsmQVKvdFEWJ-wkqkRgVqg5uI3s9jPj8nNw_lO7NqGxIp3R_jf5E6g8d4YsEw5p7uJbN0YQw-sIcgxH4a2k3xV9uWlIWHcGiYi5Ud3H9K9rh5lIGh7Y?size=2048')",
+                                "url('https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80')",
                         }}
                     />
-                    <div className="relative z-20 flex flex-col items-center justify-center text-center">
-                        <span className="inline-block px-4 py-1.5 mb-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold border border-emerald-500/30">
-                            الدراسات المتخصصة
-                        </span>
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
-                            أبحاث هندسية دقيقة لمعالجة التحديات العمرانية
-                        </h1>
-                        <p className="max-w-3xl text-slate-200 text-lg md:text-xl mb-10 leading-relaxed">
-                            نقدم تقارير فنية مستندة إلى بيانات حقيقية وتحليلات متعمقة لدعم اتخاذ القرار في المشاريع الإنشائية والعمرانية.
+                    <div className="relative z-20 max-w-3xl px-4 text-center">
+                        <h1 className="mb-6 text-4xl font-black leading-tight text-white md:text-6xl">مركز الدراسات والبحوث</h1>
+                        <p className="mb-8 text-lg font-light text-slate-200 md:text-xl">
+                            منصة معرفية متكاملة تقدم تحليلات معمقة وتقارير دورية حول اتجاهات سوق العقارات والإنشاءات في المنطقة
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a
-                                href="#services"
-                                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 font-bold text-white shadow-lg hover:shadow-primary/30 transition-all"
-                            >
-                                شاهد خدماتنا
-                            </a>
-                            <a
-                                href="#contact"
-                                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/15 text-white border border-white/30 px-8 py-4 font-bold hover:bg-white/25 transition-all"
-                            >
-                                تواصل معنا
-                            </a>
+                        <div className="flex flex-wrap justify-center gap-4">
+                            <button className="flex items-center gap-2 rounded-lg bg-white px-8 py-3 font-bold text-primary transition-all hover:bg-slate-100">
+                                <span className="material-symbols-outlined">auto_graph</span>
+                                استكشف التقارير
+                            </button>
+                            <button className="rounded-lg border border-white/20 bg-primary/40 px-8 py-3 font-bold text-white backdrop-blur-md transition-all hover:bg-primary/60">
+                                الاشتراك في النشرة
+                            </button>
                         </div>
                     </div>
                 </section>
 
-                <section className="container mx-auto px-6 py-16 lg:px-20" dir="rtl" id="services">
-                    <div className="mb-12 text-center">
-                        <h2 className="text-3xl md:text-4xl font-bold text-primary">خدمات البحث والدراسات</h2>
-                        <div className="mt-4 h-1 w-24 bg-primary mx-auto rounded-full" />
-                        <p className="mt-6 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                            نغطي كافة احتياجات المنشآت من دراسات فنية وتنموية، بدءًا من تقييم السلامة الإنشائية وحتى دراسات الجدوى الاقتصادية.
-                        </p>
+                <section className="mx-auto max-w-7xl px-6 py-16 lg:px-20" dir="rtl">
+                    <div className="mb-10 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <span className="material-symbols-outlined text-3xl text-primary">library_books</span>
+                            <h2 className="text-2xl font-bold md:text-3xl">أحدث الدراسات</h2>
+                        </div>
+                        <a className="flex items-center gap-1 font-bold text-primary hover:underline" href="#">
+                            عرض الكل
+                            <span className="material-symbols-outlined">arrow_left</span>
+                        </a>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="group rounded-2xl bg-white dark:bg-primary/10 border border-primary/10 hover:border-primary/30 transition-all p-8">
-                            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary mb-5 group-hover:bg-primary/20">
-                                <span className="material-symbols-outlined text-3xl">insights</span>
-                            </div>
-                            <h3 className="text-xl font-bold mb-3">دراسة السلامة الإنشائية</h3>
-                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                                تقييم شامل للمباني للتحقق من القدرة التحميلية وتحليل المخاطر الناتجة عن العوامل البيئية والتصميمية.
-                            </p>
-                        </div>
-                        <div className="group rounded-2xl bg-white dark:bg-primary/10 border border-primary/10 hover:border-primary/30 transition-all p-8">
-                            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary mb-5 group-hover:bg-primary/20">
-                                <span className="material-symbols-outlined text-3xl">analytics</span>
-                            </div>
-                            <h3 className="text-xl font-bold mb-3">دراسة جدوى اقتصادية</h3>
-                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                                تحليل تكاليف وفوائد المشاريع الإنشائية مع توصيات ذكية لتقليل التكلفة وزيادة العائد الاستثماري.
-                            </p>
-                        </div>
-                        <div className="group rounded-2xl bg-white dark:bg-primary/10 border border-primary/10 hover:border-primary/30 transition-all p-8">
-                            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary mb-5 group-hover:bg-primary/20">
-                                <span className="material-symbols-outlined text-3xl">engineering</span>
-                            </div>
-                            <h3 className="text-xl font-bold mb-3">دراسة المواد والهياكل</h3>
-                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                                اختبار المواد وتحليل أداء الهياكل لضمان اختيار الحلول الأمثل من حيث المتانة والاستدامة.
-                            </p>
-                        </div>
-                        <div className="group rounded-2xl bg-white dark:bg-primary/10 border border-primary/10 hover:border-primary/30 transition-all p-8">
-                            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary mb-5 group-hover:bg-primary/20">
-                                <span className="material-symbols-outlined text-3xl">timeline</span>
-                            </div>
-                            <h3 className="text-xl font-bold mb-3">تحليل السوق والعرض</h3>
-                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                                دراسات عن احتياجات السوق ومعدلات الطلب، لمساعدة مطوري العقارات على تحديد المواقع المناسبة والمواصفات المطلوبة.
-                            </p>
-                        </div>
-                        <div className="group rounded-2xl bg-white dark:bg-primary/10 border border-primary/10 hover:border-primary/30 transition-all p-8">
-                            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary mb-5 group-hover:bg-primary/20">
-                                <span className="material-symbols-outlined text-3xl">support_agent</span>
-                            </div>
-                            <h3 className="text-xl font-bold mb-3">تقديم الاستشارات الفنية</h3>
-                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                                ندعم فرق العمل بتوصيات فنية واستشارات ميدانية لضمان توافق التنفيذ مع المعايير الهندسية.
-                            </p>
-                        </div>
-                        <div className="group rounded-2xl bg-white dark:bg-primary/10 border border-primary/10 hover:border-primary/30 transition-all p-8">
-                            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary mb-5 group-hover:bg-primary/20">
-                                <span className="material-symbols-outlined text-3xl">task_alt</span>
-                            </div>
-                            <h3 className="text-xl font-bold mb-3">تدقيق المواصفات والمعايير</h3>
-                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                                مراجع فنية للتأكد من مطابقة المشاريع للمعايير الدولية والمحلية، مع تقارير قابلة للتنفيذ.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                <section className="bg-primary/5 py-24" dir="rtl">
-                    <div className="max-w-6xl mx-auto px-6 lg:px-20">
-                        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-                            <div>
-                                <h2 className="text-3xl md:text-4xl font-bold text-primary">نتائج متميزة مدعومة بالبيانات</h2>
-                                <p className="mt-6 text-slate-600 dark:text-slate-400">
-                                    نعتمد على منهجيات قياس دقيقة وتقارير مفصلة تساعدك على اتخاذ قرارات واضحة وسريعة خلال مراحل التصميم والتنفيذ.
-                                </p>
-                                <ul className="mt-8 grid gap-4">
-                                    <li className="flex items-start gap-3">
-                                        <span className="material-symbols-outlined text-primary">check_circle</span>
-                                        <span className="text-slate-600 dark:text-slate-400">تقارير تحليلية قابلة للمراجعة والتحديث.</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="material-symbols-outlined text-primary">check_circle</span>
-                                        <span className="text-slate-600 dark:text-slate-400">استشارات فنية متواصلة حتى إغلاق المشروع.</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="material-symbols-outlined text-primary">check_circle</span>
-                                        <span className="text-slate-600 dark:text-slate-400">فريق متعدد التخصصات لضمان دقة النتائج.</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="rounded-2xl bg-white dark:bg-primary/10 border border-primary/10 p-10 shadow-xl">
-                                <h3 className="text-2xl font-bold mb-4">احجز استشارة بحثية</h3>
-                                <p className="text-slate-600 dark:text-slate-400 mb-8">
-                                    املأ النموذج وسيتواصل معك أحد خبرائنا لتحديد نطاق الدراسة والجدول الزمني.
-                                </p>
-                                <form className="space-y-5">
-                                    <div className="grid gap-4 sm:grid-cols-2">
-                                        <label className="flex flex-col gap-2 text-sm font-semibold">
-                                            الاسم الكامل
-                                            <input className="rounded-xl border border-border-muted bg-background-dark/50 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary" placeholder="الاسم" type="text" />
-                                        </label>
-                                        <label className="flex flex-col gap-2 text-sm font-semibold">
-                                            البريد الإلكتروني
-                                            <input className="rounded-xl border border-border-muted bg-background-dark/50 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary" placeholder="example@mail.com" type="email" />
-                                        </label>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {reports.map((report) => (
+                            <div
+                                key={report.title}
+                                className="group overflow-hidden rounded-xl border border-primary/10 bg-white shadow-sm transition-all hover:border-primary/30 hover:shadow-xl dark:bg-primary/5"
+                            >
+                                <div className="relative h-56 w-full overflow-hidden">
+                                    <div className="absolute right-4 top-4 z-10 rounded-full bg-primary px-3 py-1 text-xs font-bold text-white">{report.tag}</div>
+                                    <img className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" src={report.image} alt={report.title} />
+                                </div>
+                                <div className="p-6">
+                                    <h3 className="mb-3 text-xl font-bold transition-colors group-hover:text-primary">{report.title}</h3>
+                                    <p className="mb-6 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{report.summary}</p>
+                                    <div className="flex items-center justify-between">
+                                        <span className="flex items-center gap-1 text-xs text-slate-400">
+                                            <span className="material-symbols-outlined text-sm">calendar_today</span>
+                                            {report.date}
+                                        </span>
+                                        <button className="flex items-center gap-1 text-sm font-bold text-primary">
+                                            قراءة المزيد
+                                            <span className="material-symbols-outlined text-sm">arrow_back</span>
+                                        </button>
                                     </div>
-                                    <label className="flex flex-col gap-2 text-sm font-semibold">
-                                        الجوال
-                                        <input className="rounded-xl border border-border-muted bg-background-dark/50 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary" placeholder="05xxxxxxxx" type="tel" />
-                                    </label>
-                                    <label className="flex flex-col gap-2 text-sm font-semibold">
-                                        نوع الدراسة
-                                        <select className="rounded-xl border border-border-muted bg-background-dark/50 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary">
-                                            <option>سلامة إنشائية</option>
-                                            <option>جدوى اقتصادية</option>
-                                            <option>دراسة مواد</option>
-                                            <option>تدقيق مواصفات</option>
-                                        </select>
-                                    </label>
-                                    <label className="flex flex-col gap-2 text-sm font-semibold">
-                                        رسالة إضافية
-                                        <textarea className="h-28 resize-none rounded-xl border border-border-muted bg-background-dark/50 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary" placeholder="أخبرنا عن احتياجك" />
-                                    </label>
-                                    <button className="w-full rounded-xl bg-primary py-4 text-white font-bold shadow-lg hover:bg-primary/90 transition-all" type="submit">
-                                        إرسال الطلب
-                                    </button>
-                                </form>
+                                </div>
                             </div>
-                        </div>
+                        ))}
                     </div>
                 </section>
 
-                <section className="bg-slate-50 dark:bg-slate-950 py-24" dir="rtl">
-                    <div className="max-w-7xl mx-auto px-6 lg:px-20">
-                        <div className="text-center mb-12">
-                            <h2 className="text-3xl font-bold text-primary">شركاؤنا في النجاح</h2>
-                            <p className="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                                نعمل مع شركات رائدة لتقديم حلول متكاملة تعتمد على أحدث المعايير الهندسية.
-                            </p>
+                <section className="border-y border-primary/10 bg-primary/5 px-6 py-16 lg:px-20" dir="rtl">
+                    <div className="mx-auto max-w-7xl">
+                        <div className="mb-10 flex items-center gap-3">
+                            <span className="material-symbols-outlined text-3xl text-primary">download</span>
+                            <h2 className="text-2xl font-bold md:text-3xl">أوراق بحثية قابلة للتحميل</h2>
                         </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 items-center">
-                            {Array.from({ length: 6 }).map((_, idx) => (
+                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                            {downloadablePapers.map((paper) => (
                                 <div
-                                    key={idx}
-                                    className="flex items-center justify-center rounded-2xl bg-white dark:bg-primary/10 border border-primary/10 p-6 shadow-sm"
+                                    key={paper.title}
+                                    className="flex items-center justify-between rounded-xl border border-primary/10 bg-white p-6 transition-shadow hover:shadow-md dark:bg-background-dark"
                                 >
-                                    <div className="h-16 w-16 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                                        <span className="text-2xl font-bold text-slate-500">{idx + 1}</span>
+                                    <div className="flex items-center gap-4">
+                                        <div className="flex size-12 items-center justify-center rounded-lg bg-red-100 text-red-600 dark:bg-red-900/20">
+                                            <span className="material-symbols-outlined text-3xl">picture_as_pdf</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-lg font-bold">{paper.title}</h4>
+                                            <p className="text-sm text-slate-500">{paper.meta}</p>
+                                        </div>
                                     </div>
+                                    <button className="rounded-lg bg-primary p-2 text-white transition-opacity hover:opacity-90">
+                                        <span className="material-symbols-outlined">download</span>
+                                    </button>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </section>
-            </main>
+                            </div>
         </MainLayout>
     );
 }

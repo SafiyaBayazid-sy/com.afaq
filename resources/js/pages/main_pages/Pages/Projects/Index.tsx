@@ -37,7 +37,7 @@ export default function Projects() {
         <MainLayout>
             <Head title="المشاريع" />
 
-            <main className="flex-grow">
+            <div className="flex-grow">
                 <section className="relative w-full px-4 py-14 lg:px-20" dir="rtl">
                     <div className="absolute inset-0 bg-primary/90" />
                     <div
@@ -60,7 +60,7 @@ export default function Projects() {
                 <section className="container mx-auto px-6 py-16 lg:px-20" dir="rtl">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {projects.map((project) => (
-                            <div key={project.slug} className="group relative overflow-hidden rounded-2xl bg-white dark:bg-background-dark shadow-lg hover:shadow-2xl transition-all border border-slate-100 dark:border-primary/20 flex flex-col text-right">
+                            <div key={project.slug} className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white text-right shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-primary/20 dark:bg-background-dark">
                                 <div className="aspect-[16/10] overflow-hidden">
                                     <img
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
@@ -88,7 +88,7 @@ export default function Projects() {
                         ))}
                     </div>
                 </section>
-            </main>
+            </div>
         </MainLayout>
     );
 }
