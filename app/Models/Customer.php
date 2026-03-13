@@ -35,6 +35,11 @@ class Customer extends Model
         return $this->hasMany(Booking::class);
     }
 
+    public function formSubmissions()
+    {
+        return $this->hasMany(FormSubmission::class);
+    }
+
     // Accessors
     public function getFullNameAttribute()
     {

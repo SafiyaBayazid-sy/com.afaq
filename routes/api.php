@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\CustomerController;
-use App\Models\Customer;
-use App\Models\User;
+use App\Http\Controllers\Api\FormBuilderController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -17,6 +15,6 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/register', [CustomerController::class, 'register']);
     Route::post('/login', [CustomerController::class, 'login']);
+    Route::get('/forms/{slug}', [FormBuilderController::class, 'show']);
+    Route::post('/forms/{slug}/submissions', [FormBuilderController::class, 'submit']);
 });
-
-

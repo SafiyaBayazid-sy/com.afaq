@@ -1,0 +1,442 @@
+FORM BUILDER MODULE DOCUMENTATION
+Project: com.afaq CRM (Laravel + Filament)
+Last updated: 2026-03-13
+
+==================================================
+1) Purpose
+==================================================
+This module allows admins to build dynamic forms/questionnaires from Filament,
+and allows website/app clients to fetch those forms and submit answers.
+
+Main goals:
+- Build forms without code changes
+- Support field types, required/optional, ordering, and options
+- Store submissions in structured tables
+- Link submissions to CRM customers/leads when possible
+- Enable reporting and data analysis
+
+
+==================================================
+2) What Was Implemented
+==================================================
+A) Admin (Filament)
+- Form Templates management
+- Dynamic Form Fields builder inside each template
+- Form Submissions review screen with all answers
+
+B) API for website/mobile
+- GET /api/v1/forms/{slug}
+- POST /api/v1/forms/{slug}/submissions
+
+C) Data storage
+- form_templates
+- form_fields
+- form_submissions
+- form_submission_answers
+
+D) Customer linking logic
+- Explicit customer_id if provided
+- Else authenticated customer (Sanctum user)
+- Else fallback match by lead_phone or lead_email
+
+
+==================================================
+3) Files Added / Changed
+==================================================
+Key files:
+- app/Models/FormTemplate.php
+- app/Models/FormField.php
+- app/Models/FormSubmission.php
+- app/Models/FormSubmissionAnswer.php
+- app/Services/FormBuilder/FormBuilderService.php
+- app/Http/Controllers/Api/FormBuilderController.php
+- app/Filament/Resources/Forms/FormTemplateResource.php
+- app/Filament/Resources/Forms/FormSubmissionResource.php
+- routes/api.php
+- app/Models/Customer.php (relation: formSubmissions)
+
+Migrations:
+- database/migrations/2026_03_13_000001_create_form_templates_table.php
+- database/migrations/2026_03_13_000002_create_form_fields_table.php
+- database/migrations/2026_03_13_000003_create_form_submissions_table.php
+- database/migrations/2026_03_13_000004_create_form_submission_answers_table.php
+
+Tests:
+- tests/Feature/Api/FormBuilderApiTest.php
+
+
+==================================================
+4) Data Model (Tables)
+==================================================
+4.1 form_templates
+- id
+- name
+- slug (unique)
+- description (nullable)
+- target: web | app | both
+- is_active (bool)
+- success_message (nullable)
+- settings (json nullable)
+- published_at (nullable datetime)
+- timestamps
+
+Publish condition used by API:
+- is_active = true
+- published_at is null OR published_at <= now
+
+4.2 form_fields
+- id
+- form_template_id (FK)
+- label
+- key
+- type
+- placeholder
+- help_text
+- options (json nullable)
+- min_length (nullable)
+- max_length (nullable)
+- min_value (nullable)
+- max_value (nullable)
+- is_required (bool)
+- is_active (bool)
+- sort_order (int)
+- timestamps
+
+Unique constraint:
+- (form_template_id, key)
+
+4.3 form_submissions
+- id
+- form_template_id (FK)
+- customer_id (nullable FK)
+- source: web | app | api | admin
+- lead_name
+- lead_email
+- lead_phone
+- submitted_at
+- meta (json nullable)
+- timestamps
+
+4.4 form_submission_answers
+- id
+- form_submission_id (FK)
+- form_field_id (nullable FK)
+- field_key
+- field_label
+- field_type
+- answer_text (nullable)
+- answer_json (nullable)
+- timestamps
+
+Answer storage rule:
+- scalar values -> answer_text
+- array values (multi_select) -> answer_json
+- bool values -> answer_text as "true" or "false"
+
+
+==================================================
+5) Admin Workflow (Filament Team / Product Team)
+==================================================
+Step 1: Create Template
+- Go to admin panel -> CRM -> Form Templates
+- Fill name, slug, target, active, published_at, description, success_message
+
+Step 2: Build Fields
+Inside the "Fields" repeater:
+- Add field label
+- Add field key (lowercase, numbers, underscores only)
+- Choose type
+- Set required / active
+- Set placeholder/help text if needed
+- For select/radio/multi_select add options (value => label)
+- Set min/max constraints if needed
+- Reorder fields (uses sort_order)
+
+Step 3: Publish
+- is_active = true
+- published_at empty (immediate) or set a schedule time
+
+Step 4: Review submissions
+- Go to admin panel -> CRM -> Form Submissions
+- View submitter, source, timestamps, and full answer list
+
+
+==================================================
+6) API Contract for Mobile Team
+==================================================
+Base prefix:
+- /api/v1
+
+6.1 Fetch active form by slug
+GET /api/v1/forms/{slug}
+
+Example:
+GET /api/v1/forms/lead-form
+
+Success response (200):
+{
+  "success": true,
+  "message": "Form retrieved successfully.",
+  "data": {
+    "id": 1,
+    "name": "Lead Form",
+    "slug": "lead-form",
+    "description": "...",
+    "target": "both",
+    "success_message": "Thanks, we received your request",
+    "settings": {},
+    "fields": [
+      {
+        "id": 10,
+        "label": "Budget",
+        "key": "budget",
+        "type": "number",
+        "placeholder": null,
+        "help_text": null,
+        "is_required": true,
+        "sort_order": 1,
+        "options": {},
+        "constraints": {
+          "min_length": null,
+          "max_length": null,
+          "min_value": 1000,
+          "max_value": 1000000
+        }
+      }
+    ]
+  }
+}
+
+Error if form not published/active (404):
+{
+  "success": false,
+  "message": "Form not found or inactive."
+}
+
+6.2 Submit form answers
+POST /api/v1/forms/{slug}/submissions
+
+Payload:
+{
+  "source": "app",
+  "lead_name": "John Doe",
+  "lead_email": "john@example.com",
+  "lead_phone": "0500000000",
+  "customer_id": null,
+  "meta": {
+    "device": "ios",
+    "app_version": "1.2.0"
+  },
+  "answers": {
+    "budget": 250000,
+    "property_type": "villa",
+    "subscribe": true,
+    "preferred_areas": ["north", "east"]
+  }
+}
+
+Success response (201):
+{
+  "success": true,
+  "message": "Form submitted successfully.",
+  "data": {
+    "submission_id": 55,
+    "form_template_id": 1,
+    "customer_id": 120,
+    "submitted_at": "2026-03-13 18:45:10"
+  }
+}
+
+Validation error response (422):
+{
+  "success": false,
+  "message": "Validation failed.",
+  "errors": {
+    "answers.budget": ["The budget field is required."],
+    "answers.invalid_key": ["This field does not belong to the selected form."]
+  }
+}
+
+Server error response (500):
+{
+  "success": false,
+  "message": "Unable to submit this form right now."
+}
+
+
+==================================================
+7) Field Type Rules (Mobile Validation Mirror)
+==================================================
+Supported types:
+- text
+- textarea
+- email
+- phone
+- number
+- date
+- select
+- radio
+- checkbox
+- multi_select
+
+Server-side validation behavior:
+- text/textarea: string + min_length/max_length if configured
+- email: valid email + max 255
+- phone: string + max 30
+- number: numeric + min_value/max_value if configured
+- date: valid date
+- select/radio: string, must be one of option keys (if options set)
+- checkbox: boolean
+- multi_select: array, each item must be in option keys (if options set)
+
+Required rule:
+- every field starts with required OR nullable depending on is_required
+
+Strict key policy:
+- any answer key not defined in active form fields returns validation error
+
+Empty-answer policy:
+- optional empty values are allowed
+- empty answers are not stored in form_submission_answers
+
+
+==================================================
+8) Customer Linking Logic
+==================================================
+When submission is created, customer_id resolution order:
+1) if payload.customer_id exists and valid -> use it
+2) else if authenticated user exists and has customerProfile -> use that customer id
+3) else if lead_phone or lead_email provided:
+   - try matching customers.phone = lead_phone
+   - or customers.user.email = lead_email
+4) else customer_id remains null
+
+This supports both anonymous leads and known CRM customers.
+
+
+==================================================
+9) Mobile Team Integration Checklist
+==================================================
+1. Call GET form endpoint at screen load.
+2. Render UI from returned field schema (dynamic).
+3. Enforce client validation from field type + constraints (for better UX).
+4. Submit payload exactly as answers[field_key].
+5. Use source="app" for mobile app.
+6. Pass lead metadata if user is guest.
+7. If authenticated in Sanctum context, include auth token.
+8. Handle 422 by mapping errors keys to field key UI.
+9. Show server message (success_message) after successful submit.
+
+
+==================================================
+10) Data Analysis Guide
+==================================================
+10.1 Main fact tables
+- form_submissions: one row per submission event
+- form_submission_answers: one row per non-empty answered field
+
+10.2 Useful dimensions
+- form_templates (form name, slug, target)
+- form_fields (field metadata and ordering)
+- customers/users (for linked submissions)
+
+10.3 Important analytics notes
+- Empty optional answers are not inserted in form_submission_answers.
+- multi_select answers are stored in answer_json.
+- Boolean answers are stored as text "true"/"false".
+- field_label and field_type are snapshotted in answers table at submission time.
+  This keeps historical meaning if form field labels change later.
+
+10.4 Suggested KPIs
+- submissions by day/week/month
+- submissions by form template
+- source split (web/app/api/admin)
+- customer-link rate = submissions with customer_id / total submissions
+- average answered fields per submission
+- funnel from submissions to downstream CRM actions (bookings/inquiries)
+
+10.5 Example SQL queries (MySQL style)
+
+A) Daily submissions by form
+SELECT DATE(fs.submitted_at) AS day,
+       ft.slug,
+       COUNT(*) AS submissions
+FROM form_submissions fs
+JOIN form_templates ft ON ft.id = fs.form_template_id
+GROUP BY DATE(fs.submitted_at), ft.slug
+ORDER BY day DESC, submissions DESC;
+
+B) Source distribution
+SELECT source, COUNT(*) AS total
+FROM form_submissions
+GROUP BY source
+ORDER BY total DESC;
+
+C) Customer link rate
+SELECT
+  COUNT(*) AS total_submissions,
+  SUM(CASE WHEN customer_id IS NOT NULL THEN 1 ELSE 0 END) AS linked_submissions,
+  ROUND(100 * SUM(CASE WHEN customer_id IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*), 2) AS linked_pct
+FROM form_submissions;
+
+D) Top answers for a single select/radio field key
+SELECT field_key, answer_text, COUNT(*) AS cnt
+FROM form_submission_answers
+WHERE field_key = 'property_type'
+GROUP BY field_key, answer_text
+ORDER BY cnt DESC;
+
+E) Average answered fields per submission
+SELECT AVG(answer_count) AS avg_answers
+FROM (
+  SELECT form_submission_id, COUNT(*) AS answer_count
+  FROM form_submission_answers
+  GROUP BY form_submission_id
+) t;
+
+
+==================================================
+11) Operational Notes
+==================================================
+- Run migrations before use: php artisan migrate
+- Filament resources auto-discover from app/Filament/Resources
+- API endpoints are currently public (no auth middleware on routes)
+- Authenticated submission linking works when request has valid user context
+
+
+==================================================
+12) Known Limitations / Future Improvements
+==================================================
+Current:
+- No built-in anti-spam/rate limit/captcha on submissions endpoint
+- No file-upload field type in this version
+- No dashboard widgets yet for form metrics
+
+Recommended next improvements:
+- Add throttle middleware to submission API
+- Add spam protection (captcha/honeypot)
+- Add dashboard widgets (today submissions, trend, by source)
+- Add export endpoint for analytics pipelines
+- Add webhook/event dispatch on submission creation
+
+
+==================================================
+13) Quick End-to-End Example
+==================================================
+Admin:
+1) Create template slug = "project-inquiry"
+2) Add fields: full_name (text, required), email (email, required), budget (number)
+3) Activate and publish
+
+Mobile/App:
+1) GET /api/v1/forms/project-inquiry
+2) Render fields dynamically
+3) POST /api/v1/forms/project-inquiry/submissions with answers object
+4) Show success message and store submission_id for tracking
+
+Analytics:
+1) Pull daily form_submissions
+2) Join with form_submission_answers for field-level insights
+3) Build metrics by source and by template slug
+
+End of documentation.
