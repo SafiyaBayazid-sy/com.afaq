@@ -83,6 +83,15 @@ class RolesAndPermissionsSeeder extends Seeder
             'view utm reports',
             'export reports',
 
+            // Lead Hub
+            'view leads',
+            'create leads',
+            'edit leads',
+            'delete leads',
+            'assign leads',
+            'update lead status',
+            'view lead timeline',
+
             // Settings (ADMIN-11)
             'view settings',
             'edit settings',

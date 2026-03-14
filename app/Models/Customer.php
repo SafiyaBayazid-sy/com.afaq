@@ -35,6 +35,11 @@ class Customer extends Model
         return $this->hasMany(Booking::class);
     }
 
+    public function leads()
+    {
+        return $this->hasMany(Lead::class);
+    }
+
     public function formSubmissions()
     {
         return $this->hasMany(FormSubmission::class);

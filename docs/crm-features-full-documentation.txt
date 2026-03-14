@@ -1,0 +1,321 @@
+CRM FEATURES - FULL IMPLEMENTATION DOCUMENTATION
+Project: com.afaq
+Last Updated: 2026-03-14
+
+==================================================
+1) Overview
+==================================================
+This document explains all implemented CRM features and how to use them.
+It covers:
+- Filament admin resources and workflows
+- Dashboard KPIs
+- Lead Hub behavior
+- API endpoints (auth, projects, submit inquiry, submit booking, my profile, my notifications)
+- Data model notes and operational setup
+
+
+==================================================
+2) Setup / Run
+==================================================
+1. Install dependencies (if not already installed)
+   composer install
+
+2. Run migrations
+   php artisan migrate
+
+3. Seed roles and users
+   php artisan db:seed
+
+4. Start app
+   php artisan serve
+
+5. Admin panel URL
+   /admin
+
+
+==================================================
+3) Filament Deliverables
+==================================================
+Implemented resources in admin panel:
+- Leads
+- Customers
+- Inquiries
+- Bookings
+- Projects
+- Campaigns
+- Notifications
+- Admin Users
+
+Main implemented resource files:
+- app/Filament/Resources/Leads/LeadResource.php
+- app/Filament/Resources/Customers/CustomerResource.php
+- app/Filament/Resources/Inquiries/InquiryResource.php
+- app/Filament/Resources/Bookings/BookingResource.php
+- app/Filament/Resources/Projects/ProjectResource.php
+- app/Filament/Resources/Campaigns/MarketingCampaignResource.php
+- app/Filament/Resources/Notifications/NotificationResource.php
+- app/Filament/Resources/AdminUsers/AdminUserResource.php
+
+
+==================================================
+4) Dashboard
+==================================================
+Dashboard now includes:
+- total leads
+- new inquiries
+- upcoming bookings
+- lead source breakdown chart
+
+Relevant files:
+- app/Filament/Widgets/StatsOverview.php
+- app/Filament/Widgets/LeadSourceBreakdown.php
+- app/Filament/Pages/Dashboard.php
+
+KPI logic:
+- Total Leads: count(leads)
+- New Inquiries: inquiries where status = new
+- Upcoming Bookings: bookings where status = upcoming and booking_date >= today
+- Lead Source Breakdown: grouped count by lead source
+
+
+==================================================
+5) Lead Hub
+==================================================
+Lead Hub is implemented as the central intake and management feature.
+
+5.1 Intake channels supported
+- mobile app API
+- website API
+- Facebook webhook
+- Google webhook
+- manual staff entry from Filament
+
+5.2 Lead list and filters
+All Leads page includes filters for:
+- source
+- status
+- date range (created_at)
+- campaign
+- assigned to
+
+5.3 Lead details
+Lead details page shows:
+- source
+- status
+- assigned user
+- linked campaign
+- linked customer
+- notes
+- metadata
+- timeline / activity history
+
+5.4 Notes and status updates
+- Status can be updated directly from lead row action
+- Optional note can be added during status update
+- Changes are logged in lead activities timeline
+
+5.5 Timeline / activity history
+Automatic activity events include:
+- created
+- ingested
+- updated
+- status_changed
+- reassigned
+- webhook_synced
+
+Relevant files:
+- app/Models/Lead.php
+- app/Models/LeadActivity.php
+- app/Observers/LeadObserver.php
+- app/Filament/Resources/Leads/LeadResource/RelationManagers/ActivitiesRelationManager.php
+- app/Services/LeadHub/LeadHubService.php
+
+
+==================================================
+6) Booking Management
+==================================================
+Implemented booking management features:
+- list bookings
+- approve action
+- reject action
+- reschedule action
+- booking history timeline
+
+Behavior notes:
+- approve sets status to upcoming
+- reject sets status to cancelled
+- reschedule updates date/time and keeps booking upcoming
+
+Booking history table stores:
+- action
+- old/new status
+- old/new date/time
+- actor (user)
+- notes
+
+Relevant files:
+- app/Filament/Resources/Bookings/BookingResource.php
+- app/Filament/Resources/Bookings/BookingResource/RelationManagers/HistoriesRelationManager.php
+- app/Models/BookingHistory.php
+- app/Observers/BookingObserver.php
+
+
+==================================================
+7) Inquiry Management
+==================================================
+Inquiry resource supports:
+- status updates
+- category selection
+- message
+- admin notes
+
+Relevant files:
+- app/Filament/Resources/Inquiries/InquiryResource.php
+
+
+==================================================
+8) API Endpoints (Phase)
+==================================================
+Base prefix:
+/api/v1
+
+8.1 Auth
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+POST /api/v1/auth/logout   (auth:sanctum)
+
+Legacy routes kept for backward compatibility:
+POST /api/v1/register
+POST /api/v1/login
+
+8.2 Projects
+GET /api/v1/projects
+GET /api/v1/projects/{project}
+
+8.3 Submit inquiry
+POST /api/v1/inquiries      (auth:sanctum)
+
+8.4 Submit booking
+POST /api/v1/bookings       (auth:sanctum)
+
+8.5 My profile
+GET /api/v1/my/profile      (auth:sanctum)
+
+8.6 My notifications
+GET /api/v1/my/notifications                    (auth:sanctum)
+PATCH /api/v1/my/notifications/{notification}/read   (auth:sanctum)
+
+8.7 Lead intake APIs
+POST /api/v1/leads/mobile
+POST /api/v1/leads/website
+POST /api/v1/leads/webhooks/facebook
+POST /api/v1/leads/webhooks/google
+
+8.8 Form Builder APIs (existing)
+GET /api/v1/forms/{slug}
+POST /api/v1/forms/{slug}/submissions
+
+Routes file:
+- routes/api.php
+
+
+==================================================
+9) API Usage Examples
+==================================================
+9.1 Register
+POST /api/v1/auth/register
+{
+  "name": "API Customer",
+  "email": "customer@example.com",
+  "password": "password123",
+  "phone": "0555000000",
+  "source": "other"
+}
+
+9.2 Login
+POST /api/v1/auth/login
+{
+  "email": "customer@example.com",
+  "password": "password123"
+}
+
+9.3 Submit Inquiry (authenticated)
+POST /api/v1/inquiries
+Authorization: Bearer {token}
+{
+  "category_id": 1,
+  "message": "I need details about pricing."
+}
+
+9.4 Submit Booking (authenticated)
+POST /api/v1/bookings
+Authorization: Bearer {token}
+{
+  "booking_date": "2026-03-20",
+  "booking_time": "10:30",
+  "notes": "Morning preferred"
+}
+
+9.5 My Profile
+GET /api/v1/my/profile
+Authorization: Bearer {token}
+
+9.6 My Notifications
+GET /api/v1/my/notifications
+Authorization: Bearer {token}
+
+
+==================================================
+10) Data Model Additions
+==================================================
+New/extended tables for these features include:
+- leads
+- lead_activities
+- booking_histories
+- leads.campaign_id (FK to marketing_campaigns)
+
+Migration files:
+- database/migrations/2026_03_14_000001_create_leads_table.php
+- database/migrations/2026_03_14_000002_create_lead_activities_table.php
+- database/migrations/2026_03_14_000003_add_campaign_id_to_leads_table.php
+- database/migrations/2026_03_14_000004_create_booking_histories_table.php
+
+
+==================================================
+11) Permissions / Roles
+==================================================
+Roles and permissions seeder was updated for lead hub related permissions.
+File:
+- database/seeders/RolesAndPermissionsSeeder.php
+
+Run:
+php artisan db:seed --class=RolesAndPermissionsSeeder
+
+
+==================================================
+12) Tests
+==================================================
+Feature tests added/updated:
+- tests/Feature/Api/LeadHubApiTest.php
+- tests/Feature/Api/PhaseDeliverablesApiTest.php
+- tests/Feature/Api/FormBuilderApiTest.php
+
+Run all tests:
+php artisan test
+
+
+==================================================
+13) Operational Notes
+==================================================
+- Webhook signature verification is not yet enforced in this version.
+- Booking approve/reject are mapped to existing booking status enum values.
+- Lead campaign auto-linking tries to match campaign by utm_campaign or name.
+
+
+==================================================
+14) Related Docs
+==================================================
+Detailed Form Builder spec remains in:
+- docs/form-builder-feature-documentation.txt
+
+End of document.

@@ -65,6 +65,21 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Notification::class);
     }
 
+    public function assignedLeads()
+    {
+        return $this->hasMany(Lead::class, 'assigned_to');
+    }
+
+    public function leadActivities()
+    {
+        return $this->hasMany(LeadActivity::class);
+    }
+
+    public function bookingHistories()
+    {
+        return $this->hasMany(BookingHistory::class);
+    }
+
     // Scopes
     public function scopeActive($query)
     {

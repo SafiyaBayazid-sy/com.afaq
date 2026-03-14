@@ -34,6 +34,11 @@ class MarketingCampaign extends Model
         return $this->hasMany(VisitorTracking::class, 'utm_campaign', 'utm_campaign');
     }
 
+    public function leads()
+    {
+        return $this->hasMany(Lead::class, 'campaign_id');
+    }
+
     // Accessors
     public function getPlatformTextAttribute()
     {

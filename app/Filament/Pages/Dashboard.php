@@ -28,7 +28,7 @@ class Dashboard extends BaseDashboard
     {
         return [
             \App\Filament\Widgets\StatsOverview::class,
-            \App\Filament\Widgets\ProjectsChart::class,
+            \App\Filament\Widgets\LeadSourceBreakdown::class,
             \App\Filament\Widgets\LatestInquiries::class,
             \App\Filament\Widgets\LatestBookings::class,
         ];

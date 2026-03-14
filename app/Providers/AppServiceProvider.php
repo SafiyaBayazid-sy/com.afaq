@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use App\Interfaces\RepositoryInterface;
+use App\Models\Booking;
+use App\Models\Lead;
+use App\Observers\BookingObserver;
+use App\Observers\LeadObserver;
 use App\Repositories\Api\CustomerRepository;
 use App\Repositories\BaseRepository;
 use Carbon\CarbonImmutable;
@@ -30,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Booking::observe(BookingObserver::class);
+        Lead::observe(LeadObserver::class);
         $this->configureDefaults();
     }
 
