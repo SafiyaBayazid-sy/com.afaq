@@ -30,6 +30,11 @@ class Booking extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function histories()
+    {
+        return $this->hasMany(BookingHistory::class)->latest();
+    }
+
     // Accessors
     public function getStatusTextAttribute()
     {

@@ -1,21 +1,22 @@
 <?php
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
-
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable,TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, Notifiable,TwoFactorAuthenticatable, HasRoles;
 
     protected $fillable = [
         'name',
         'email',
-        'phone',
         'password',
         'user_type',
         'is_active',
@@ -42,8 +43,19 @@ class User extends Authenticatable
 
     ];
 
+     /**
+     * Determine if the user can access the Filament panel
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // Only admins can access the admin panel
+        // Must be active and have user_type = 'admin'
+        return $this->is_active && $this->user_type === 'admin';
+    }
+    
+
     // العلاقات
-    public function customer()
+    public function customerProfile()
     {
         return $this->hasOne(Customer::class);
     }
@@ -51,6 +63,21 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    public function assignedLeads()
+    {
+        return $this->hasMany(Lead::class, 'assigned_to');
+    }
+
+    public function leadActivities()
+    {
+        return $this->hasMany(LeadActivity::class);
+    }
+
+    public function bookingHistories()
+    {
+        return $this->hasMany(BookingHistory::class);
     }
 
     // Scopes
@@ -84,4 +111,17 @@ class User extends Authenticatable
     {
         return $this->is_active ? 'نشط' : 'غير نشط';
     }
+
+     // Check if user is admin
+    public function isAdmin(): bool
+    {
+        return $this->user_type === 'admin';
+    }
+
+    // Check if user is customer
+    public function isCustomer(): bool
+    {
+        return $this->user_type === 'customer';
+    }
+
 }

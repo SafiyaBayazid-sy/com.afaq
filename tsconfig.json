@@ -117,5 +117,5 @@
         "resources/js/**/*.ts",
         "resources/js/**/*.d.ts",
         "resources/js/**/*.tsx"
-    ]
+, "resources/js/main_pages/Pages/About/Index.tsx"    ]
 }

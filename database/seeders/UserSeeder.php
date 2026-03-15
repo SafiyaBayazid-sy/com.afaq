@@ -13,14 +13,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-    
-    
+
+
      // إنشاء مديرين
         $admins = [
             [
                 'name' => 'أحمد المدير',
                 'email' => 'admin@afaq.com',
-                'phone' => '966500000001',
                 'password' => Hash::make('password'),
                 'user_type' => 'admin',
                 'is_active' => true,
@@ -28,7 +27,6 @@ class UserSeeder extends Seeder
             [
                 'name' => 'سارة المشرفة',
                 'email' => 'sarah@afaq.com',
-                'phone' => '966500000002',
                 'password' => Hash::make('password'),
                 'user_type' => 'admin',
                 'is_active' => true,
@@ -44,7 +42,6 @@ class UserSeeder extends Seeder
             [
                 'name' => 'محمد العلي',
                 'email' => 'mohammed@gmail.com',
-                'phone' => '966501234567',
                 'password' => Hash::make('password'),
                 'user_type' => 'customer',
                 'is_active' => true,
@@ -52,7 +49,6 @@ class UserSeeder extends Seeder
             [
                 'name' => 'عبدالله الحربي',
                 'email' => 'abdullah@hotmail.com',
-                'phone' => '966502345678',
                 'password' => Hash::make('password'),
                 'user_type' => 'customer',
                 'is_active' => true,
@@ -60,7 +56,6 @@ class UserSeeder extends Seeder
             [
                 'name' => 'فهد الدوسري',
                 'email' => 'fahad@gmail.com',
-                'phone' => '966503456789',
                 'password' => Hash::make('password'),
                 'user_type' => 'customer',
                 'is_active' => true,
@@ -68,7 +63,6 @@ class UserSeeder extends Seeder
             [
                 'name' => 'نورة القحطاني',
                 'email' => 'noura@gmail.com',
-                'phone' => '966504567890',
                 'password' => Hash::make('password'),
                 'user_type' => 'customer',
                 'is_active' => true,
@@ -76,7 +70,6 @@ class UserSeeder extends Seeder
             [
                 'name' => 'سعد الشمري',
                 'email' => 'saad@yahoo.com',
-                'phone' => '966505678901',
                 'password' => Hash::make('password'),
                 'user_type' => 'customer',
                 'is_active' => false, // حساب غير نشط

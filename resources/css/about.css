@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+ :root {
+            --primary: #0a332e;
+            --background-light: #f6f8f8;
+            --background-dark: #000;
+
+            /* Font Family */
+            --font-display: 'Noto Sans Arabic', 'Manrope', sans-serif;
+            --font-body: 'Noto Sans Arabic', sans-serif;
+
+            /* Font Sizes */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            --text-6xl: 3.75rem;
+
+            /* Font Weights */
+            --font-light: 300;
+            --font-normal: 400;
+            --font-medium: 500;
+            --font-semibold: 600;
+            --font-bold: 700;
+            --font-extrabold: 800;
+            --font-black: 900;
+        }

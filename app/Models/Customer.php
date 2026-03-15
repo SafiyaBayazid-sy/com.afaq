@@ -12,15 +12,12 @@ class Customer extends Model
 
     protected $fillable = [
         'user_id',
-        'budget',
         'source',
-        'preferred_property_type',
-        'notes',
+        'phone',
+
     ];
 
-    protected $casts = [
-        'budget' => 'decimal:2',
-    ];
+
 
     // العلاقات
     public function user()
@@ -38,6 +35,16 @@ class Customer extends Model
         return $this->hasMany(Booking::class);
     }
 
+    public function leads()
+    {
+        return $this->hasMany(Lead::class);
+    }
+
+    public function formSubmissions()
+    {
+        return $this->hasMany(FormSubmission::class);
+    }
+
     // Accessors
     public function getFullNameAttribute()
     {
@@ -49,10 +56,6 @@ class Customer extends Model
         return $this->user->email ?? '';
     }
 
-    public function getPhoneAttribute()
-    {
-        return $this->user->phone ?? '';
-    }
 
     public function getSourceTextAttribute()
     {
@@ -65,14 +68,10 @@ class Customer extends Model
             'google_search' => 'بحث جوجل',
             'other' => 'أخرى',
         ];
-        
+
         return $sources[$this->source] ?? $this->source;
     }
 
-    public function getFormattedBudgetAttribute()
-    {
-        return $this->budget ? number_format($this->budget, 2) . ' ريال' : 'غير محدد';
-    }
 
     // Scopes
     public function scopeFromSource($query, $source)
@@ -80,8 +79,5 @@ class Customer extends Model
         return $query->where('source', $source);
     }
 
-    public function scopeWithMinBudget($query, $amount)
-    {
-        return $query->where('budget', '>=', $amount);
-    }
+    
 }

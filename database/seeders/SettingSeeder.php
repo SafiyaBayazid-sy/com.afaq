@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\Setting;
@@ -9,132 +10,150 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         $settings = [
-            // معلومات الشركة
+            // General Settings
             [
-                'key' => 'company_name',
-                'value' => 'آفاق العمران للتطوير العقاري',
+                'key' => 'site_name',
+                'label' => 'اسم الموقع',
+                'value' => 'آفاق العقارية',
                 'type' => 'text',
-                'group' => 'company_info',
-                'label' => 'اسم الشركة',
-                'description' => 'الاسم الرسمي للشركة',
+                'group' => 'general',
+                'description' => 'اسم موقع الويب الخاص بك',
                 'is_public' => true,
             ],
             [
-                'key' => 'company_logo',
-                'value' => 'settings/logo.png',
+                'key' => 'site_description',
+                'label' => 'وصف الموقع',
+                'value' => 'شريكك الموثوق في العقار',
+                'type' => 'text',
+                'group' => 'general',
+                'description' => 'وصف مختصر لموقعك',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'site_logo',
+                'label' => 'شعار الموقع',
+                'value' => null,
                 'type' => 'image',
-                'group' => 'company_info',
-                'label' => 'شعار الشركة',
-                'description' => 'شعار الشركة للعرض في الموقع والتطبيق',
+                'group' => 'general',
+                'description' => 'رفع شعار الموقع',
                 'is_public' => true,
             ],
+
+            // Contact Information
             [
-                'key' => 'company_email',
-                'value' => 'info@afaq-omran.com',
-                'type' => 'text',
-                'group' => 'company_info',
-                'label' => 'البريد الإلكتروني',
-                'description' => 'البريد الإلكتروني الرسمي للتواصل',
-                'is_public' => true,
-            ],
-            [
-                'key' => 'company_phone',
-                'value' => '966920000000',
-                'type' => 'text',
-                'group' => 'company_info',
+                'key' => 'contact_phone',
                 'label' => 'رقم الهاتف',
-                'description' => 'رقم الهاتف الموحد',
+                'value' => '+966 50 123 4567',
+                'type' => 'text',
+                'group' => 'contact',
+                'description' => 'رقم الهاتف الرئيسي للاتصال',
                 'is_public' => true,
             ],
-            
-            // روابط التواصل الاجتماعي
+            [
+                'key' => 'contact_email',
+                'label' => 'البريد الإلكتروني',
+                'value' => 'info@afaq.com',
+                'type' => 'text',
+                'group' => 'contact',
+                'description' => 'البريد الإلكتروني الرئيسي',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'contact_address',
+                'label' => 'العنوان',
+                'value' => 'الرياض، المملكة العربية السعودية',
+                'type' => 'text',
+                'group' => 'contact',
+                'description' => 'عنوان المكتب',
+                'is_public' => true,
+            ],
+
+            // Business Information
+            [
+                'key' => 'business_hours',
+                'label' => 'ساعات العمل',
+                'value' => 'السبت - الخميس: ٩:٠٠ صباحاً - ٦:٠٠ مساءً',
+                'type' => 'text',
+                'group' => 'business',
+                'description' => 'ساعات العمل',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'total_properties',
+                'label' => 'إجمالي العقارات',
+                'value' => '150',
+                'type' => 'number',
+                'group' => 'business',
+                'description' => 'إجمالي عدد العقارات المتاحة',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'years_experience',
+                'label' => 'سنوات الخبرة',
+                'value' => '10',
+                'type' => 'number',
+                'group' => 'business',
+                'description' => 'سنوات الخبرة في المجال العقاري',
+                'is_public' => true,
+            ],
+
+            // Social Media
             [
                 'key' => 'facebook_url',
-                'value' => 'https://facebook.com/afaqomran',
-                'type' => 'text',
-                'group' => 'social_media',
                 'label' => 'رابط فيسبوك',
-                'description' => 'صفحة الشركة على فيسبوك',
+                'value' => 'https://facebook.com/afaq',
+                'type' => 'text',
+                'group' => 'social',
+                'description' => 'رابط صفحة فيسبوك',
                 'is_public' => true,
             ],
             [
                 'key' => 'twitter_url',
-                'value' => 'https://twitter.com/afaqomran',
-                'type' => 'text',
-                'group' => 'social_media',
                 'label' => 'رابط تويتر',
-                'description' => 'حساب الشركة على تويتر',
+                'value' => 'https://twitter.com/afaq',
+                'type' => 'text',
+                'group' => 'social',
+                'description' => 'رابط حساب تويتر',
                 'is_public' => true,
             ],
             [
                 'key' => 'instagram_url',
-                'value' => 'https://instagram.com/afaqomran',
-                'type' => 'text',
-                'group' => 'social_media',
                 'label' => 'رابط انستغرام',
-                'description' => 'حساب الشركة على انستغرام',
-                'is_public' => true,
-            ],
-            [
-                'key' => 'snapchat_url',
-                'value' => 'https://snapchat.com/add/afaqomran',
+                'value' => 'https://instagram.com/afaq',
                 'type' => 'text',
-                'group' => 'social_media',
-                'label' => 'رابط سناب شات',
-                'description' => 'حساب الشركة على سناب شات',
+                'group' => 'social',
+                'description' => 'رابط حساب انستغرام',
                 'is_public' => true,
             ],
-            
-            // إعدادات عامة
+
+            // SEO Settings
             [
-                'key' => 'app_store_link',
-                'value' => 'https://apps.apple.com/app/afaq-omran',
+                'key' => 'meta_keywords',
+                'label' => 'الكلمات المفتاحية',
+                'value' => 'عقار, عقارات, الرياض, السعودية, فلل, شقق, أراضي',
                 'type' => 'text',
-                'group' => 'app_links',
-                'label' => 'رابط آب ستور',
-                'description' => 'رابط التطبيق على آب ستور',
+                'group' => 'seo',
+                'description' => 'الكلمات المفتاحية لمحركات البحث',
                 'is_public' => true,
             ],
             [
-                'key' => 'google_play_link',
-                'value' => 'https://play.google.com/store/apps/details?id=com.afaq.omran',
+                'key' => 'meta_description',
+                'label' => 'وصف ميتا',
+                'value' => 'آفاق العقارية - شريكك الموثوق للعثور على العقار المثالي في المملكة العربية السعودية',
                 'type' => 'text',
-                'group' => 'app_links',
-                'label' => 'رابط جوجل بلاي',
-                'description' => 'رابط التطبيق على جوجل بلاي',
+                'group' => 'seo',
+                'description' => 'وصف ميتا لمحركات البحث',
                 'is_public' => true,
             ],
-            [
-                'key' => 'enable_notifications',
-                'value' => 'true',
-                'type' => 'boolean',
-                'group' => 'system',
-                'label' => 'تفعيل الإشعارات',
-                'description' => 'تشغيل أو إيقاف الإشعارات في النظام',
-                'is_public' => false,
-            ],
-            [
-                'key' => 'default_booking_duration',
-                'value' => '60',
-                'type' => 'number',
-                'group' => 'booking',
-                'label' => 'مدة الحجز الافتراضية',
-                'description' => 'مدة الموعد بالدقائق',
-                'is_public' => false,
-            ],
-            [
-                'key' => 'about_us',
-                'value' => 'شركة آفاق العمران للتطوير العقاري هي شركة رائدة في مجال التطوير العقاري والبناء والترميم، تأسست لتقديم حلول عقارية متكاملة تلبي تطلعات عملائنا.',
-                'type' => 'text',
-                'group' => 'content',
-                'label' => 'من نحن',
-                'description' => 'نص صفحة من نحن',
-                'is_public' => true,
-            ],
+
+         
         ];
 
         foreach ($settings as $setting) {
-            Setting::create($setting);
+            Setting::updateOrCreate(
+                ['key' => $setting['key']],
+                $setting
+            );
         }
     }
 }
