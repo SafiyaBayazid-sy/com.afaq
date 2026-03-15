@@ -1,6 +1,7 @@
 export default function Story() {
     return (
-        <section className="py-20 max-w-[1200px] mx-auto px-6 lg:px-40">
+        <section className="py-20">
+            <div className="container mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
                 <div className="space-y-6">
                     <div className="inline-flex items-center gap-2 text-primary font-bold tracking-wider uppercase text-sm">
@@ -40,6 +41,7 @@ export default function Story() {
                         <div className="text-sm opacity-80 uppercase tracking-widest">عاماً من الخبرة</div>
                     </div>
                 </div>
+            </div>
             </div>
         </section>
     );

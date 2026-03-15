@@ -1,34 +1,28 @@
 import { usePage } from '@inertiajs/react';
-import { ReactNode } from 'react';
-import Footer from '@/pages/main_pages/components/navigation/Footer';
-import Navbar from '@/pages/main_pages/components/navigation/Navbar';
+import type { ReactNode } from 'react';
+import Footer from '../navigation/Footer';
+import Navbar from '../navigation/Navbar';
 import NavbarStudies from '../navigation/NavbarStudies';
+import TailwindConfig from '../TailwindConfig';
+
 interface MainLayoutProps {
     children: ReactNode;
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
-      const { url } = usePage();
-    
-    // Check if current route is studies
+    const { url } = usePage();
     const isStudiesPage = url.startsWith('/studies');
-    const isAboutPage = url.startsWith('/about');
 
     return (
-        <div style={{direction : 'rtl'}} className="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
-           
-             {isStudiesPage ? (
-                <NavbarStudies />
-            ) : isAboutPage ? (
-                <Navbar />
-            ) : (
-                <Navbar /> 
-            )}
-
-            <main className="flex-1">
-                {children}
-            </main>
-            <Footer />
+        <TailwindConfig>
+            <div
+                className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased"
+                style={{ backgroundColor: '#12201e', direction: 'rtl' }}
+            >
+                {isStudiesPage ? <NavbarStudies /> : <Navbar />}
+                <main className="flex-1 w-full">{children}</main>
+                <Footer />
             </div>
+        </TailwindConfig>
     );
 }

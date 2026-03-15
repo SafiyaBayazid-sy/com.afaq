@@ -29,44 +29,46 @@ const team: TeamMember[] = [
 
 export default function LeadershipTeam() {
     return (
-        <section className="py-20 max-w-[1200px] mx-auto px-6 lg:px-40">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-                <div className="max-w-xl">
-                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">فريق القيادة</h2>
-                    <p className="text-slate-600 dark:text-slate-400">
-                        نخبة من المهندسين والإداريين ذوي الخبرة الطويلة يقودون آفاق العمران نحو آفاق جديدة من النجاح.
-                    </p>
+        <section className="py-20">
+            <div className="container mx-auto px-6">
+                <div className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
+                    <div className="max-w-xl">
+                        <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white">فريق القيادة</h2>
+                        <p className="text-slate-600 dark:text-slate-400">
+                            نخبة من المهندسين والإداريين ذوي الخبرة الطويلة يقودون آفاق العمران نحو آفاق جديدة من النجاح.
+                        </p>
+                    </div>
+                    <div className="hidden md:block">
+                        <button className="group flex items-center gap-2 font-bold text-primary">
+                            عرض الهيكل التنظيمي
+                            <span className="material-symbols-outlined transition-transform group-hover:translate-x-[-4px]">
+                                arrow_back
+                            </span>
+                        </button>
+                    </div>
                 </div>
-                <div className="hidden md:block">
-                    <button className="flex items-center gap-2 text-primary font-bold group">
-                        عرض الهيكل التنظيمي
-                        <span className="material-symbols-outlined group-hover:translate-x-[-4px] transition-transform">
-                            arrow_back
-                        </span>
-                    </button>
-                </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {team.map((member, index) => (
-                    <div key={index} className="group">
-                        <div className="aspect-[3/4] rounded-xl overflow-hidden mb-4 relative">
-                            <img
-                                src={member.image}
-                                alt={member.name}
-                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                                <div className="flex gap-3">
-                                    <a href="#" className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/40 transition-colors">
-                                        <span className="material-symbols-outlined text-white text-sm">link</span>
-                                    </a>
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                    {team.map((member, index) => (
+                        <div key={index} className="group">
+                            <div className="relative mb-4 aspect-[3/4] overflow-hidden rounded-xl">
+                                <img
+                                    src={member.image}
+                                    alt={member.name}
+                                    className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+                                />
+                                <div className="absolute inset-0 flex items-end bg-gradient-to-t from-primary/80 to-transparent p-6 opacity-0 transition-opacity group-hover:opacity-100">
+                                    <div className="flex gap-3">
+                                        <a href="#" className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/40">
+                                            <span className="material-symbols-outlined text-sm text-white">link</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{member.name}</h3>
+                            <p className="text-sm font-medium text-primary">{member.position}</p>
                         </div>
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">{member.name}</h3>
-                        <p className="text-primary font-medium text-sm">{member.position}</p>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </section>
     );

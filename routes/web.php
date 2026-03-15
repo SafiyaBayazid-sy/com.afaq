@@ -1,27 +1,22 @@
 <?php
 
-use App\Http\Controllers\Web\PageController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
-
-// Require authentication for admin panel
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Filament handles this automatically
 });
 
-
-Route::inertia('/', 'welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+Route::inertia('/', 'main_pages/Pages/Home/Index')->name('home');
+Route::inertia('studies', 'main_pages/Pages/StudiesResearch/Index')->name('studies');
+Route::inertia('building-strengthening', 'main_pages/Pages/BuildingStrengthening/Index')->name('building.strengthening');
+Route::inertia('legal-consultations', 'main_pages/Pages/LegalConsultations/Index')->name('legal.consultations');
+Route::inertia('projects', 'main_pages/Pages/Projects/Index')->name('projects.index');
+Route::inertia('projects/{slug}', 'main_pages/Pages/Project/Index')->name('project.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 });
 
-
 Route::inertia('/about', 'main_pages/Pages/About/Index')->name('about');
-Route::inertia('/studies', 'main_pages/Pages/Studies/Index')->name('studies');
 
 require __DIR__.'/settings.php';

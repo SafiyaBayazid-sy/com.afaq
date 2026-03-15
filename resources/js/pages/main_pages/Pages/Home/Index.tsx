@@ -1,15 +1,18 @@
-// resources/js/main_pages/Pages/Home/Index.tsx
 import { Head } from '@inertiajs/react';
-import React from 'react';
+import MainLayout from '../../components/Layouts/MainLayout';
+import AboutSummary from './Components/AboutSummary';
+import ContactNewsletter from './Components/ContactNewsletter';
+import Hero from './Components/Hero';
+import ProjectsGrid from './Components/ProjectsGrid';
 
-// This MUST be a default export
 export default function Home() {
     return (
-        <>
+        <MainLayout>
             <Head title="Home" />
-            <div>
-                <h1>Home Page</h1>
-            </div>
-        </>
+            <Hero />
+            <AboutSummary />
+            <ProjectsGrid />
+            <ContactNewsletter />
+        </MainLayout>
     );
 }
