@@ -10,17 +10,17 @@ export default function Navbar() {
                             <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" />
                         </svg>
                     </div>
-                    <h2 className="text-xl font-bold tracking-tight text-primary dark:text-white">???? ???????</h2>
+                    <h2 className="text-xl font-bold tracking-tight text-primary dark:text-white">آفاق العمران</h2>
                 </div>
 
                 <nav className="hidden md:flex items-center gap-8">
-                    <Link href="/" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">????????</Link>
-                    <Link href="/building-strengthening" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">????? ??????? ?????????</Link>
-                    <Link href="/legal-consultations" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">?????????? ?????????</Link>
-                    <Link href="/projects" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">????????</Link>
-                    <Link href="/studies" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">???????? ???????</Link>
-                    <Link href="/about" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">?? ??????</Link>
-                    <Link href="/#contact" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">???? ???</Link>
+                    <Link href="/" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الرئيسية</Link>
+                    <Link href="/building-strengthening" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">خدمات الهندسة الإنشائية</Link>
+                    <Link href="/legal-consultations" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الاستشارات القانونية</Link>
+                    <Link href="/projects" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">المشاريع</Link>
+                    <Link href="/studies" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الدراسات والبحوث</Link>
+                    <Link href="/about" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">من نحن</Link>
+                    <Link href="/#contact" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">اتصل بنا</Link>
                 </nav>
 
                 <div className="flex items-center gap-4">
