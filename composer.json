@@ -17,6 +17,7 @@
         "spatie/laravel-permission": "^6.24"
     },
     "require-dev": {
+        "dedoc/scramble": "^0.13.14",
         "fakerphp/faker": "^1.23",
         "laravel/boost": "2.0",
         "laravel/pail": "^1.2.2",
@@ -69,6 +70,11 @@
             "npm run format:check",
             "npm run types:check",
             "@test"
+        ],
+        "docs:api": [
+            "@php -r \"file_exists('database/docs.sqlite') || touch('database/docs.sqlite');\"",
+            "@php artisan migrate --env=docs --force",
+            "@php artisan scramble:export --env=docs --path=docs/api.json"
         ],
         "test": [
             "@php artisan config:clear --ansi",

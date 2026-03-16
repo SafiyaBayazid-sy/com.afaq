@@ -12,6 +12,9 @@ class InquiryApiController extends Controller
 {
     use ApiResponseTrait;
 
+    /**
+     * Submit a customer inquiry from the mobile app.
+     */
     public function submit(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -35,9 +38,33 @@ class InquiryApiController extends Controller
         ]);
 
         return $this->successResponse(
-            $inquiry->load('category', 'customer.user'),
+            $this->serializeInquiry($inquiry->load('category', 'customer.user')),
             'Inquiry submitted successfully.',
             201
         );
+    }
+
+    protected function serializeInquiry(Inquiry $inquiry): array
+    {
+        return [
+            'id' => $inquiry->id,
+            'customer_id' => $inquiry->customer_id,
+            'category_id' => $inquiry->category_id,
+            'message' => $inquiry->message,
+            'status' => $inquiry->status,
+            'admin_notes' => $inquiry->admin_notes,
+            'category' => $inquiry->category ? [
+                'id' => $inquiry->category->id,
+                'name' => $inquiry->category->name,
+            ] : null,
+            'customer' => $inquiry->customer ? [
+                'id' => $inquiry->customer->id,
+                'full_name' => $inquiry->customer->full_name,
+                'email' => $inquiry->customer->email,
+                'phone' => $inquiry->customer->phone,
+            ] : null,
+            'created_at' => $inquiry->created_at?->toDateTimeString(),
+            'updated_at' => $inquiry->updated_at?->toDateTimeString(),
+        ];
     }
 }

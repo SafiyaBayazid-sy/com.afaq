@@ -2,13 +2,15 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingApiController;
-use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\ContentPageApiController;
+use App\Http\Controllers\Api\DeviceTokenApiController;
 use App\Http\Controllers\Api\FormBuilderController;
 use App\Http\Controllers\Api\InquiryApiController;
 use App\Http\Controllers\Api\LeadHubController;
 use App\Http\Controllers\Api\MyNotificationController;
 use App\Http\Controllers\Api\ProfileApiController;
 use App\Http\Controllers\Api\ProjectApiController;
+use App\Http\Controllers\Api\PublicSettingsApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +20,8 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     // Backward-compatible auth routes
-    Route::post('/register', [CustomerController::class, 'register']);
-    Route::post('/login', [CustomerController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 
     // Phase endpoints: auth
     Route::prefix('auth')->group(function () {
@@ -28,8 +30,14 @@ Route::prefix('v1')->group(function () {
     });
 
     // Phase endpoints: projects
+    Route::get('/projects/filters', [ProjectApiController::class, 'filters']);
     Route::get('/projects', [ProjectApiController::class, 'index']);
     Route::get('/projects/{project}', [ProjectApiController::class, 'show']);
+
+    // Public content/settings for the customer app
+    Route::get('/content/pages', [ContentPageApiController::class, 'index']);
+    Route::get('/content/pages/{slug}', [ContentPageApiController::class, 'show']);
+    Route::get('/settings/public', [PublicSettingsApiController::class, 'index']);
 
     // Existing dynamic forms
     Route::get('/forms/{slug}', [FormBuilderController::class, 'show']);
@@ -55,5 +63,10 @@ Route::prefix('v1')->group(function () {
         // my notifications
         Route::get('/my/notifications', [MyNotificationController::class, 'index']);
         Route::patch('/my/notifications/{notification}/read', [MyNotificationController::class, 'markAsRead']);
+
+        // my push-notification device tokens
+        Route::get('/my/device-tokens', [DeviceTokenApiController::class, 'index']);
+        Route::post('/my/device-tokens', [DeviceTokenApiController::class, 'store']);
+        Route::delete('/my/device-tokens/{deviceToken}', [DeviceTokenApiController::class, 'destroy']);
     });
 });

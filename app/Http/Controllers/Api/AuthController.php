@@ -16,6 +16,9 @@ class AuthController extends Controller
 {
     use ApiResponseTrait;
 
+    /**
+     * Register a new customer account and issue a mobile access token.
+     */
     public function register(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -52,8 +55,8 @@ class AuthController extends Controller
             $token = $user->createToken('mobile-auth-token', ['*'])->plainTextToken;
 
             return [
-                'user' => $user,
-                'customer' => $customer,
+                'user' => $this->serializeUser($user->load('customerProfile')),
+                'customer' => $this->serializeCustomer($customer->load('user')),
                 'token' => $token,
             ];
         });
@@ -61,6 +64,9 @@ class AuthController extends Controller
         return $this->successResponse($data, 'Registered successfully.', 201);
     }
 
+    /**
+     * Authenticate a customer and issue a fresh mobile access token.
+     */
     public function login(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -82,15 +88,44 @@ class AuthController extends Controller
         $token = $user->createToken('mobile-auth-token', ['*'])->plainTextToken;
 
         return $this->successResponse([
-            'user' => $user->load('customerProfile'),
+            'user' => $this->serializeUser($user->load('customerProfile')),
             'token' => $token,
         ], 'Login successful.');
     }
 
+    /**
+     * Revoke the current Sanctum token for the authenticated customer.
+     */
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()?->delete();
 
         return $this->successResponse(null, 'Logged out successfully.');
+    }
+
+    protected function serializeUser(User $user): array
+    {
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'user_type' => $user->user_type,
+            'is_active' => (bool) $user->is_active,
+            'customer_profile' => $user->customerProfile
+                ? $this->serializeCustomer($user->customerProfile->loadMissing('user'))
+                : null,
+        ];
+    }
+
+    protected function serializeCustomer(Customer $customer): array
+    {
+        return [
+            'id' => $customer->id,
+            'user_id' => $customer->user_id,
+            'phone' => $customer->phone,
+            'source' => $customer->source,
+            'full_name' => $customer->full_name,
+            'email' => $customer->email,
+        ];
     }
 }

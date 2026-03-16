@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Setting;
+use Illuminate\Support\Collection;
 
 class SettingsService
 {
@@ -62,6 +63,19 @@ class SettingsService
     }
 
     /**
+     * Get mobile app links and policy URLs
+     */
+    public static function getAppLinks(): array
+    {
+        return [
+            'android' => self::get('android_app_url'),
+            'ios' => self::get('ios_app_url'),
+            'privacy_policy' => self::get('privacy_policy_url'),
+            'terms_and_conditions' => self::get('terms_conditions_url'),
+        ];
+    }
+
+    /**
      * Get SEO settings
      */
     public static function getSeoSettings()
@@ -69,6 +83,32 @@ class SettingsService
         return [
             'keywords' => self::get('meta_keywords', 'real estate, property, saudi arabia'),
             'description' => self::get('meta_description', 'AFAQ Real Estate - Your trusted partner'),
+        ];
+    }
+
+    /**
+     * Get all public settings grouped for API consumers
+     */
+    public static function getPublicSettings(): array
+    {
+        $groups = Setting::query()
+            ->public()
+            ->orderBy('group')
+            ->orderBy('key')
+            ->get()
+            ->groupBy('group')
+            ->map(fn (Collection $settings) => $settings->mapWithKeys(function (Setting $setting) {
+                return [$setting->key => $setting->typed_value];
+            }))
+            ->toArray();
+
+        return [
+            'site_info' => self::getSiteInfo(),
+            'business_stats' => self::getBusinessStats(),
+            'social_links' => self::getSocialLinks(),
+            'app_links' => self::getAppLinks(),
+            'seo' => self::getSeoSettings(),
+            'groups' => $groups,
         ];
     }
 }

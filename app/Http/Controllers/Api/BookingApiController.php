@@ -12,6 +12,9 @@ class BookingApiController extends Controller
 {
     use ApiResponseTrait;
 
+    /**
+     * Create a new appointment booking for the authenticated customer.
+     */
     public function submit(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -37,9 +40,30 @@ class BookingApiController extends Controller
         ]);
 
         return $this->successResponse(
-            $booking->load('customer.user'),
+            $this->serializeBooking($booking->load('customer.user')),
             'Booking submitted successfully.',
             201
         );
+    }
+
+    protected function serializeBooking(Booking $booking): array
+    {
+        return [
+            'id' => $booking->id,
+            'customer_id' => $booking->customer_id,
+            'booking_date' => $booking->booking_date,
+            'booking_time' => $booking->booking_time,
+            'status' => $booking->status,
+            'notes' => $booking->notes,
+            'admin_notes' => $booking->admin_notes,
+            'customer' => $booking->customer ? [
+                'id' => $booking->customer->id,
+                'full_name' => $booking->customer->full_name,
+                'email' => $booking->customer->email,
+                'phone' => $booking->customer->phone,
+            ] : null,
+            'created_at' => $booking->created_at?->toDateTimeString(),
+            'updated_at' => $booking->updated_at?->toDateTimeString(),
+        ];
     }
 }

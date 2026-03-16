@@ -126,6 +126,44 @@ class SettingSeeder extends Seeder
                 'is_public' => true,
             ],
 
+            // Mobile App Links
+            [
+                'key' => 'android_app_url',
+                'label' => 'رابط تطبيق أندرويد',
+                'value' => null,
+                'type' => 'text',
+                'group' => 'mobile',
+                'description' => 'رابط تحميل التطبيق من متجر أندرويد',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'ios_app_url',
+                'label' => 'رابط تطبيق iOS',
+                'value' => null,
+                'type' => 'text',
+                'group' => 'mobile',
+                'description' => 'رابط تحميل التطبيق من متجر آبل',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'privacy_policy_url',
+                'label' => 'رابط سياسة الخصوصية',
+                'value' => null,
+                'type' => 'text',
+                'group' => 'mobile',
+                'description' => 'رابط صفحة سياسة الخصوصية',
+                'is_public' => true,
+            ],
+            [
+                'key' => 'terms_conditions_url',
+                'label' => 'رابط الشروط والأحكام',
+                'value' => null,
+                'type' => 'text',
+                'group' => 'mobile',
+                'description' => 'رابط صفحة الشروط والأحكام',
+                'is_public' => true,
+            ],
+
             // SEO Settings
             [
                 'key' => 'meta_keywords',

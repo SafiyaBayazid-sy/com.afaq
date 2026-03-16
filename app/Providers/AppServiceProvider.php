@@ -12,6 +12,7 @@ use App\Repositories\BaseRepository;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -36,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Booking::observe(BookingObserver::class);
         Lead::observe(LeadObserver::class);
+        Gate::define('viewApiDocs', fn ($user = null) => app()->environment('local') || ($user && method_exists($user, 'isAdmin') && $user->isAdmin()));
         $this->configureDefaults();
     }
 
