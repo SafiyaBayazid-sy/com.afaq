@@ -7,7 +7,9 @@ use App\Filament\Resources\Projects\ProjectResource\Pages\EditProject;
 use App\Filament\Resources\Projects\ProjectResource\Pages\ListProjects;
 use App\Filament\Resources\Projects\ProjectResource\Pages\ViewProject;
 use App\Models\Project;
+use App\Services\TableCsvExporter;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -22,8 +24,10 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use UnitEnum;
 
 class ProjectResource extends Resource
@@ -153,6 +157,55 @@ class ProjectResource extends Resource
                 DeleteAction::make(),
             ])
             ->toolbarActions([
+                Action::make('export_csv')
+                    ->label('Export CSV')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(function (TableCsvExporter $csvExporter, $livewire): StreamedResponse {
+                        if (! $livewire instanceof HasTable) {
+                            abort(500, 'CSV export requires a table context.');
+                        }
+
+                        return $csvExporter->stream(
+                            query: $livewire->getTableQueryForExport(),
+                            fileName: 'projects-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            headings: [
+                                'ID',
+                                'Name',
+                                'Status',
+                                'Project Type',
+                                'Property Type',
+                                'Price',
+                                'Active',
+                                'Country',
+                                'State',
+                                'City',
+                                'Street',
+                                'Map Location',
+                                'Video URL',
+                                'Description',
+                                'Created At',
+                                'Updated At',
+                            ],
+                            mapRecord: fn (Project $record): array => [
+                                $record->id,
+                                $record->name,
+                                $record->project_status,
+                                $record->project_type,
+                                $record->property_type,
+                                $record->price,
+                                $record->is_active,
+                                $record->country,
+                                $record->state,
+                                $record->city,
+                                $record->street,
+                                $record->map_location,
+                                $record->video_url,
+                                $record->description,
+                                $record->created_at,
+                                $record->updated_at,
+                            ],
+                        );
+                    }),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

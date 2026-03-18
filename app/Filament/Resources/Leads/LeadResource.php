@@ -8,6 +8,7 @@ use App\Filament\Resources\Leads\LeadResource\Pages\ListLeads;
 use App\Filament\Resources\Leads\LeadResource\Pages\ViewLead;
 use App\Filament\Resources\Leads\LeadResource\RelationManagers\ActivitiesRelationManager;
 use App\Models\Lead;
+use App\Services\TableCsvExporter;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -24,9 +25,11 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use UnitEnum;
 
 class LeadResource extends Resource
@@ -269,6 +272,53 @@ class LeadResource extends Resource
                 DeleteAction::make(),
             ])
             ->toolbarActions([
+                Action::make('export_csv')
+                    ->label('Export CSV')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(function (TableCsvExporter $csvExporter, $livewire): StreamedResponse {
+                        if (! $livewire instanceof HasTable) {
+                            abort(500, 'CSV export requires a table context.');
+                        }
+
+                        return $csvExporter->stream(
+                            query: $livewire->getTableQueryForExport()->with(['assignee', 'campaign', 'customer.user']),
+                            fileName: 'leads-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            headings: [
+                                'ID',
+                                'Name',
+                                'Email',
+                                'Phone',
+                                'Source',
+                                'Status',
+                                'Assigned To',
+                                'Campaign',
+                                'Linked Customer',
+                                'External ID',
+                                'Received At',
+                                'Last Activity At',
+                                'Created At',
+                                'Notes',
+                                'Metadata',
+                            ],
+                            mapRecord: fn (Lead $record): array => [
+                                $record->id,
+                                $record->name,
+                                $record->email,
+                                $record->phone,
+                                Lead::SOURCES[$record->source] ?? $record->source,
+                                Lead::STATUSES[$record->status] ?? $record->status,
+                                $record->assignee?->name,
+                                $record->campaign?->name,
+                                $record->customer?->full_name,
+                                $record->external_id,
+                                $record->received_at,
+                                $record->last_activity_at,
+                                $record->created_at,
+                                $record->notes,
+                                $record->metadata,
+                            ],
+                        );
+                    }),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

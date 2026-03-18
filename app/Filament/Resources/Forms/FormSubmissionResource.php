@@ -5,7 +5,9 @@ namespace App\Filament\Resources\Forms;
 use App\Filament\Resources\Forms\FormSubmissionResource\Pages\ListFormSubmissions;
 use App\Filament\Resources\Forms\FormSubmissionResource\Pages\ViewFormSubmission;
 use App\Models\FormSubmission;
+use App\Services\TableCsvExporter;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -16,8 +18,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use UnitEnum;
 
 class FormSubmissionResource extends Resource
@@ -155,6 +159,53 @@ class FormSubmissionResource extends Resource
                 DeleteAction::make(),
             ])
             ->toolbarActions([
+                Action::make('export_csv')
+                    ->label('Export CSV')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(function (TableCsvExporter $csvExporter, $livewire): StreamedResponse {
+                        if (! $livewire instanceof HasTable) {
+                            abort(500, 'CSV export requires a table context.');
+                        }
+
+                        return $csvExporter->stream(
+                            query: $livewire->getTableQueryForExport()
+                                ->with(['template', 'customer.user'])
+                                ->withCount('answers'),
+                            fileName: 'form-submissions-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            headings: [
+                                'ID',
+                                'Form',
+                                'Submitted By',
+                                'Customer Email',
+                                'Lead Name',
+                                'Lead Email',
+                                'Lead Phone',
+                                'Source',
+                                'Answers',
+                                'Submitted At',
+                                'Meta',
+                            ],
+                            mapRecord: fn (FormSubmission $record): array => [
+                                $record->id,
+                                $record->template?->name,
+                                $record->submitter_name,
+                                $record->customer?->user?->email,
+                                $record->lead_name,
+                                $record->lead_email,
+                                $record->lead_phone,
+                                match ($record->source) {
+                                    'web' => 'Website',
+                                    'app' => 'Mobile App',
+                                    'api' => 'API',
+                                    'admin' => 'Admin',
+                                    default => $record->source,
+                                },
+                                $record->answers_count,
+                                $record->submitted_at,
+                                $record->meta,
+                            ],
+                        );
+                    }),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
@@ -177,4 +228,3 @@ class FormSubmissionResource extends Resource
         ];
     }
 }
-

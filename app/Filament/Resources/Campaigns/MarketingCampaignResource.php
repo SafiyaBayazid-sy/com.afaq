@@ -7,7 +7,9 @@ use App\Filament\Resources\Campaigns\MarketingCampaignResource\Pages\EditMarketi
 use App\Filament\Resources\Campaigns\MarketingCampaignResource\Pages\ListMarketingCampaigns;
 use App\Filament\Resources\Campaigns\MarketingCampaignResource\Pages\ViewMarketingCampaign;
 use App\Models\MarketingCampaign;
+use App\Services\TableCsvExporter;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -20,8 +22,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use UnitEnum;
 
 class MarketingCampaignResource extends Resource
@@ -124,6 +128,49 @@ class MarketingCampaignResource extends Resource
                 DeleteAction::make(),
             ])
             ->toolbarActions([
+                Action::make('export_csv')
+                    ->label('Export CSV')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(function (TableCsvExporter $csvExporter, $livewire): StreamedResponse {
+                        if (! $livewire instanceof HasTable) {
+                            abort(500, 'CSV export requires a table context.');
+                        }
+
+                        return $csvExporter->stream(
+                            query: $livewire->getTableQueryForExport()->withCount('leads'),
+                            fileName: 'campaigns-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            headings: [
+                                'ID',
+                                'Name',
+                                'Platform',
+                                'UTM Source',
+                                'UTM Medium',
+                                'UTM Campaign',
+                                'Budget',
+                                'Start Date',
+                                'End Date',
+                                'Leads',
+                                'Notes',
+                                'Created At',
+                                'Updated At',
+                            ],
+                            mapRecord: fn (MarketingCampaign $record): array => [
+                                $record->id,
+                                $record->name,
+                                $record->platform,
+                                $record->utm_source,
+                                $record->utm_medium,
+                                $record->utm_campaign,
+                                $record->budget,
+                                $record->start_date,
+                                $record->end_date,
+                                $record->leads_count,
+                                $record->notes,
+                                $record->created_at,
+                                $record->updated_at,
+                            ],
+                        );
+                    }),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

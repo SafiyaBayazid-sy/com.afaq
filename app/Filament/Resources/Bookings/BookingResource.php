@@ -8,6 +8,7 @@ use App\Filament\Resources\Bookings\BookingResource\Pages\ListBookings;
 use App\Filament\Resources\Bookings\BookingResource\Pages\ViewBooking;
 use App\Filament\Resources\Bookings\BookingResource\RelationManagers\HistoriesRelationManager;
 use App\Models\Booking;
+use App\Services\TableCsvExporter;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -23,8 +24,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use UnitEnum;
 
 class BookingResource extends Resource
@@ -183,6 +186,41 @@ class BookingResource extends Resource
                 DeleteAction::make(),
             ])
             ->toolbarActions([
+                Action::make('export_csv')
+                    ->label('Export CSV')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(function (TableCsvExporter $csvExporter, $livewire): StreamedResponse {
+                        if (! $livewire instanceof HasTable) {
+                            abort(500, 'CSV export requires a table context.');
+                        }
+
+                        return $csvExporter->stream(
+                            query: $livewire->getTableQueryForExport()->with('customer.user'),
+                            fileName: 'bookings-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            headings: [
+                                'ID',
+                                'Customer',
+                                'Booking Date',
+                                'Booking Time',
+                                'Status',
+                                'Notes',
+                                'Admin Notes',
+                                'Created At',
+                                'Updated At',
+                            ],
+                            mapRecord: fn (Booking $record): array => [
+                                $record->id,
+                                $record->customer?->full_name,
+                                $record->booking_date,
+                                $record->booking_time,
+                                ucfirst((string) $record->status),
+                                $record->notes,
+                                $record->admin_notes,
+                                $record->created_at,
+                                $record->updated_at,
+                            ],
+                        );
+                    }),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

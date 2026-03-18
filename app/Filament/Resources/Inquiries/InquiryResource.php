@@ -7,7 +7,9 @@ use App\Filament\Resources\Inquiries\InquiryResource\Pages\EditInquiry;
 use App\Filament\Resources\Inquiries\InquiryResource\Pages\ListInquiries;
 use App\Filament\Resources\Inquiries\InquiryResource\Pages\ViewInquiry;
 use App\Models\Inquiry;
+use App\Services\TableCsvExporter;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -19,8 +21,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use UnitEnum;
 
 class InquiryResource extends Resource
@@ -154,6 +158,39 @@ class InquiryResource extends Resource
                 DeleteAction::make(),
             ])
             ->toolbarActions([
+                Action::make('export_csv')
+                    ->label('Export CSV')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(function (TableCsvExporter $csvExporter, $livewire): StreamedResponse {
+                        if (! $livewire instanceof HasTable) {
+                            abort(500, 'CSV export requires a table context.');
+                        }
+
+                        return $csvExporter->stream(
+                            query: $livewire->getTableQueryForExport()->with(['customer.user', 'category']),
+                            fileName: 'inquiries-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            headings: [
+                                'ID',
+                                'Customer',
+                                'Category',
+                                'Status',
+                                'Message',
+                                'Admin Notes',
+                                'Created At',
+                                'Updated At',
+                            ],
+                            mapRecord: fn (Inquiry $record): array => [
+                                $record->id,
+                                $record->customer?->full_name,
+                                $record->category?->name,
+                                ucfirst((string) $record->status),
+                                $record->message,
+                                $record->admin_notes,
+                                $record->created_at,
+                                $record->updated_at,
+                            ],
+                        );
+                    }),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
