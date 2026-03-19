@@ -1,0 +1,604 @@
+{
+  "info": {
+    "_postman_id": "2b4bcfde-c5a8-4ae3-af6a-afaq-customer-api-collection",
+    "name": "AFAQ Customer API",
+    "description": "Postman collection for the AFAQ customer mobile API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "api_base_url",
+      "value": "http://127.0.0.1:8000/api/v1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const json = pm.response.json();",
+                  "  if (json?.data?.token) {",
+                  "    pm.environment.set('auth_token', json.data.token);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mobile Customer\",\n  \"email\": \"{{customer_email}}\",\n  \"password\": \"{{customer_password}}\",\n  \"phone\": \"0500000000\",\n  \"source\": \"other\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_base_url}}/auth/register",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Create a customer account and save the returned bearer token to the active Postman environment."
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  if (json?.data?.token) {",
+                  "    pm.environment.set('auth_token', json.data.token);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{customer_email}}\",\n  \"password\": \"{{customer_password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_base_url}}/auth/login",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Log in an existing customer and store the bearer token in the active Postman environment."
+          }
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  pm.environment.unset('auth_token');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/auth/logout",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Revoke the current bearer token and clear it from the Postman environment."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "List Projects",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/projects?search=Riyadh&city=Riyadh&project_type=construction&sort_by=price&sort_direction=asc",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Riyadh"
+                },
+                {
+                  "key": "city",
+                  "value": "Riyadh"
+                },
+                {
+                  "key": "project_type",
+                  "value": "construction"
+                },
+                {
+                  "key": "sort_by",
+                  "value": "price"
+                },
+                {
+                  "key": "sort_direction",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "Browse projects with optional search, filtering, sorting, and pagination."
+          }
+        },
+        {
+          "name": "Project Filters",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/projects/filters",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "projects",
+                "filters"
+              ]
+            },
+            "description": "Get the supported project filter values for the mobile app UI."
+          }
+        },
+        {
+          "name": "Project Details",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/projects/{{project_id}}",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "projects",
+                "{{project_id}}"
+              ]
+            },
+            "description": "Get full details for a single project."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Content & Settings",
+      "item": [
+        {
+          "name": "Public Settings",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/settings/public",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "settings",
+                "public"
+              ]
+            },
+            "description": "Get public app settings like contact info, social links, and store URLs."
+          }
+        },
+        {
+          "name": "List Content Pages",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/content/pages",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "content",
+                "pages"
+              ]
+            },
+            "description": "List the content pages available to the customer app."
+          }
+        },
+        {
+          "name": "Content Page Details",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/content/pages/app-download",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "content",
+                "pages",
+                "app-download"
+              ]
+            },
+            "description": "Get one content page, for example the app-download page."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customer Account",
+      "item": [
+        {
+          "name": "My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/my/profile",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "my",
+                "profile"
+              ]
+            },
+            "description": "Return the authenticated customer's profile."
+          }
+        },
+        {
+          "name": "My Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/my/notifications",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "my",
+                "notifications"
+              ]
+            },
+            "description": "List notifications for the authenticated customer."
+          }
+        },
+        {
+          "name": "Mark Notification Read",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/my/notifications/{{notification_id}}/read",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "my",
+                "notifications",
+                "{{notification_id}}",
+                "read"
+              ]
+            },
+            "description": "Mark a notification as read."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings & Inquiries",
+      "item": [
+        {
+          "name": "Submit Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"booking_date\": \"2026-03-25\",\n  \"booking_time\": \"10:30\",\n  \"notes\": \"Morning slot preferred\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_base_url}}/bookings",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "bookings"
+              ]
+            },
+            "description": "Create a new booking for the authenticated customer."
+          }
+        },
+        {
+          "name": "Submit Inquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"I need more details about this project.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_base_url}}/inquiries",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "inquiries"
+              ]
+            },
+            "description": "Submit a new inquiry for the authenticated customer."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Device Tokens",
+      "item": [
+        {
+          "name": "List Device Tokens",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/my/device-tokens",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "my",
+                "device-tokens"
+              ]
+            },
+            "description": "List device tokens registered for the authenticated customer."
+          }
+        },
+        {
+          "name": "Save Device Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{device_token}}\",\n  \"platform\": \"{{device_platform}}\",\n  \"device_name\": \"Pixel 8\",\n  \"app_version\": \"1.0.0\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_base_url}}/my/device-tokens",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "my",
+                "device-tokens"
+              ]
+            },
+            "description": "Register or refresh a push-notification device token."
+          }
+        },
+        {
+          "name": "Delete Device Token",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{api_base_url}}/my/device-tokens/1",
+              "host": [
+                "{{api_base_url}}"
+              ],
+              "path": [
+                "my",
+                "device-tokens",
+                "1"
+              ]
+            },
+            "description": "Delete one registered device token by id. Replace the last segment with the returned id from the list/save response."
+          }
+        }
+      ]
+    }
+  ]
+}
