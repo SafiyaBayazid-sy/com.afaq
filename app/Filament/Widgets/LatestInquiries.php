@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class LatestInquiries extends TableWidget
 {
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected static ?int $sort = 3;
 

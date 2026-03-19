@@ -18,16 +18,16 @@ class BookingApiController extends Controller
     public function submit(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
             'booking_date' => ['required', 'date', 'after_or_equal:today'],
             'booking_time' => ['required', 'date_format:H:i'],
             'notes' => ['nullable', 'string'],
         ]);
 
-        $customerId = $request->user()?->customerProfile?->id ?? ($validated['customer_id'] ?? null);
+        $user = $request->user()?->loadMissing('customerProfile');
+        $customerId = $user?->customerProfile?->id;
 
         if (! $customerId) {
-            return $this->errorResponse('Customer context is required.', 422);
+            return $this->errorResponse('Customer account required.', 403);
         }
 
         $booking = Booking::create([

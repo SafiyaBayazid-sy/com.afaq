@@ -29,16 +29,13 @@ class ProjectApiController extends Controller
             'max_price' => ['nullable', 'numeric', 'min:0'],
             'sort_by' => ['nullable', Rule::in(['created_at', 'name', 'price'])],
             'sort_direction' => ['nullable', Rule::in(['asc', 'desc'])],
-            'include_inactive' => ['nullable', 'boolean'],
         ]);
 
         $perPage = (int) ($validated['per_page'] ?? 10);
 
-        $query = Project::query()->with('images');
-
-        if (! $request->boolean('include_inactive')) {
-            $query->where('is_active', true);
-        }
+        $query = Project::query()
+            ->with('images')
+            ->where('is_active', true);
 
         if (! empty($validated['search'])) {
             $search = trim($validated['search']);
@@ -128,6 +125,10 @@ class ProjectApiController extends Controller
      */
     public function show(Project $project): JsonResponse
     {
+        if (! $project->is_active) {
+            return $this->errorResponse('Project not found.', 404);
+        }
+
         return $this->successResponse(
             $this->serializeProject($project->load('images', 'mainImage')),
             'Project retrieved successfully.'

@@ -51,4 +51,27 @@ class AppDownloadLinkApiTest extends TestCase
 
         Mail::assertNothingSent();
     }
+
+    public function test_it_is_rate_limited(): void
+    {
+        Mail::fake();
+
+        Setting::create([
+            'key' => 'android_app_url',
+            'value' => 'https://play.google.com/store/apps/details?id=com.afaq',
+            'type' => 'text',
+            'group' => 'mobile',
+            'is_public' => true,
+        ]);
+
+        for ($attempt = 0; $attempt < 3; $attempt++) {
+            $this->postJson('/api/v1/app-link/request', [
+                'email' => "user{$attempt}@example.com",
+            ])->assertOk();
+        }
+
+        $this->postJson('/api/v1/app-link/request', [
+            'email' => 'blocked@example.com',
+        ])->assertStatus(429);
+    }
 }

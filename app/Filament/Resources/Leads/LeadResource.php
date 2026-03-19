@@ -19,8 +19,8 @@ use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -262,7 +262,7 @@ class LeadResource extends Resource
                         $record->status = $data['status'];
 
                         if ($newNote !== '') {
-                            $record->notes = trim($currentNotes . "\n" . now()->toDateTimeString() . ': ' . $newNote);
+                            $record->notes = trim($currentNotes."\n".now()->toDateTimeString().': '.$newNote);
                         }
 
                         $record->save();
@@ -282,7 +282,7 @@ class LeadResource extends Resource
 
                         return $csvExporter->stream(
                             query: $livewire->getTableQueryForExport()->with(['assignee', 'campaign', 'customer.user']),
-                            fileName: 'leads-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            fileName: 'leads-'.now()->format('Y-m-d_H-i-s').'.csv',
                             headings: [
                                 'ID',
                                 'Name',

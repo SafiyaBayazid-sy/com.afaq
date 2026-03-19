@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Filament\Models\Contracts\FilamentUser;
@@ -6,13 +7,25 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable,TwoFactorAuthenticatable, HasRoles;
+    use HasApiTokens, HasFactory, HasRoles,Notifiable, TwoFactorAuthenticatable;
+
+    public const CUSTOMER_TOKEN_ABILITIES = [
+        'customer:auth',
+        'customer:profile:read',
+        'customer:notifications:read',
+        'customer:notifications:update',
+        'customer:device-tokens:manage',
+        'customer:bookings:create',
+        'customer:inquiries:create',
+        'customer:orders:create',
+        'customer:orders:read',
+    ];
 
     protected $fillable = [
         'name',
@@ -22,12 +35,11 @@ class User extends Authenticatable implements FilamentUser
         'is_active',
     ];
 
-     /**
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
-
     protected $hidden = [
         'password',
         'two_factor_secret',
@@ -43,7 +55,7 @@ class User extends Authenticatable implements FilamentUser
 
     ];
 
-     /**
+    /**
      * Determine if the user can access the Filament panel
      */
     public function canAccessPanel(Panel $panel): bool
@@ -52,7 +64,6 @@ class User extends Authenticatable implements FilamentUser
         // Must be active and have user_type = 'admin'
         return $this->is_active && $this->user_type === 'admin';
     }
-    
 
     // العلاقات
     public function customerProfile()
@@ -117,7 +128,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->is_active ? 'نشط' : 'غير نشط';
     }
 
-     // Check if user is admin
+    // Check if user is admin
     public function isAdmin(): bool
     {
         return $this->user_type === 'admin';
@@ -129,4 +140,16 @@ class User extends Authenticatable implements FilamentUser
         return $this->user_type === 'customer';
     }
 
+    public static function customerTokenAbilities(): array
+    {
+        return self::CUSTOMER_TOKEN_ABILITIES;
+    }
+
+    public function issueCustomerToken(string $tokenName): string
+    {
+        $expiration = config('sanctum.expiration');
+        $expiresAt = filled($expiration) ? now()->addMinutes((int) $expiration) : null;
+
+        return $this->createToken($tokenName, self::customerTokenAbilities(), $expiresAt)->plainTextToken;
+    }
 }

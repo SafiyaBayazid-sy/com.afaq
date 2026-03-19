@@ -9,16 +9,13 @@ use App\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class LeadHubController extends Controller
 {
     use ApiResponseTrait;
 
-    public function __construct(protected LeadHubService $leadHubService)
-    {
-    }
+    public function __construct(protected LeadHubService $leadHubService) {}
 
     public function storeFromMobile(Request $request): JsonResponse
     {
@@ -46,10 +43,6 @@ class LeadHubController extends Controller
             'name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:30'],
-            'status' => ['nullable', Rule::in(array_keys(Lead::STATUSES))],
-            'assigned_to' => ['nullable', 'integer', 'exists:users,id'],
-            'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
-            'campaign_id' => ['nullable', 'integer', 'exists:marketing_campaigns,id'],
             'external_id' => ['nullable', 'string', 'max:255'],
             'notes' => ['nullable', 'string'],
             'metadata' => ['nullable', 'array'],
@@ -77,12 +70,16 @@ class LeadHubController extends Controller
 
     protected function storeWebhookLead(Request $request, string $provider): JsonResponse
     {
+        if ($authorizationFailure = $this->validateWebhookAuthorization($request, $provider)) {
+            return $authorizationFailure;
+        }
+
         try {
             $lead = $this->leadHubService->createFromWebhook($request->all(), $provider);
 
             return $this->successResponse(
                 $this->serializeLead($lead),
-                ucfirst($provider) . ' webhook processed successfully.',
+                ucfirst($provider).' webhook processed successfully.',
                 201
             );
         } catch (\Throwable $exception) {
@@ -90,6 +87,24 @@ class LeadHubController extends Controller
 
             return $this->errorResponse('Unable to process webhook right now.', 500);
         }
+    }
+
+    protected function validateWebhookAuthorization(Request $request, string $provider): ?JsonResponse
+    {
+        $configuredSecret = config("services.leads.webhooks.{$provider}");
+
+        if (! is_string($configuredSecret) || $configuredSecret === '') {
+            return $this->errorResponse('Webhook integration is not configured.', 503);
+        }
+
+        $providedSecret = $request->headers->get('X-Afaq-Webhook-Secret')
+            ?? $request->headers->get('X-Webhook-Secret');
+
+        if (! is_string($providedSecret) || $providedSecret === '' || ! hash_equals($configuredSecret, $providedSecret)) {
+            return $this->errorResponse('Invalid webhook signature.', 403);
+        }
+
+        return null;
     }
 
     protected function serializeLead(Lead $lead): array

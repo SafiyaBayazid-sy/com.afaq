@@ -12,6 +12,7 @@
 /vendor
 .DS_Store
 .env
+.env.docs
 .env.backup
 .env.production
 .phpactor.json
@@ -27,3 +28,4 @@ yarn-error.log
 /.vscode
 /.zed
 /database/docs.sqlite
+/afaq_project.sql

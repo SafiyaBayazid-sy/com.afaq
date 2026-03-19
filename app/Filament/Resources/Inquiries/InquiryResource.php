@@ -168,7 +168,7 @@ class InquiryResource extends Resource
 
                         return $csvExporter->stream(
                             query: $livewire->getTableQueryForExport()->with(['customer.user', 'category']),
-                            fileName: 'inquiries-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            fileName: 'inquiries-'.now()->format('Y-m-d_H-i-s').'.csv',
                             headings: [
                                 'ID',
                                 'Customer',

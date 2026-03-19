@@ -12,9 +12,9 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Table;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CustomersTable
@@ -48,7 +48,7 @@ class CustomersTable
                     })
                     ->weight('medium')
                     ->icon('heroicon-m-user'),
-                    
+
                 TextColumn::make('user.email')
                     ->label('Email')
                     ->searchable(query: function ($query, $search) {
@@ -57,7 +57,7 @@ class CustomersTable
                         });
                     })
                     ->icon('heroicon-m-envelope'),
-                    
+
                 IconColumn::make('user.is_active')
                     ->label('Active')
                     ->boolean()
@@ -65,14 +65,14 @@ class CustomersTable
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
                     ->falseColor('danger'),
-                
+
                 // Customer columns
                 TextColumn::make('phone')
                     ->searchable()
                     ->icon('heroicon-m-phone')
                     ->copyable()
                     ->copyMessage('Phone copied!'),
-                    
+
                 TextColumn::make('source')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -85,14 +85,14 @@ class CustomersTable
                         default => 'secondary',
                     })
                     ->formatStateUsing(fn (string $state): string => ucwords(str_replace('_', ' ', $state))),
-                
+
                 // Timestamps
                 TextColumn::make('created_at')
                     ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->icon('heroicon-m-calendar'),
-                    
+
                 TextColumn::make('updated_at')
                     ->dateTime('Y-m-d H:i')
                     ->sortable()
@@ -109,7 +109,7 @@ class CustomersTable
                         true: fn ($query) => $query->whereHas('user', fn ($q) => $q->where('is_active', true)),
                         false: fn ($query) => $query->whereHas('user', fn ($q) => $q->where('is_active', false)),
                     ),
-                
+
                 SelectFilter::make('source')
                     ->options(self::SOURCE_OPTIONS)
                     ->multiple(),
@@ -129,7 +129,7 @@ class CustomersTable
 
                         return $csvExporter->stream(
                             query: $livewire->getTableQueryForExport()->with('user'),
-                            fileName: 'customers-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            fileName: 'customers-'.now()->format('Y-m-d_H-i-s').'.csv',
                             headings: [
                                 'ID',
                                 'Name',

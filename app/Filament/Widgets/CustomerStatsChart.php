@@ -14,7 +14,7 @@ class CustomerStatsChart extends ChartWidget
 
     protected ?string $maxHeight = '300px';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getData(): array
     {
@@ -28,7 +28,7 @@ class CustomerStatsChart extends ChartWidget
 
             $customerCounts[] = Customer::whereHas('user', function ($query) use ($month) {
                 $query->whereYear('created_at', $month->year)
-                      ->whereMonth('created_at', $month->month);
+                    ->whereMonth('created_at', $month->month);
             })->count();
         }
 

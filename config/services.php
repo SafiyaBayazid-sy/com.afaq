@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'leads' => [
+        'webhooks' => [
+            'facebook' => env('FACEBOOK_LEAD_WEBHOOK_SECRET'),
+            'google' => env('GOOGLE_LEAD_WEBHOOK_SECRET'),
+        ],
+    ],
+
 ];

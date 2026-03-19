@@ -25,7 +25,7 @@ class EditCustomer extends EditRecord
         parent::mount($record);
 
         // Ensure the user relationship is loaded
-        if ($this->record && !$this->record->relationLoaded('user')) {
+        if ($this->record && ! $this->record->relationLoaded('user')) {
             $this->record->load('user');
         }
     }

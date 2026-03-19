@@ -19,14 +19,14 @@ class InquiryApiController extends Controller
     {
         $validated = $request->validate([
             'category_id' => ['nullable', 'integer', 'exists:inquiry_categories,id'],
-            'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
             'message' => ['required', 'string'],
         ]);
 
-        $customerId = $request->user()?->customerProfile?->id ?? ($validated['customer_id'] ?? null);
+        $user = $request->user()?->loadMissing('customerProfile');
+        $customerId = $user?->customerProfile?->id;
 
         if (! $customerId) {
-            return $this->errorResponse('Customer context is required.', 422);
+            return $this->errorResponse('Customer account required.', 403);
         }
 
         $inquiry = Inquiry::create([

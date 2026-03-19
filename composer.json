@@ -72,6 +72,8 @@
             "@test"
         ],
         "docs:api": [
+            "@php -r \"file_exists('.env.docs') || copy('.env.docs.example', '.env.docs');\"",
+            "@php artisan key:generate --env=docs --force",
             "@php -r \"file_exists('database/docs.sqlite') || touch('database/docs.sqlite');\"",
             "@php artisan migrate --env=docs --force",
             "@php artisan scramble:export --env=docs --path=docs/api.json"

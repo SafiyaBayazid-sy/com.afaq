@@ -52,7 +52,7 @@ class AuthController extends Controller
                 'source' => $validated['source'] ?? 'other',
             ]);
 
-            $token = $user->createToken('mobile-auth-token', ['*'])->plainTextToken;
+            $token = $user->issueCustomerToken('mobile-auth-token');
 
             return [
                 'user' => $this->serializeUser($user->load('customerProfile')),
@@ -85,7 +85,7 @@ class AuthController extends Controller
         }
 
         $user->tokens()->delete();
-        $token = $user->createToken('mobile-auth-token', ['*'])->plainTextToken;
+        $token = $user->issueCustomerToken('mobile-auth-token');
 
         return $this->successResponse([
             'user' => $this->serializeUser($user->load('customerProfile')),

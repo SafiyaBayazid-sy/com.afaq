@@ -171,7 +171,7 @@ class FormSubmissionResource extends Resource
                             query: $livewire->getTableQueryForExport()
                                 ->with(['template', 'customer.user'])
                                 ->withCount('answers'),
-                            fileName: 'form-submissions-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            fileName: 'form-submissions-'.now()->format('Y-m-d_H-i-s').'.csv',
                             headings: [
                                 'ID',
                                 'Form',

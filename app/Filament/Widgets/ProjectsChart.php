@@ -4,14 +4,12 @@ namespace App\Filament\Widgets;
 
 use App\Models\Project;
 use Filament\Widgets\ChartWidget;
-use Flowframe\Trend\Trend;
-use Flowframe\Trend\TrendValue;
 
 class ProjectsChart extends ChartWidget
 {
-    protected  ?string $heading = 'Projects Distribution';
+    protected ?string $heading = 'Projects Distribution';
 
-        protected static ?int $sort = 2;
+    protected static ?int $sort = 2;
 
     protected function getData(): array
     {
@@ -44,7 +42,7 @@ class ProjectsChart extends ChartWidget
                     ],
                 ],
             ],
-            'labels' => array_map(function($status) use ($statusLabels) {
+            'labels' => array_map(function ($status) use ($statusLabels) {
                 return $statusLabels[$status] ?? ucfirst(str_replace('_', ' ', $status));
             }, array_keys($projectsByStatus)),
         ];

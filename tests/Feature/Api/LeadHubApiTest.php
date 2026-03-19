@@ -16,6 +16,10 @@ class LeadHubApiTest extends TestCase
             'name' => 'Lead From App',
             'email' => 'lead@app.com',
             'phone' => '0555000001',
+            'status' => 'converted',
+            'assigned_to' => 999,
+            'customer_id' => 999,
+            'campaign_id' => 999,
             'notes' => 'Interested in premium package',
             'metadata' => [
                 'platform' => 'ios',
@@ -26,7 +30,10 @@ class LeadHubApiTest extends TestCase
             ->assertStatus(201)
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.source', 'mobile_app')
-            ->assertJsonPath('data.status', 'new');
+            ->assertJsonPath('data.status', 'new')
+            ->assertJsonPath('data.assigned_to', null)
+            ->assertJsonPath('data.customer_id', null)
+            ->assertJsonPath('data.campaign_id', null);
 
         $this->assertDatabaseHas('leads', [
             'email' => 'lead@app.com',
@@ -58,6 +65,8 @@ class LeadHubApiTest extends TestCase
 
     public function test_facebook_webhook_deduplicates_by_external_id(): void
     {
+        config()->set('services.leads.webhooks.facebook', 'facebook-secret');
+
         $payload = [
             'leadgen_id' => 'fb-123',
             'campaign_name' => 'Spring Campaign',
@@ -77,8 +86,10 @@ class LeadHubApiTest extends TestCase
             ],
         ];
 
-        $this->postJson('/api/v1/leads/webhooks/facebook', $payload)->assertStatus(201);
-        $this->postJson('/api/v1/leads/webhooks/facebook', $payload)->assertStatus(201);
+        $headers = ['X-Afaq-Webhook-Secret' => 'facebook-secret'];
+
+        $this->postJson('/api/v1/leads/webhooks/facebook', $payload, $headers)->assertStatus(201);
+        $this->postJson('/api/v1/leads/webhooks/facebook', $payload, $headers)->assertStatus(201);
 
         $this->assertEquals(1, Lead::query()->where('source', 'facebook')->count());
 
@@ -89,6 +100,8 @@ class LeadHubApiTest extends TestCase
 
     public function test_google_webhook_maps_user_column_data(): void
     {
+        config()->set('services.leads.webhooks.google', 'google-secret');
+
         $response = $this->postJson('/api/v1/leads/webhooks/google', [
             'lead_id' => 'gg-321',
             'form_name' => 'Google Lead Form',
@@ -106,6 +119,8 @@ class LeadHubApiTest extends TestCase
                     'string_value' => '0555333444',
                 ],
             ],
+        ], [
+            'X-Afaq-Webhook-Secret' => 'google-secret',
         ]);
 
         $response
@@ -119,5 +134,18 @@ class LeadHubApiTest extends TestCase
             'email' => 'google@lead.com',
             'name' => 'Google Lead',
         ]);
+    }
+
+    public function test_facebook_webhook_requires_shared_secret(): void
+    {
+        config()->set('services.leads.webhooks.facebook', 'facebook-secret');
+
+        $response = $this->postJson('/api/v1/leads/webhooks/facebook', [
+            'leadgen_id' => 'fb-unauthorized',
+        ]);
+
+        $response
+            ->assertForbidden()
+            ->assertJsonPath('success', false);
     }
 }

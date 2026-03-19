@@ -123,8 +123,7 @@ class FormBuilderService
             'lead_name' => ['nullable', 'string', 'max:255'],
             'lead_email' => ['nullable', 'email', 'max:255'],
             'lead_phone' => ['nullable', 'string', 'max:30'],
-            'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
-            'source' => ['nullable', Rule::in(['web', 'app', 'api', 'admin'])],
+            'source' => ['nullable', Rule::in(['web', 'app', 'api'])],
             'meta' => ['nullable', 'array'],
             'answers' => ['required', 'array'],
         ];
@@ -237,10 +236,6 @@ class FormBuilderService
 
     protected function resolveCustomerId(array $validatedPayload, ?User $user = null): ?int
     {
-        if (! empty($validatedPayload['customer_id'])) {
-            return (int) $validatedPayload['customer_id'];
-        }
-
         if ($user) {
             $customerId = $user->customerProfile()->value('id');
 
@@ -296,7 +291,3 @@ class FormBuilderService
         return is_null($value) || $value === '' || (is_array($value) && $value === []);
     }
 }
-
-
-
-

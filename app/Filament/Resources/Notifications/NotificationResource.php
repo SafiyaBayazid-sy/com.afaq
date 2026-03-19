@@ -139,7 +139,7 @@ class NotificationResource extends Resource
 
                         return $csvExporter->stream(
                             query: $livewire->getTableQueryForExport()->with('user'),
-                            fileName: 'notifications-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            fileName: 'notifications-'.now()->format('Y-m-d_H-i-s').'.csv',
                             headings: [
                                 'ID',
                                 'User',

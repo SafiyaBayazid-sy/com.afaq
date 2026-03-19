@@ -5,14 +5,9 @@ namespace App\Filament\Pages;
 use BackedEnum;
 use Filament\Pages\Dashboard as BaseDashboard;
 
-
-
-
-
 class Dashboard extends BaseDashboard
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-home';
-
 
     // protected static ?string $title = 'لوحة التحكم';
 
@@ -33,7 +28,6 @@ class Dashboard extends BaseDashboard
             \App\Filament\Widgets\LatestBookings::class,
         ];
     }
-
 
     // public function getColumns(): int | string | array
     // {

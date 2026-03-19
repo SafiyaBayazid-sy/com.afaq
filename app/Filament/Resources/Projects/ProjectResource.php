@@ -16,8 +16,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -167,7 +167,7 @@ class ProjectResource extends Resource
 
                         return $csvExporter->stream(
                             query: $livewire->getTableQueryForExport(),
-                            fileName: 'projects-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            fileName: 'projects-'.now()->format('Y-m-d_H-i-s').'.csv',
                             headings: [
                                 'ID',
                                 'Name',

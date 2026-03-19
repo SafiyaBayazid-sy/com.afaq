@@ -17,13 +17,13 @@ class LeadHubService
             'name' => Arr::get($payload, 'name'),
             'email' => Arr::get($payload, 'email'),
             'phone' => Arr::get($payload, 'phone'),
-            'status' => Arr::get($payload, 'status', 'new'),
-            'assigned_to' => Arr::get($payload, 'assigned_to'),
-            'campaign_id' => Arr::get($payload, 'campaign_id'),
+            'status' => 'new',
+            'assigned_to' => null,
+            'campaign_id' => null,
             'notes' => Arr::get($payload, 'notes'),
             'metadata' => Arr::get($payload, 'metadata', []),
             'received_at' => now(),
-            'customer_id' => Arr::get($payload, 'customer_id'),
+            'customer_id' => null,
         ];
 
         return $this->persistLead(

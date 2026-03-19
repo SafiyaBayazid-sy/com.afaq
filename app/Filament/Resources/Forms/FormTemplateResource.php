@@ -18,8 +18,8 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -245,7 +245,7 @@ class FormTemplateResource extends Resource
                         return $csvExporter->stream(
                             query: $livewire->getTableQueryForExport()
                                 ->withCount(['fields', 'submissions']),
-                            fileName: 'form-templates-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            fileName: 'form-templates-'.now()->format('Y-m-d_H-i-s').'.csv',
                             headings: [
                                 'ID',
                                 'Name',

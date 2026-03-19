@@ -88,7 +88,7 @@ class PdfContractApiTest extends TestCase
             'source' => 'other',
         ]);
 
-        Sanctum::actingAs($user);
+        Sanctum::actingAs($user, User::customerTokenAbilities());
 
         $inspectionResponse = $this->postJson('/api/inspections/store', [
             'authorized_person' => 'أحمد محمد',

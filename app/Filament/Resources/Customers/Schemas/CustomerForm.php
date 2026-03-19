@@ -7,7 +7,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Log;
 
 class CustomerForm
 {
@@ -37,6 +36,7 @@ class CustomerForm
                                 if ($record && $record->user) {
                                     $rule->ignore($record->user->id);
                                 }
+
                                 return $rule;
                             })
                             ->afterStateHydrated(function ($component, $state, $record) {
@@ -58,7 +58,7 @@ class CustomerForm
                             ->label('Password')
                             ->password()
                             ->required(fn ($context) => $context === 'create')
-                            ->hidden(fn ($context) => $context === 'edit' && !request()->routeIs('filament.admin.resources.customers.edit'))
+                            ->hidden(fn ($context) => $context === 'edit' && ! request()->routeIs('filament.admin.resources.customers.edit'))
                             ->dehydrated(fn ($state) => filled($state))
                             ->dehydrateStateUsing(fn ($state) => bcrypt($state)),
                     ])

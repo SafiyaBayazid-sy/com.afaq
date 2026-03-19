@@ -67,6 +67,20 @@ class CustomerAppApiTest extends TestCase
             ->assertJsonPath('data.property_types.0.value', 'villa');
     }
 
+    public function test_inactive_project_detail_is_not_publicly_accessible(): void
+    {
+        $project = Project::create([
+            'name' => 'Private Project',
+            'description' => 'Hidden from public API',
+            'project_status' => 'on_hold',
+            'is_active' => false,
+        ]);
+
+        $this->getJson("/api/v1/projects/{$project->id}")
+            ->assertStatus(404)
+            ->assertJsonPath('success', false);
+    }
+
     public function test_public_settings_and_content_pages_are_available_for_customer_app(): void
     {
         Setting::create([
@@ -159,7 +173,7 @@ class CustomerAppApiTest extends TestCase
             'source' => 'other',
         ]);
 
-        Sanctum::actingAs($user);
+        Sanctum::actingAs($user, User::customerTokenAbilities());
 
         $storeResponse = $this->postJson('/api/v1/my/device-tokens', [
             'token' => 'expo-token-1',
@@ -238,12 +252,110 @@ class CustomerAppApiTest extends TestCase
             'device_name' => 'iPhone',
         ]);
 
-        Sanctum::actingAs($otherUser);
+        Sanctum::actingAs($otherUser, User::customerTokenAbilities());
 
         $response = $this->deleteJson("/api/v1/my/device-tokens/{$deviceToken->id}");
 
         $response
             ->assertForbidden()
             ->assertJsonPath('success', false);
+    }
+
+    public function test_authenticated_customer_cannot_override_booking_customer_context(): void
+    {
+        $user = User::create([
+            'name' => 'Booking User',
+            'email' => 'booking@app.test',
+            'password' => 'password123',
+            'user_type' => 'customer',
+            'is_active' => true,
+        ]);
+
+        $customer = Customer::create([
+            'user_id' => $user->id,
+            'phone' => '0509990001',
+            'source' => 'other',
+        ]);
+
+        $otherUser = User::create([
+            'name' => 'Other Booking User',
+            'email' => 'booking-other@app.test',
+            'password' => 'password123',
+            'user_type' => 'customer',
+            'is_active' => true,
+        ]);
+
+        $otherCustomer = Customer::create([
+            'user_id' => $otherUser->id,
+            'phone' => '0509990002',
+            'source' => 'other',
+        ]);
+
+        Sanctum::actingAs($user, User::customerTokenAbilities());
+
+        $response = $this->postJson('/api/v1/bookings', [
+            'customer_id' => $otherCustomer->id,
+            'booking_date' => now()->addDay()->toDateString(),
+            'booking_time' => '10:30',
+            'notes' => 'Keep my own customer context',
+        ]);
+
+        $response
+            ->assertStatus(201)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.customer_id', $customer->id);
+
+        $this->assertDatabaseHas('bookings', [
+            'customer_id' => $customer->id,
+            'notes' => 'Keep my own customer context',
+        ]);
+    }
+
+    public function test_authenticated_customer_cannot_override_inquiry_customer_context(): void
+    {
+        $user = User::create([
+            'name' => 'Inquiry User',
+            'email' => 'inquiry@app.test',
+            'password' => 'password123',
+            'user_type' => 'customer',
+            'is_active' => true,
+        ]);
+
+        $customer = Customer::create([
+            'user_id' => $user->id,
+            'phone' => '0509990011',
+            'source' => 'other',
+        ]);
+
+        $otherUser = User::create([
+            'name' => 'Other Inquiry User',
+            'email' => 'inquiry-other@app.test',
+            'password' => 'password123',
+            'user_type' => 'customer',
+            'is_active' => true,
+        ]);
+
+        $otherCustomer = Customer::create([
+            'user_id' => $otherUser->id,
+            'phone' => '0509990012',
+            'source' => 'other',
+        ]);
+
+        Sanctum::actingAs($user, User::customerTokenAbilities());
+
+        $response = $this->postJson('/api/v1/inquiries', [
+            'customer_id' => $otherCustomer->id,
+            'message' => 'Keep inquiry tied to my own account',
+        ]);
+
+        $response
+            ->assertStatus(201)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.customer_id', $customer->id);
+
+        $this->assertDatabaseHas('inquiries', [
+            'customer_id' => $customer->id,
+            'message' => 'Keep inquiry tied to my own account',
+        ]);
     }
 }

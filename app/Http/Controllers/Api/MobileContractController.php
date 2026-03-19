@@ -81,7 +81,7 @@ class MobileContractController extends Controller
                 'source' => $this->normalizeSource($validated['source'] ?? 'other'),
             ]);
 
-            $token = $user->createToken('mobile-contract-token', ['*'])->plainTextToken;
+            $token = $user->issueCustomerToken('mobile-contract-token');
 
             return [
                 'token' => $token,
@@ -128,7 +128,7 @@ class MobileContractController extends Controller
         }
 
         $user->tokens()->delete();
-        $token = $user->createToken('mobile-contract-token', ['*'])->plainTextToken;
+        $token = $user->issueCustomerToken('mobile-contract-token');
 
         return $this->successResponse([
             'token' => $token,

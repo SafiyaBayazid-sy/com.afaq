@@ -96,7 +96,7 @@ class PhaseDeliverablesApiTest extends TestCase
             'is_read' => false,
         ]);
 
-        Sanctum::actingAs($user);
+        Sanctum::actingAs($user, User::customerTokenAbilities());
 
         $inquiryResponse = $this->postJson('/api/v1/inquiries', [
             'category_id' => $category->id,

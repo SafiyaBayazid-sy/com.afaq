@@ -36,7 +36,7 @@ class CustomerService
     {
         $customer = $this->customerRepository->findWithUser($id);
 
-        if (!$customer) {
+        if (! $customer) {
             throw new InvalidArgumentException("Customer not found with ID: {$id}");
         }
 
@@ -62,8 +62,8 @@ class CustomerService
 
             $user = User::create($userData);
 
-             // Assign customer role
-             $user->assignRole('customer');
+            // Assign customer role
+            $user->assignRole('customer');
 
             // Create customer record
             $customerData = [
@@ -75,8 +75,8 @@ class CustomerService
                 // 'notes' => $data['notes'] ?? null,
             ];
 
-               // Create token for mobile app
-        $token = $user->createToken('mobile-auth-token', ['*'])->plainTextToken;
+            // Create token for mobile app
+            $token = $user->issueCustomerToken('mobile-auth-token');
 
             $customer = $this->customerRepository->create($customerData);
 
@@ -87,12 +87,12 @@ class CustomerService
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error creating customer: ' . $e->getMessage());
-            throw new InvalidArgumentException('Failed to create customer: ' . $e->getMessage());
+            Log::error('Error creating customer: '.$e->getMessage());
+            throw new InvalidArgumentException('Failed to create customer: '.$e->getMessage());
         }
     }
 
-     public function login(Request $request)
+    public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
@@ -104,7 +104,7 @@ class CustomerService
             ->where('is_active', true)
             ->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
@@ -113,9 +113,8 @@ class CustomerService
         // Revoke old tokens
         $user->tokens()->delete();
 
-        // Create new token with abilities based on permissions
-        $abilities = $user->getPermissionNames()->toArray();
-        $token = $user->createToken('mobile-auth-token', $abilities)->plainTextToken;
+        $abilities = User::customerTokenAbilities();
+        $token = $user->issueCustomerToken('mobile-auth-token');
 
         return response()->json([
             'message' => 'Login successful',
@@ -130,7 +129,7 @@ class CustomerService
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'Logged out successfully'
+            'message' => 'Logged out successfully',
         ]);
     }
 
@@ -144,7 +143,7 @@ class CustomerService
 
             $customer = $this->customerRepository->findWithUser($id);
 
-            if (!$customer) {
+            if (! $customer) {
                 throw new InvalidArgumentException("Customer not found with ID: {$id}");
             }
 
@@ -159,7 +158,7 @@ class CustomerService
                 $userData['email'] = $data['email'];
             }
 
-            if (isset($data['password']) && !empty($data['password'])) {
+            if (isset($data['password']) && ! empty($data['password'])) {
                 $userData['password'] = Hash::make($data['password']);
             }
 
@@ -167,14 +166,12 @@ class CustomerService
                 $userData['is_active'] = $data['is_active'];
             }
 
-            if (!empty($userData)) {
+            if (! empty($userData)) {
                 $customer->user->update($userData);
             }
 
             // Update customer data
             $customerData = [];
-
-
 
             if (isset($data['phone'])) {
                 $customerData['phone'] = $data['phone'];
@@ -184,11 +181,7 @@ class CustomerService
                 $customerData['source'] = $data['source'];
             }
 
-
-
-
-
-            if (!empty($customerData)) {
+            if (! empty($customerData)) {
                 $this->customerRepository->update($id, $customerData);
             }
 
@@ -199,8 +192,8 @@ class CustomerService
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error updating customer: ' . $e->getMessage());
-            throw new InvalidArgumentException('Failed to update customer: ' . $e->getMessage());
+            Log::error('Error updating customer: '.$e->getMessage());
+            throw new InvalidArgumentException('Failed to update customer: '.$e->getMessage());
         }
     }
 
@@ -214,7 +207,7 @@ class CustomerService
 
             $customer = $this->customerRepository->find($id);
 
-            if (!$customer) {
+            if (! $customer) {
                 throw new InvalidArgumentException("Customer not found with ID: {$id}");
             }
 
@@ -227,8 +220,8 @@ class CustomerService
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error deleting customer: ' . $e->getMessage());
-            throw new InvalidArgumentException('Failed to delete customer: ' . $e->getMessage());
+            Log::error('Error deleting customer: '.$e->getMessage());
+            throw new InvalidArgumentException('Failed to delete customer: '.$e->getMessage());
         }
     }
 

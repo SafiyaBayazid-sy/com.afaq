@@ -178,7 +178,7 @@ class BookingResource extends Resource
                             'booking_date' => $data['booking_date'],
                             'booking_time' => $data['booking_time'],
                             'status' => 'upcoming',
-                            'admin_notes' => trim((string) ($record->admin_notes . "\n" . ($data['admin_notes'] ?? ''))),
+                            'admin_notes' => trim((string) ($record->admin_notes."\n".($data['admin_notes'] ?? ''))),
                         ]);
                     }),
                 ViewAction::make(),
@@ -196,7 +196,7 @@ class BookingResource extends Resource
 
                         return $csvExporter->stream(
                             query: $livewire->getTableQueryForExport()->with('customer.user'),
-                            fileName: 'bookings-' . now()->format('Y-m-d_H-i-s') . '.csv',
+                            fileName: 'bookings-'.now()->format('Y-m-d_H-i-s').'.csv',
                             headings: [
                                 'ID',
                                 'Customer',
