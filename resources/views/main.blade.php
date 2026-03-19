@@ -13,7 +13,7 @@
     @vite('resources/js/main_pages/app.tsx')
     @inertiaHead
 </head>
-<body class="font-display antialiased">
+<body class="bg-[#10201d] font-display antialiased">
     @inertia
 </body>
 </html>

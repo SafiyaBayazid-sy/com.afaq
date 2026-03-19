@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'api_path' => 'api/v1',
+    'api_path' => 'api',
 
     'api_domain' => null,
 
@@ -9,7 +9,7 @@ return [
 
     'info' => [
         'version' => env('API_VERSION', '1.0.0'),
-        'description' => 'Customer mobile application API for AFAQ. Includes authentication, project discovery, bookings, inquiries, notifications, content pages, public settings, and push device token management.',
+        'description' => 'Customer mobile application API for AFAQ. Includes the existing versioned API under /api/v1 and the PDF-compatible mobile contract under /api.',
     ],
 
     'ui' => [

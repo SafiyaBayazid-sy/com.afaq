@@ -36,7 +36,8 @@ export default function ProjectsGrid() {
                     <div className="max-w-xl space-y-4 text-right">
                         <h2 className="text-4xl font-black text-slate-900 dark:text-white">مشاريعنا المميزة</h2>
                         <p className="text-slate-600 dark:text-slate-300">
-                            نستعرض لكم نخبة من مشاريعنا التي تجسد رؤيتنا في التطوير العمراني الحديث.
+                            استكشف مجموعة من المشاريع التي قمنا بتصميمها وتنفيذها وفق أحدث المعايير الهندسية، والتي تجمع بين الجودة المعمارية
+                            والتصميم الحديث والاستدامة.
                         </p>
                     </div>
                     <Link className="text-primary font-bold flex items-center gap-2 hover:underline transition-all" href="/projects">

@@ -3,15 +3,34 @@
     "info": {
         "title": "AFAQ Customer API Docs",
         "version": "1.0.0",
-        "description": "Customer mobile application API for AFAQ. Includes authentication, project discovery, bookings, inquiries, notifications, content pages, public settings, and push device token management."
+        "description": "Customer mobile application API for AFAQ. Includes the existing versioned API under /api/v1 and the PDF-compatible mobile contract under /api."
     },
     "servers": [
         {
-            "url": "http://localhost/api/v1"
+            "url": "http://localhost/api"
         }
     ],
     "paths": {
-        "/register": {
+        "/user": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "`User`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/v1/register": {
             "post": {
                 "operationId": "auth.register_0",
                 "summary": "Register a new customer account and issue a mobile access token",
@@ -102,7 +121,7 @@
                 }
             }
         },
-        "/login": {
+        "/v1/login": {
             "post": {
                 "operationId": "auth.login_0",
                 "summary": "Authenticate a customer and issue a fresh mobile access token",
@@ -267,7 +286,7 @@
                 }
             }
         },
-        "/auth/register": {
+        "/v1/auth/register": {
             "post": {
                 "operationId": "auth.register_0",
                 "summary": "Register a new customer account and issue a mobile access token",
@@ -358,7 +377,7 @@
                 }
             }
         },
-        "/auth/login": {
+        "/v1/auth/login": {
             "post": {
                 "operationId": "auth.login_0",
                 "summary": "Authenticate a customer and issue a fresh mobile access token",
@@ -523,7 +542,7 @@
                 }
             }
         },
-        "/auth/logout": {
+        "/v1/auth/logout": {
             "post": {
                 "operationId": "auth.logout",
                 "summary": "Revoke the current Sanctum token for the authenticated customer",
@@ -564,7 +583,7 @@
                 }
             }
         },
-        "/bookings": {
+        "/v1/bookings": {
             "post": {
                 "operationId": "bookingApi.submit",
                 "summary": "Create a new appointment booking for the authenticated customer",
@@ -718,7 +737,7 @@
                 }
             }
         },
-        "/content/pages": {
+        "/v1/content/pages": {
             "get": {
                 "operationId": "contentPageApi.index",
                 "summary": "List customer-facing content pages available to the mobile app",
@@ -757,7 +776,7 @@
                 }
             }
         },
-        "/content/pages/{slug}": {
+        "/v1/content/pages/{slug}": {
             "get": {
                 "operationId": "contentPageApi.show",
                 "summary": "Show a single customer-facing content page by slug",
@@ -835,7 +854,7 @@
                 }
             }
         },
-        "/my/device-tokens": {
+        "/v1/my/device-tokens": {
             "get": {
                 "operationId": "deviceTokenApi.index",
                 "summary": "List device tokens registered for the authenticated customer",
@@ -997,7 +1016,7 @@
                 }
             }
         },
-        "/my/device-tokens/{deviceToken}": {
+        "/v1/my/device-tokens/{deviceToken}": {
             "delete": {
                 "operationId": "deviceTokenApi.destroy",
                 "summary": "Delete one of the authenticated customer's registered device tokens",
@@ -1079,7 +1098,7 @@
                 }
             }
         },
-        "/forms/{slug}": {
+        "/v1/forms/{slug}": {
             "get": {
                 "operationId": "formBuilder.show",
                 "tags": [
@@ -1212,7 +1231,7 @@
                 }
             }
         },
-        "/forms/{slug}/submissions": {
+        "/v1/forms/{slug}/submissions": {
             "post": {
                 "operationId": "formBuilder.submit",
                 "tags": [
@@ -1348,7 +1367,7 @@
                 }
             }
         },
-        "/inquiries": {
+        "/v1/inquiries": {
             "post": {
                 "operationId": "inquiryApi.submit",
                 "summary": "Submit a customer inquiry from the mobile app",
@@ -1510,7 +1529,7 @@
                 }
             }
         },
-        "/leads/mobile": {
+        "/v1/leads/mobile": {
             "post": {
                 "operationId": "leadHub.storeFromMobile",
                 "tags": [
@@ -1667,7 +1686,7 @@
                 }
             }
         },
-        "/leads/website": {
+        "/v1/leads/website": {
             "post": {
                 "operationId": "leadHub.storeFromWebsite",
                 "tags": [
@@ -1824,7 +1843,7 @@
                 }
             }
         },
-        "/leads/webhooks/facebook": {
+        "/v1/leads/webhooks/facebook": {
             "post": {
                 "operationId": "leadHub.storeFacebookWebhook",
                 "tags": [
@@ -1953,7 +1972,7 @@
                 }
             }
         },
-        "/leads/webhooks/google": {
+        "/v1/leads/webhooks/google": {
             "post": {
                 "operationId": "leadHub.storeGoogleWebhook",
                 "tags": [
@@ -2082,7 +2101,762 @@
                 }
             }
         },
-        "/my/notifications": {
+        "/auth/register": {
+            "post": {
+                "operationId": "mobileContract.register",
+                "summary": "Register a customer account using the exact contract requested by the mobile PDF",
+                "tags": [
+                    "MobileContract"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "full_name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "name": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "maxLength": 255
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "pattern": "^0[0-9]{8,14}$",
+                                        "maxLength": 20
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "maxLength": 255
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "minLength": 8
+                                    },
+                                    "source": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "enum": [
+                                            "social_media",
+                                            "friends",
+                                            "ads",
+                                            "other",
+                                            "facebook",
+                                            "google_ad",
+                                            "snapchat",
+                                            "tiktok",
+                                            "friend",
+                                            "google_search"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "phone",
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "\u062a\u0645 \u0625\u0646\u0634\u0627\u0621 \u0627\u0644\u062d\u0633\u0627\u0628 \u0628\u0646\u062c\u0627\u062d"
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "operationId": "mobileContract.login",
+                "summary": "Log in a customer using the exact contract requested by the mobile PDF",
+                "tags": [
+                    "MobileContract"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "\u062a\u0645 \u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644 \u0628\u0646\u062c\u0627\u062d"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string"
+                                                },
+                                                "user": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer"
+                                                        },
+                                                        "full_name": {
+                                                            "type": "string"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string"
+                                                        },
+                                                        "email": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "id",
+                                                        "full_name",
+                                                        "phone",
+                                                        "email"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "token",
+                                                "user"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "\u0627\u0644\u0628\u0631\u064a\u062f \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a \u0623\u0648 \u0643\u0644\u0645\u0629 \u0627\u0644\u0645\u0631\u0648\u0631 \u063a\u064a\u0631 \u0635\u062d\u064a\u062d\u0629"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "errors"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "get": {
+                "operationId": "mobileContract.projects",
+                "summary": "Return the simplified project list required by the mobile PDF contract",
+                "tags": [
+                    "MobileContract"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "\u062a\u0645 \u062c\u0644\u0628 \u0627\u0644\u0645\u0634\u0627\u0631\u064a\u0639 \u0628\u0646\u062c\u0627\u062d"
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inspections/store": {
+            "post": {
+                "operationId": "mobileContract.storeInspection",
+                "summary": "Store a mobile engineering inspection request",
+                "tags": [
+                    "MobileContract"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "authorized_person": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "agent_phone": {
+                                        "type": "string",
+                                        "pattern": "^0[0-9]{8,14}$",
+                                        "maxLength": 20
+                                    },
+                                    "owner_phone": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "pattern": "^0[0-9]{8,14}$",
+                                        "maxLength": 20
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "maxLength": 1000
+                                    }
+                                },
+                                "required": [
+                                    "authorized_person",
+                                    "agent_phone",
+                                    "description",
+                                    "address"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "\u062a\u0645 \u0627\u0633\u062a\u0644\u0627\u0645 \u0637\u0644\u0628 \u0627\u0644\u0645\u0639\u0627\u064a\u0646\u0629 \u0628\u0646\u062c\u0627\u062d\u060c \u0648\u0633\u0646\u062a\u0648\u0627\u0635\u0644 \u0645\u0639\u0643\u0645 \u0628\u0639\u062f \u062f\u0631\u0627\u0633\u0629 \u0627\u0644\u0645\u0648\u0642\u0639"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "inspection_id": {
+                                                    "type": "integer"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "const": "pending"
+                                                },
+                                                "submission_date": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "inspection_id",
+                                                "status",
+                                                "submission_date"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "\u064a\u0648\u062c\u062f \u0646\u0642\u0635 \u0641\u064a \u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0637\u0644\u0628"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "errors"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/consultations/store": {
+            "post": {
+                "operationId": "mobileContract.storeConsultation",
+                "summary": "Store a mobile engineering consultation request",
+                "tags": [
+                    "MobileContract"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "full_name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "pattern": "^0[0-9]{8,14}$",
+                                        "maxLength": 20
+                                    },
+                                    "consultation_type": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "question": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "full_name",
+                                    "phone_number",
+                                    "consultation_type",
+                                    "question"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "\u062a\u0645 \u0627\u0633\u062a\u0644\u0627\u0645 \u0627\u0633\u062a\u0641\u0633\u0627\u0631\u0643 \u0628\u0646\u062c\u0627\u062d. \u0633\u0646\u0642\u0648\u0645 \u0628\u062a\u0639\u064a\u064a\u0646 \u0645\u0647\u0646\u062f\u0633 \u0645\u062e\u062a\u0635 \u0648\u0633\u064a\u062a\u0648\u0627\u0635\u0644 \u0645\u0639\u0643 \u0639\u0628\u0631 \u0627\u0644\u0648\u0627\u062a\u0633\u0627\u0628 \u0644\u0644\u0631\u062f \u0639\u0644\u0649 \u0627\u0633\u062a\u0641\u0633\u0627\u0631\u0643 \u0641\u064a \u0623\u0642\u0631\u0628 \u0648\u0642\u062a"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "consultation_id": {
+                                                    "type": "integer"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "const": "assigned_soon"
+                                                }
+                                            },
+                                            "required": [
+                                                "consultation_id",
+                                                "status"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "\u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0645\u062f\u062e\u0644\u0629 \u063a\u064a\u0631 \u0635\u062d\u064a\u062d\u0629"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "errors"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "get": {
+                "operationId": "mobileContract.orders",
+                "summary": "List the authenticated customer's service orders",
+                "tags": [
+                    "MobileContract"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "operationId": "mobileContract.showOrder",
+                "summary": "Show a single order in the PDF-compatible response shape",
+                "tags": [
+                    "MobileContract"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "title": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string"
+                                                },
+                                                "status_text": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "\u062a\u0645\u062a \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u0629",
+                                                        "\u0642\u064a\u062f \u0645\u0631\u0627\u062c\u0639\u0629 \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u0629",
+                                                        "\u062a\u0645 \u0625\u063a\u0644\u0627\u0642 \u0627\u0644\u0637\u0644\u0628",
+                                                        "\u0628\u0627\u0646\u062a\u0638\u0627\u0631 \u0627\u0644\u062a\u0639\u064a\u064a\u0646",
+                                                        "\u062a\u0645 \u0627\u0644\u0627\u0646\u062a\u0647\u0627\u0621 \u0645\u0646 \u0627\u0644\u0645\u0639\u0627\u064a\u0646\u0629",
+                                                        "\u0642\u064a\u062f \u0627\u0644\u0645\u0639\u0627\u064a\u0646\u0629 \u0627\u0644\u0645\u064a\u062f\u0627\u0646\u064a\u0629",
+                                                        "\u062a\u0645 \u0631\u0641\u0636 \u0627\u0644\u0637\u0644\u0628",
+                                                        "\u0642\u064a\u062f \u0627\u0644\u0627\u0646\u062a\u0638\u0627\u0631"
+                                                    ]
+                                                },
+                                                "agent_name": {
+                                                    "type": "string"
+                                                },
+                                                "location": {
+                                                    "type": "string"
+                                                },
+                                                "report_url": {
+                                                    "type": "string"
+                                                },
+                                                "timeline": {
+                                                    "type": "array",
+                                                    "prefixItems": [
+                                                        {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "status": {
+                                                                    "type": "string",
+                                                                    "const": "pending"
+                                                                },
+                                                                "label": {
+                                                                    "type": "string",
+                                                                    "const": "\u062a\u0645 \u0627\u0633\u062a\u0644\u0627\u0645 \u0627\u0644\u0637\u0644\u0628"
+                                                                },
+                                                                "is_completed": {
+                                                                    "type": "boolean"
+                                                                },
+                                                                "date": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "status",
+                                                                "label",
+                                                                "is_completed",
+                                                                "date"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "status": {
+                                                                    "type": "string",
+                                                                    "const": "processing"
+                                                                },
+                                                                "label": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "\u0642\u064a\u062f \u0627\u0644\u0645\u0639\u0627\u064a\u0646\u0629 \u0627\u0644\u0645\u064a\u062f\u0627\u0646\u064a\u0629",
+                                                                        "\u0642\u064a\u062f \u0645\u0631\u0627\u062c\u0639\u0629 \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u0629"
+                                                                    ]
+                                                                },
+                                                                "is_completed": {
+                                                                    "type": "boolean"
+                                                                },
+                                                                "date": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "status",
+                                                                "label",
+                                                                "is_completed",
+                                                                "date"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "status": {
+                                                                    "type": "string",
+                                                                    "const": "completed"
+                                                                },
+                                                                "label": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "\u062a\u0645 \u0625\u0635\u062f\u0627\u0631 \u0627\u0644\u062a\u0642\u0631\u064a\u0631 \u0627\u0644\u0646\u0647\u0627\u0626\u064a",
+                                                                        "\u062a\u0645\u062a \u0645\u0639\u0627\u0644\u062c\u0629 \u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u0629"
+                                                                    ]
+                                                                },
+                                                                "is_completed": {
+                                                                    "type": "boolean"
+                                                                },
+                                                                "date": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "status",
+                                                                "label",
+                                                                "is_completed",
+                                                                "date"
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "minItems": 3,
+                                                    "maxItems": 3,
+                                                    "additionalItems": false
+                                                }
+                                            },
+                                            "required": [
+                                                "id",
+                                                "title",
+                                                "status",
+                                                "status_text",
+                                                "agent_name",
+                                                "location",
+                                                "report_url",
+                                                "timeline"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "\u0627\u0644\u0637\u0644\u0628 \u063a\u064a\u0631 \u0645\u0648\u062c\u0648\u062f"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "errors"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/v1/my/notifications": {
             "get": {
                 "operationId": "myNotification.index",
                 "summary": "List notifications for the authenticated customer",
@@ -2123,7 +2897,7 @@
                 }
             }
         },
-        "/my/notifications/{notification}/read": {
+        "/v1/my/notifications/{notification}/read": {
             "patch": {
                 "operationId": "myNotification.markAsRead",
                 "summary": "Mark one notification as read for the authenticated customer",
@@ -2240,7 +3014,7 @@
                 }
             }
         },
-        "/my/profile": {
+        "/v1/my/profile": {
             "get": {
                 "operationId": "profileApi.show",
                 "summary": "Return the authenticated customer's profile and linked customer record",
@@ -2331,7 +3105,7 @@
                 }
             }
         },
-        "/projects/filters": {
+        "/v1/projects/filters": {
             "get": {
                 "operationId": "projectApi.filters",
                 "summary": "Return the allowed filter values the mobile app can use for project discovery",
@@ -2630,7 +3404,7 @@
                 }
             }
         },
-        "/projects": {
+        "/v1/projects": {
             "get": {
                 "operationId": "projectApi.index",
                 "summary": "Browse customer-facing projects with search, filtering, sorting, and pagination",
@@ -2814,7 +3588,7 @@
                 }
             }
         },
-        "/projects/{project}": {
+        "/v1/projects/{project}": {
             "get": {
                 "operationId": "projectApi.show",
                 "summary": "Show a single project with its image gallery",
@@ -2992,7 +3766,7 @@
                 }
             }
         },
-        "/settings/public": {
+        "/v1/settings/public": {
             "get": {
                 "operationId": "publicSettingsApi.index",
                 "summary": "Return public settings used by the customer mobile app",
@@ -3281,9 +4055,88 @@
                 "type": "array",
                 "items": {},
                 "title": "LengthAwarePaginator"
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "user_type": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "email_verified_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "two_factor_confirmed_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "user_type",
+                    "is_active",
+                    "email_verified_at",
+                    "created_at",
+                    "updated_at",
+                    "two_factor_confirmed_at"
+                ],
+                "title": "User"
             }
         },
         "responses": {
+            "AuthenticationException": {
+                "description": "Unauthenticated",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
             "ValidationException": {
                 "description": "Validation error",
                 "content": {
@@ -3316,25 +4169,6 @@
             },
             "ModelNotFoundException": {
                 "description": "Not found",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "message": {
-                                    "type": "string",
-                                    "description": "Error overview."
-                                }
-                            },
-                            "required": [
-                                "message"
-                            ]
-                        }
-                    }
-                }
-            },
-            "AuthenticationException": {
-                "description": "Unauthenticated",
                 "content": {
                     "application/json": {
                         "schema": {

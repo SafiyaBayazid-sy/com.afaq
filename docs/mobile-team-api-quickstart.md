@@ -7,6 +7,7 @@ This guide helps the mobile team start using the customer API with Postman.
 - OpenAPI spec: `docs/api.json`
 - Postman collection: `docs/postman-customer-api-collection.json`
 - Postman environment: `docs/postman-customer-api-environment.json`
+- PDF contract notes: `docs/pdf-api-contract.md`
 
 ## Import Into Postman
 
@@ -43,6 +44,22 @@ Examples:
 {{api_base_url}}/projects
 {{api_base_url}}/my/profile
 ```
+
+## PDF Compatibility Endpoints
+
+The project now also exposes the unversioned endpoints requested in `api.pdf`:
+
+```text
+POST /api/auth/register
+POST /api/auth/login
+GET /api/projects
+POST /api/inspections/store
+POST /api/consultations/store
+GET /api/orders
+GET /api/orders/{id}
+```
+
+These routes are documented in `docs/pdf-api-contract.md` and are intended for clients that need to match the PDF field names and response shapes exactly.
 
 ## Authentication Flow
 

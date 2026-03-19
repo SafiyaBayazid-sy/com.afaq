@@ -14,7 +14,7 @@ export default function AboutSummary() {
                             />
                             <div className="bg-primary p-6 rounded-xl text-white">
                                 <p className="text-3xl font-bold">15+</p>
-                                <p className="text-sm opacity-80">عاماً من الخبرة</p>
+                                <p className="text-sm opacity-80">سنة من الخبرة</p>
                             </div>
                         </div>
                         <div className="space-y-4 pt-12">
@@ -33,27 +33,29 @@ export default function AboutSummary() {
                         <div className="space-y-4">
                             <h3 className="text-primary font-bold tracking-widest uppercase text-sm">عن آفاق العمران</h3>
                             <h2 className="text-4xl md:text-5xl font-black leading-tight text-slate-900 dark:text-white">
-                                ريادة في التطوير العقاري بأعلى المعايير
+                                نبني مشاريع عقارية بمعايير عالمية
                             </h2>
                             <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-                                نحن في آفاق العمران نؤمن بأن المسكن هو أكثر من مجرد جدران؛ إنه مساحة للنمو والحياة. نلتزم بتقديم حلول سكنية وتجارية متكاملة تجمع بين الأصالة العربية والحداثة العالمية.
+                                في آفاق العمران نؤمن أن نجاح أي مشروع عقاري يبدأ من أساس قوي يجمع بين الأمان القانوني والتخطيط الهندسي والتنفيذ
+                                الاحترافي. لهذا نعتمد منهج عمل واضح يبدأ بدراسة الوضع القانوني للعقار، ثم إعداد الدراسات والتصاميم الحديثة، وصولًا إلى
+                                التنفيذ بمواد عالية الجودة وتقنيات بناء حديثة.
                             </p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="space-y-2">
                                 <span className="material-symbols-outlined text-primary text-4xl">verified</span>
                                 <h4 className="font-bold text-lg">الجودة</h4>
-                                <p className="text-sm text-slate-500">معايير عالمية في البناء والتشطيب</p>
+                                <p className="text-sm text-slate-500">نلتزم بأعلى المعايير لضمان مبانٍ قوية وآمنة تدوم لسنوات.</p>
                             </div>
                             <div className="space-y-2">
                                 <span className="material-symbols-outlined text-primary text-4xl">lightbulb</span>
                                 <h4 className="font-bold text-lg">الابتكار</h4>
-                                <p className="text-sm text-slate-500">تصاميم معمارية فريدة وذكية</p>
+                                <p className="text-sm text-slate-500">نعتمد أحدث التقنيات الهندسية وحلول المنازل الذكية.</p>
                             </div>
                             <div className="space-y-2">
                                 <span className="material-symbols-outlined text-primary text-4xl">handshake</span>
                                 <h4 className="font-bold text-lg">الموثوقية</h4>
-                                <p className="text-sm text-slate-500">التزام تام بالمواعيد والشفافية</p>
+                                <p className="text-sm text-slate-500">نبدأ بدراسة قانونية واضحة ونلتزم بالشفافية في كل المراحل.</p>
                             </div>
                         </div>
                     </div>

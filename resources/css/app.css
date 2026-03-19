@@ -12,12 +12,18 @@
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+    --font-display:
+        'Noto Sans Arabic', 'Manrope', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 
     --color-background: var(--background);
+    --color-background-light: var(--background-light);
+    --color-background-dark: var(--background-dark);
     --color-foreground: var(--foreground);
 
     --color-card: var(--card);
@@ -63,6 +69,8 @@
 
 :root {
     --background: oklch(1 0 0);
+    --background-light: #f5f1e8;
+    --background-dark: #10201d;
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
@@ -137,7 +145,28 @@
         @apply border-border;
     }
 
-    body {
-        @apply bg-background text-foreground;
+    html {
+        background-color: #10201d;
     }
+
+    body {
+        @apply bg-background-dark text-foreground;
+        background-color: #10201d;
+    }
+}
+
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
 }

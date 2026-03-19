@@ -1,9 +1,7 @@
 import { Head } from '@inertiajs/react';
-import React from 'react';
 import MainLayout from '../../components/Layouts/MainLayout';
 
 export default function ProjectDetail() {
-    // extract last segment as slug for title fallback
     const slug = typeof window !== 'undefined' ? window.location.pathname.split('/').filter(Boolean).pop() : '';
     const title = slug ? decodeURIComponent(slug).replace(/[-_]/g, ' ') : 'تفاصيل المشروع';
 
@@ -11,7 +9,6 @@ export default function ProjectDetail() {
         <MainLayout>
             <Head title={title} />
             <div className="flex-grow" dir="rtl">
-                {/* Hero */}
                 <section className="relative h-[60vh] lg:h-[75vh] w-full overflow-hidden">
                     <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD5jDuiJBlskbivgC-WcwwfZBNtsiNNUBkcUdouUabP9QkcfQJSNhDdO2Ub86iGZ0qW_VYeVqLToWAygzDdcX8tR3Z6jkIxesZ-kssKpZJl5P_mV3tZ__u8it4bXPLW-Knvwciy2LTMIDgKTjcIRSs6wTLphbJfgdF6KbzvkxJnmno3aaTfywyPxi-bxTtF2SaGiVXhP1MONcG972bxFu5iglBixPNWk4TcJYTcybX23JKDFMysb6fOAfIwXy-_LkO8dRykqUfFL4LN')"}}>
                         <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent"></div>
@@ -26,7 +23,6 @@ export default function ProjectDetail() {
                     </div>
                 </section>
 
-                {/* Gallery + details simplified version from reference */}
                 <section className="max-w-7xl mx-auto px-6 lg:px-20 py-8">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 aspect-[21/9]">
                         <div className="col-span-1 row-span-1 rounded-xl overflow-hidden bg-primary/5">
@@ -44,7 +40,6 @@ export default function ProjectDetail() {
                     </div>
                 </section>
 
-                {/* Details & CTA simplified */}
                 <section className="max-w-7xl mx-auto px-6 lg:px-20 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div className="lg:col-span-2 space-y-12">
                         <div>
@@ -100,7 +95,6 @@ export default function ProjectDetail() {
                             </div>
                         </div>
 
-                        {/* Map */}
                         <div>
                             <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
                                 <span className="w-8 h-1 bg-primary rounded-full"></span>
@@ -138,24 +132,17 @@ export default function ProjectDetail() {
                                         <span className="text-lg font-bold">ر.س</span>
                                     </div>
                                 </div>
-                                <form className="space-y-4">
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold">الاسم الكامل</label>
-                                        <input className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-primary/30 focus:ring-2 focus:ring-primary/50 outline-none transition-all" placeholder="أدخل اسمك الكريم" type="text" />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold">رقم الجوال</label>
-                                        <input className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-primary/30 focus:ring-2 focus:ring-primary/50 outline-none transition-all text-left" dir="ltr" placeholder="05xxxxxxxx" type="tel" />
-                                    </div>
-                                    <button className="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-primary/30 transition-all flex items-center justify-center gap-2" type="button">
-                                        <span className="material-symbols-outlined">chat_bubble</span>
-                                        استفسر الآن
-                                    </button>
-                                    <button className="w-full border-2 border-primary bg-transparent py-4 rounded-xl font-bold text-lg text-primary transition-all hover:bg-primary hover:text-white flex items-center justify-center gap-2" type="button">
+                                <div className="space-y-4">
+                                    <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">تم استبدال النموذج التفصيلي بنافذة البريد الموحدة أسفل الموقع حتى تبقى تجربة التواصل بسيطة ومتسقة مع تصميم الصفحة.</p>
+                                    <a className="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-primary/30 transition-all flex items-center justify-center gap-2" href="#contact">
+                                        <span className="material-symbols-outlined">mail</span>
+                                        أرسل بريدك الآن
+                                    </a>
+                                    <a className="w-full border-2 border-primary bg-transparent py-4 rounded-xl font-bold text-lg text-primary transition-all hover:bg-primary hover:text-white flex items-center justify-center gap-2" href="tel:+9669200123456">
                                         <span className="material-symbols-outlined">calendar_month</span>
-                                        حجز موعد زيارة
-                                    </button>
-                                </form>
+                                        تواصل مع فريق المبيعات
+                                    </a>
+                                </div>
                                 <hr className="my-6 border-slate-200 dark:border-primary/20" />
                                 <div className="flex items-center gap-4">
                                     <img className="size-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhiay5_IVUMdTMBsTNm65Sr0C3DoZcH6TS5ed3MdoBzSwIEfua4Kp2iUumPB12fxaa7XoVMJlBk1yb9ZmBfzM-G4idGePIvHuKvaAif7Yq9fdl0l0cdiXmTeDL6whq0F90QXmTNOlwBOJPXEGxtaqAHPQN9qds95yged8mlChlXH6nOBVI0i-EIg7EFpfEMRc8b99bYENuaI5zKU6JTVX_2W6_q8cCJ_2wQxiWN6-A3K9LR9S1oUrhvtkqRjLAs_eWcdKE_itgPqtK" alt="consultant" />
@@ -164,12 +151,12 @@ export default function ProjectDetail() {
                                         <p className="text-xs text-slate-500">مستشار عقاري معتمد</p>
                                     </div>
                                     <div className="mr-auto flex gap-2">
-                                        <div className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-green-500/10 text-green-500">
+                                        <a className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-green-500/10 text-green-500" href="tel:+9669200123456">
                                             <span className="material-symbols-outlined text-lg">call</span>
-                                        </div>
-                                        <div className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-blue-500/10 text-blue-500">
+                                        </a>
+                                        <a className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-blue-500/10 text-blue-500" href="#contact">
                                             <span className="material-symbols-outlined text-lg">mail</span>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

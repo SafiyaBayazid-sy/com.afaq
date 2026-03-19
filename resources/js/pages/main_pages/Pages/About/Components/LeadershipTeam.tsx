@@ -35,16 +35,12 @@ export default function LeadershipTeam() {
                     <div className="max-w-xl">
                         <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white">فريق القيادة</h2>
                         <p className="text-slate-600 dark:text-slate-400">
-                            نخبة من المهندسين والإداريين ذوي الخبرة الطويلة يقودون آفاق العمران نحو آفاق جديدة من النجاح.
+                            يقود آفاق العمران فريق من المهندسين والخبراء ذوي الخبرة في التطوير العقاري وإدارة المشاريع الهندسية، بهدف تحويل أفكار العملاء
+                            إلى مشاريع حقيقية تُبنى بثقة وتستمر لسنوات طويلة.
                         </p>
                     </div>
                     <div className="hidden md:block">
-                        <button className="group flex items-center gap-2 font-bold text-primary">
-                            عرض الهيكل التنظيمي
-                            <span className="material-symbols-outlined transition-transform group-hover:translate-x-[-4px]">
-                                arrow_back
-                            </span>
-                        </button>
+                        <span className="rounded-full bg-primary/10 px-4 py-2 text-sm font-bold text-primary">خبرة عملية ورؤية حديثة</span>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">

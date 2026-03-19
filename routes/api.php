@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AppDownloadLinkController;
 use App\Http\Controllers\Api\BookingApiController;
 use App\Http\Controllers\Api\ContentPageApiController;
 use App\Http\Controllers\Api\DeviceTokenApiController;
 use App\Http\Controllers\Api\FormBuilderController;
 use App\Http\Controllers\Api\InquiryApiController;
 use App\Http\Controllers\Api\LeadHubController;
+use App\Http\Controllers\Api\MobileContractController;
 use App\Http\Controllers\Api\MyNotificationController;
 use App\Http\Controllers\Api\ProfileApiController;
 use App\Http\Controllers\Api\ProjectApiController;
@@ -17,6 +19,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+// PDF-compatible mobile contract endpoints
+Route::prefix('auth')->group(function () {
+    Route::post('/register', [MobileContractController::class, 'register']);
+    Route::post('/login', [MobileContractController::class, 'login']);
+});
+
+Route::get('/projects', [MobileContractController::class, 'projects']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/inspections/store', [MobileContractController::class, 'storeInspection']);
+    Route::post('/consultations/store', [MobileContractController::class, 'storeConsultation']);
+    Route::get('/orders', [MobileContractController::class, 'orders']);
+    Route::get('/orders/{id}', [MobileContractController::class, 'showOrder']);
+});
 
 Route::prefix('v1')->group(function () {
     // Backward-compatible auth routes
@@ -38,6 +55,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/content/pages', [ContentPageApiController::class, 'index']);
     Route::get('/content/pages/{slug}', [ContentPageApiController::class, 'show']);
     Route::get('/settings/public', [PublicSettingsApiController::class, 'index']);
+    Route::post('/app-link/request', [AppDownloadLinkController::class, 'send']);
 
     // Existing dynamic forms
     Route::get('/forms/{slug}', [FormBuilderController::class, 'show']);

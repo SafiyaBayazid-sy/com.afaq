@@ -9,14 +9,15 @@ export default function Hero() {
             />
             <div className="container relative z-10 mx-auto flex h-full flex-col items-start justify-center px-6 text-right">
                 <span className="bg-primary/30 text-white px-4 py-1 rounded-full text-xs font-semibold mb-4 border border-primary/50">
-                    تأسست عام 2005
+                    About Us
                 </span>
                 <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
                     نبني المستقبل <br/>
                     <span className="opacity-90">برؤية هندسية متطورة</span>
                 </h1>
                 <p className="text-slate-300 text-lg max-w-2xl leading-relaxed">
-                    نحن في آفاق العمران نجمع بين الأصالة المعمارية وأحدث التقنيات الهندسية لنقدم حلولاً إنشائية تفوق التوقعات.
+                    في آفاق العمران نؤمن أن البناء ليس مجرد مشروع إنشائي، بل استثمار طويل الأمد يحتاج إلى أساس قانوني وهندسي قوي يضمن حماية
+                    الاستثمار وجودة التنفيذ.
                 </p>
             </div>
         </section>

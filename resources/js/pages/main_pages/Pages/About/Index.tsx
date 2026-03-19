@@ -10,7 +10,7 @@ import VisionMission from './Components/VisionMission';
 export default function About() {
     return (
         <MainLayout>
-            <Head title="About" />
+            <Head title="من نحن" />
             <Hero />
             <Story />
             <VisionMission />

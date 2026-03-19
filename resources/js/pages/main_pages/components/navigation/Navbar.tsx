@@ -1,39 +1,60 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import BrandMark from './BrandMark';
+
+const navItems = [
+    { href: '/', label: 'الرئيسية', match: (path: string) => path === '/' },
+    { href: '/#projects', label: 'مشاريعنا', match: (path: string) => path.startsWith('/projects') || path === '/' },
+    { href: '/about', label: 'عن الشركة', match: (path: string) => path.startsWith('/about') },
+    { href: '/legal-consultations', label: 'اتصل بنا', match: (path: string) => path.startsWith('/legal-consultations') },
+];
 
 export default function Navbar() {
-    return (
-        <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
-            <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="text-primary dark:text-slate-100">
-                        <svg className="size-8" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" />
-                        </svg>
-                    </div>
-                    <h2 className="text-xl font-bold tracking-tight text-primary dark:text-white">آفاق العمران</h2>
-                </div>
+    const { url } = usePage();
+    const path = url.split('?')[0].split('#')[0];
 
-                <nav className="hidden md:flex items-center gap-8">
-                    <Link href="/" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الرئيسية</Link>
-                    <Link href="/building-strengthening" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">خدمات الهندسة الإنشائية</Link>
-                    <Link href="/legal-consultations" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الاستشارات القانونية</Link>
-                    <Link href="/projects" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">المشاريع</Link>
-                    <Link href="/studies" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">الدراسات والبحوث</Link>
-                    <Link href="/about" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">من نحن</Link>
-                    <Link href="/#contact" className="text-sm font-semibold hover:text-primary dark:hover:text-primary transition-colors">اتصل بنا</Link>
+    return (
+        <header className="sticky top-0 z-50 w-full border-b border-white/8 bg-[#111b1a]">
+            <div className="container mx-auto flex items-center justify-between px-6 py-3.5">
+                <Link className="flex items-center gap-3 text-white" href="/">
+                    <h2 className="text-xl font-bold tracking-tight text-white">آفاق العمران</h2>
+                    <BrandMark />
+                </Link>
+
+                <nav className="hidden items-center gap-8 md:flex">
+                    {navItems.map((item) => {
+                        const isActive = item.match(path);
+
+                        return (
+                            <a
+                                key={item.href}
+                                aria-current={isActive ? 'page' : undefined}
+                                className={`relative pb-2 text-sm font-medium transition-colors ${
+                                    isActive ? 'text-white' : 'text-slate-300 hover:text-white'
+                                }`}
+                                href={item.href}
+                            >
+                                {item.label}
+                                <span
+                                    className={`absolute inset-x-0 -bottom-0.5 h-px bg-[#0c6b5c] transition-opacity ${
+                                        isActive ? 'opacity-100' : 'opacity-0'
+                                    }`}
+                                />
+                            </a>
+                        );
+                    })}
                 </nav>
 
-                <div className="flex items-center gap-4">
-                    <button className="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-opacity-90 transition-all">
-                        <span>English</span>
-                    </button>
-                    <div className="hidden sm:block size-10 rounded-full border border-primary/20 overflow-hidden">
+                <div className="flex items-center gap-3">
+                    <div className="size-8 overflow-hidden rounded-full border border-white/20">
                         <img
-                            className="w-full h-full object-cover"
+                            alt="Profile"
+                            className="h-full w-full object-cover"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC93w3iUBmnpjlY9XbF3FyrERffuyGUlVEf7C8YuA2gA8CDJ0MQqoVlyOKLYOJS9YDYxC_kus6inLQgcSPT8GTA6n1WA9QIK5VMZedyBqrFuccZ6cCyXJYH92JKmGx2OTcKVMBLgH1alzZB5coidtvxl2C-4yzw7v4xb095f_rqaXtd1mpFq6gAdrZ6xnPS0ApdwUrkPC7eoinWxR1jVTb54b-goSKaNRf2LRvt7tYvgNtRYfTudtQRzr0XolDu5S8Cj-oUQ2J0bohq"
-                            alt="Profile picture"
                         />
                     </div>
+                    <button className="rounded-lg border border-[#14554b] bg-[#0f4d45] px-4 py-1.5 text-sm font-bold text-white transition-colors hover:bg-[#11584f]">
+                        English
+                    </button>
                 </div>
             </div>
         </header>
