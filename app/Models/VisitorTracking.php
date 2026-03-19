@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,9 +12,16 @@ class VisitorTracking extends Model
     protected $table = 'visitor_tracking';
 
     protected $fillable = [
+        'visitor_id',
         'utm_source',
         'utm_medium',
         'utm_campaign',
+        'utm_term',
+        'utm_content',
+        'landing_path',
+        'referrer_url',
+        'ip_address',
+        'user_agent',
         'visited_at',
     ];
 
