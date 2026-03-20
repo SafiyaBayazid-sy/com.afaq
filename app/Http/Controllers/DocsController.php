@@ -57,6 +57,12 @@ class DocsController extends Controller
     {
         $meta = $this->documentOrFail($document);
 
+        if (isset($meta['view']) && view()->exists($meta['view'])) {
+            return view($meta['view'], [
+                'document' => $meta,
+            ]);
+        }
+
         abort_unless(in_array($meta['format'], ['md', 'txt'], true), 404);
 
         $path = base_path($meta['path']);
@@ -119,11 +125,12 @@ class DocsController extends Controller
                 'section' => 'Downloads',
             ],
             'crm-features' => [
-                'title' => 'CRM Features Notes',
-                'description' => 'Long-form backend notes covering bookings, inquiries, notifications, and related CRM behavior.',
+                'title' => 'CRM Features Guide',
+                'description' => 'Product and operations guide covering dashboard KPIs, lead intake, inquiries, bookings, forms, campaigns, and notifications.',
                 'path' => 'docs/crm-features-full-documentation.txt',
                 'format' => 'txt',
                 'section' => 'Reference Notes',
+                'view' => 'docs.crm-features',
             ],
             'form-builder' => [
                 'title' => 'Form Builder Notes',

@@ -42,6 +42,22 @@ class DocsPageTest extends TestCase
             ->assertSee('AFAQ Customer API Quickstart');
     }
 
+    public function test_docs_guide_page_can_render_the_crm_features_guide(): void
+    {
+        $this->actingAs(User::factory()->create([
+            'user_type' => 'admin',
+            'is_active' => true,
+        ]));
+
+        $response = $this->get('/docs/guides/crm-features');
+
+        $response
+            ->assertOk()
+            ->assertSee('How the AFAQ CRM works from lead capture to follow-up.')
+            ->assertSee('Admin Workspaces')
+            ->assertSee('Dashboard KPIs');
+    }
+
     public function test_docs_routes_are_not_public_outside_local_development(): void
     {
         $this->get('/docs')->assertForbidden();
