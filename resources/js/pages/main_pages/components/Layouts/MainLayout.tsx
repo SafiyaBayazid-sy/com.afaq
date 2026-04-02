@@ -1,9 +1,10 @@
 import { usePage } from '@inertiajs/react';
 import type { CSSProperties, ReactNode } from 'react';
+import { usePublicLanguage } from '../../hooks/use-public-language';
+import PublicEmailCapture from '../PublicEmailCapture';
 import Footer from '../navigation/Footer';
 import Navbar from '../navigation/Navbar';
 import NavbarStudies from '../navigation/NavbarStudies';
-import PublicEmailCapture from '../PublicEmailCapture';
 
 interface MainLayoutProps {
     children: ReactNode;
@@ -11,6 +12,7 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children }: MainLayoutProps) {
     const { url } = usePage();
+    const { dir } = usePublicLanguage();
     const isStudiesPage = url.startsWith('/studies');
     const publicTheme = {
         '--background': '#10201d',
@@ -37,7 +39,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
     return (
         <div
             className="dark relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark font-display text-slate-100 antialiased"
-            dir="rtl"
+            dir={dir}
             style={{
                 ...publicTheme,
                 backgroundImage:
